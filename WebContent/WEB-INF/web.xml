@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	<display-name>NEUSOFT-OA</display-name>
+	<welcome-file-list>
+		<welcome-file>welcome.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<listener>
+		<description>系统启动监听器</description>
+		<listener-class>com.neusoft.oa.core.web.ThisSystemBootstrapListener</listener-class>
+	</listener>
+	
+	<listener>
+		<description>统计在线用户数</description>
+		<listener-class>com.neusoft.oa.base.web.listener.LoginUserStatisticsListener</listener-class>
+	</listener>
+
+	<filter>
+		<filter-name>权限过滤器</filter-name>
+		<filter-class>com.neusoft.oa.core.web.AuthrorityFilter</filter-class>
+		<init-param>
+			<description>白名单（支持ant风格）</description>
+			<!--ant风格的路径表达式 ? * ** -->
+			<param-name>white-list</param-name>
+			<param-value>
+				/login.ajax
+				/jsp/login.jsp
+				/captcha.do
+				/jsp/forgetPassword.jsp
+			</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>权限过滤器</filter-name>
+		<url-pattern>/jspxx/*</url-pattern>
+		<!-- 
+		<url-pattern>/jsp/*</url-pattern>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.ajax</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		 -->
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>关闭连接</filter-name>
+		<filter-class>com.neusoft.oa.core.web.CloseConnectionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>关闭连接</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.ajax</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>验证码Captcha过滤器</filter-name>
+		<filter-class>com.neusoft.oa.core.web.CaptchaFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>验证码Captcha过滤器</filter-name>
+		<url-pattern>/login.ajax1</url-pattern>
+		<url-pattern>/login.do</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	
+	
+	<session-config>
+		<!-- session10分钟后自动销毁 -->
+		<session-timeout>10</session-timeout>
+	</session-config>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/500.jsp</location>
+	</error-page>
+	
+</web-app>
