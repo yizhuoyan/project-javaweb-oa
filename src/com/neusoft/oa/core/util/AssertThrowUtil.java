@@ -39,6 +39,7 @@ public static String $(String label, String s,Object...args) {
 	return assertNotBlank(label+"不能为空", s, args);
 }
 
+
 static public void assertNull(String message, Object obj, Object... args){
   if(obj!=null) throwException(message, args);
 }
