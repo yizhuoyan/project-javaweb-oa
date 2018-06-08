@@ -59,14 +59,14 @@ public class UserLoginServlet extends CommonServlet {
 			session.setAttribute("loginUser", uc);
 			
 			//获取用户所在区域的当前天气
-			String clientIp="183.67.56.132";//req.getRemoteHost();
-			
-			String cityName=GetCityNameByIpThirdPart.get(clientIp);
-			WeatherResponseJson weather = WeatherThirdParty.get(cityName);
-			
-			WeatherForecastDto weatherDto=WeatherForecastDto.of(weather);
-			
-			session.setAttribute("weather", weatherDto);
+//			String clientIp="183.67.56.132";//req.getRemoteHost();
+//			
+//			String cityName=GetCityNameByIpThirdPart.get(clientIp);
+//			WeatherResponseJson weather = WeatherThirdParty.get(cityName);
+//			
+//			WeatherForecastDto weatherDto=WeatherForecastDto.of(weather);
+//			
+//			session.setAttribute("weather", weatherDto);
 			
 			
 			
