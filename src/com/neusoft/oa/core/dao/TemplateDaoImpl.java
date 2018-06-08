@@ -23,6 +23,7 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 	}
 	
 	abstract	public void insert(T t) throws Exception;
+	
 	protected Connection getConnection() throws SQLException{
 		return DBUtil.getConnection();
 	}
