@@ -14,6 +14,7 @@ pageContext.setAttribute("app", app);
   <link rel="stylesheet" href="css/ionicons.min.css">
   <link rel="stylesheet" href="css/adminlte.css">
   <link rel="stylesheet" href="css/skins/all-skins.min.css">
+  <link rel="stylesheet" href="css/common.css">
   <title>NEUSOFT | OA</title> 	
   <!--[if lt IE 9]>
   <script src="js/plugins/html5shiv.min.js"></script>
@@ -26,4 +27,5 @@ pageContext.setAttribute("app", app);
 <!-- AdminLTE App -->
 <script src="js/plugins/adminlte.min.js"></script>
 <script src="js/yi.toast.js"></script>
+<script src="js/yi.validate.js"></script>
 

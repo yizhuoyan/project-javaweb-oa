@@ -58,6 +58,7 @@ public class UserLoginServlet extends CommonServlet {
 			
 			session.setAttribute("loginUser", uc);
 			
+			try {
 			//获取用户所在区域的当前天气
 			String clientIp="183.67.56.132";//req.getRemoteHost();
 			
@@ -67,7 +68,10 @@ public class UserLoginServlet extends CommonServlet {
 			WeatherForecastDto weatherDto=WeatherForecastDto.of(weather);
 			
 			session.setAttribute("weather", weatherDto);
-			
+			}catch(Exception e) {
+				//不影响登陆流程
+				e.printStackTrace();
+			}
 			
 			
 			return AjaxResponse.ok(uc);

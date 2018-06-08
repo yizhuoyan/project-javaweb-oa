@@ -1,14 +1,21 @@
 package com.neusoft.oa.organization.dao.impl;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import com.neusoft.oa.base.dao.SysUserDao;
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
+import com.neusoft.oa.core.dto.VOMap;
 import com.neusoft.oa.organization.dao.EmployeeDao;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
@@ -17,7 +24,178 @@ import com.neusoft.oa.organization.entity.MarriageState;
 public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements EmployeeDao {
 
 	public EmployeeDaoImpl() {
-		super("oa_emp");
+		super("oa_emp","uid,birthday,address,nation," 
+				+ "politicalStatus,homePhone,"
+				+ "marriageState,hiredate,idcard,"
+				+ "nativePlace,workPhone,domicilePlace," 
+				+ "male,department_id,age,email");
+	}
+
+	@Override
+	public void insert(EmployeeEntity u) throws Exception {
+
+		// 1 获取数据库连接
+		Connection connection = DBUtil.getConnection();
+		SysUserDao userDao = DaoFactory.getDao(SysUserDao.class);
+		userDao.insert(u);
+		// 2 创建语句对象
+		try (PreparedStatement ps = connection.prepareStatement(generateInsertSql())) {
+			// 3 执行语句对象（设置参数）
+			int i = 1;
+			ps.setString(i++, u.getId());
+			ps.setDate(i++, localDate2sqlDate(u.getBirthday()));
+			ps.setString(i++, u.getAddress());
+			ps.setString(i++, u.getNation());
+			ps.setString(i++, u.getPoliticalStatus());
+			ps.setString(i++, u.getHomePhone());
+			MarriageState m = u.getMarriageState();
+			if (m == null) {
+				ps.setObject(i++, null);
+			} else {
+				ps.setInt(i++, m.id);
+			}
+			ps.setTimestamp(i++, instant2timestamp(u.getHiredate()));
+			ps.setString(i++, u.getIdcard());
+			ps.setString(i++, u.getNativePlace());
+			ps.setString(i++, u.getWorkPhone());
+			ps.setString(i++, u.getDomicilePlace());
+			ps.setBoolean(i++, u.isMale());
+			ps.setString(i++, u.getDepartment().getId());
+			ps.setInt(i++, u.getAge());
+			ps.setString(i++, u.getEmail());
+			ps.executeUpdate();
+		}
+	}
+
+	@Override
+	public void delete(String ufield, Object value) throws Exception {
+		// 修改状态即可
+		EmployeeEntity e = this.select(ufield, value);
+		SysUserDao udao = DaoFactory.getDao(SysUserDao.class);
+		udao.update(e.getId(), "flag", EmployeeEntity.FLAG_DELETED);
+
+	}
+
+	@Override
+	public boolean exist(String ufield, Object value) throws Exception {
+		Connection connection = this.getConnection();
+		StringBuilder sql = new StringBuilder();
+		sql.append("select count(1)").append(" from sys_user u inner join oa_emp e on e.uid=u.id")
+				.append(" where u.flag!=").append(EmployeeEntity.FLAG_DELETED).append(" and ").append(ufield)
+				.append("=?");
+
+		PreparedStatement ps = connection.prepareStatement(sql.toString());
+		ps.setObject(1, value);
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			return rs.getInt(1) > 0;
+		}
+		return false;
+	}
+
+	@Override
+	public EmployeeEntity select(String ufield, Object value) throws Exception {
+		Connection connection = DBUtil.getConnection();
+		StringBuilder sql = new StringBuilder();
+		sql.append("select *").append(" from sys_user u inner join oa_emp e on e.uid=u.id").append(" where u.flag!=")
+				.append(EmployeeEntity.FLAG_DELETED).append(" and ").append(ufield).append("=? limit 0,1");
+		PreparedStatement ps = connection.prepareStatement(sql.toString());
+		ps.setObject(1, value);
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			return resultset2entity(rs);
+		}
+		return null;
+	}
+
+	@Override
+	public List<EmployeeEntity> selectAllByColumn(String field, Object value, String... orderbys) throws Exception {
+
+		Connection connection = DBUtil.getConnection();
+		StringBuilder sql = new StringBuilder();
+		sql.append("select *").append(" from sys_user u inner join oa_emp e on e.uid=u.id").append(" where u.flag!=")
+				.append(EmployeeEntity.FLAG_DELETED).append(" and ").append(field);
+		if (value == null) {
+			sql.append(" is null ");
+		} else {
+			sql.append("=? ");
+		}
+		if (orderbys.length > 0) {
+			sql.append(" order by ");
+			for (String orderby : orderbys) {
+				sql.append(orderby).append(",");
+			}
+			sql.setCharAt(sql.length() - 1, ' ');
+		}
+		PreparedStatement ps = connection.prepareStatement(sql.toString());
+		if (value != null) {
+			ps.setObject(1, value);
+		}
+		ResultSet rs = ps.executeQuery();
+		List<EmployeeEntity> result = new LinkedList<>();
+		while (rs.next()) {
+			result.add(resultset2entity(rs));
+		}
+		return result;
+	}
+
+	@Override
+	public List<EmployeeEntity> selectAll(String... orderbys) throws Exception {
+		Connection connection = DBUtil.getConnection();
+		StringBuilder sql = new StringBuilder();
+		sql.append("select *").append(" from sys_user u inner join oa_emp e on e.uid=u.id").append(" where u.flag!=")
+				.append(EmployeeEntity.FLAG_DELETED);
+		if (orderbys.length > 0) {
+			sql.append(" order by ");
+			for (String orderby : orderbys) {
+				sql.append(orderby).append(",");
+			}
+			sql.setCharAt(sql.length() - 1, ' ');
+		}
+		PreparedStatement ps = connection.prepareStatement(sql.toString());
+
+		ResultSet rs = ps.executeQuery();
+		List<EmployeeEntity> result = new LinkedList<>();
+		while (rs.next()) {
+			result.add(resultset2entity(rs));
+		}
+		return result;
+	}
+
+	@Override
+	public void update(Serializable id, Map<String, Object> columnsMap) throws Exception {
+		Map<String,Object> userTable=new HashMap<>();
+		Map<String,Object> empTable=new HashMap<>();
+		for(String column:columnsMap.keySet()) {
+			if(this.containsColumn(column)) {
+				empTable.put(column, columnsMap.get(column));
+			}else {
+				userTable.put(column, columnsMap.get(column));
+			}
+		}
+		if(userTable.size()>0) {
+			SysUserDao udao=DaoFactory.getDao(SysUserDao.class);
+			udao.update(id, userTable);
+		}
+		
+		if(empTable.size()>0) {
+			super.update(id, empTable);
+		}
+		
+	}
+
+	@Override
+	public void update(Serializable id, String column, Object value) throws Exception {
+		// 判断是哪张表的列
+		if (this.containsColumn(column)) {
+			// 员工表
+			super.update(id, column, value);
+		}else {
+			// 1如果是用户表
+			SysUserDao udao = DaoFactory.getDao(SysUserDao.class);
+			udao.update(id, column, value);
+			return;
+		}
 	}
 
 	@Override
@@ -57,9 +235,10 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 		// 执行分页查询
 		StringBuilder querySql = new StringBuilder();
 		querySql.append(" select e.*,u.*");
-		querySql.append(" from ").append("oa_emp e join sys_user  u on e.id=u.id ");
+		querySql.append(" from ").append("oa_emp e join sys_user  u on e.uid=u.id ");
+		querySql.append(" where u.flag!=").append(EmployeeEntity.FLAG_DELETED);
 		if (key != null) {
-			querySql.append(" where u.account like ? or u.name like ? or e.idcard like ? ");
+			querySql.append(" and u.account like ? or u.name like ? or e.idcard like ? ");
 		}
 		querySql.append(" order by account desc");
 		querySql.append(" limit ").append((pageNo - 1) * pageSize).append(",").append(pageSize);
@@ -81,48 +260,6 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 			pageData.add(e);
 		}
 		return total;
-	}
-
-	@Override
-	public void insert(EmployeeEntity u) throws Exception {
-		
-		
-		// 1 获取数据库连接
-		Connection connection = DBUtil.getConnection();
-		SysUserDao userDao=DaoFactory.getDao(SysUserDao.class);
-		userDao.insert(u);
-		// 2 创建语句对象
-		String sql = DBUtil.generateInsertSql(tableName,
-				"id,birthday,address,nation,politicalStatus,"
-				+ "homePhone,marriageState,hiredate,"
-				+ "idcard,nativePlace,workPhone,domicilePlace,"
-				+ "male,department_id,age,email");
-		try (PreparedStatement ps = connection.prepareStatement(sql.toString());) {
-			// 3 执行语句对象（设置参数）
-			int i = 1;
-			ps.setString(i++, u.getId());
-			ps.setDate(i++, localDate2sqlDate(u.getBirthday()));
-			ps.setString(i++, u.getAddress());
-			ps.setString(i++, u.getNation());
-			ps.setString(i++, u.getPoliticalStatus());
-			ps.setString(i++, u.getHomePhone());
-			MarriageState m=u.getMarriageState();
-			if(m==null) {
-				ps.setObject(i++,null);
-			}else {
-				ps.setInt(i++, m.id);
-			}
-			ps.setTimestamp(i++, instant2timestamp(u.getHiredate()));
-			ps.setString(i++, u.getIdcard());
-			ps.setString(i++, u.getNativePlace());
-			ps.setString(i++, u.getWorkPhone());
-			ps.setString(i++, u.getDomicilePlace());
-			ps.setBoolean(i++, u.isMale());
-			ps.setString(i++, u.getDepartment().getId());
-			ps.setInt(i++, u.getAge());
-			ps.setString(i++, u.getEmail());
-			ps.executeUpdate();
-		}
 	}
 
 	@Override

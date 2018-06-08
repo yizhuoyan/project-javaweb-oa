@@ -8,26 +8,31 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.neusoft.oa.base.entity.SysModuleEntity;
-import com.neusoft.oa.base.function.AdministratorFunction;
-import com.neusoft.oa.core.OAException;
-import com.neusoft.oa.core.dto.AjaxResponse;
-import com.neusoft.oa.core.dto.QueryResult;
 import com.neusoft.oa.core.dto.VOMap;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.web.CommonServlet;
-import com.neusoft.oa.organization.dto.DepartmentDto;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.function.OrganizationFunction;
 
-@WebServlet("/deptmanage/list.ajax")
-public class ListServlet extends CommonServlet {
+@WebServlet("/deptmanage/canBeParent.ajax")
+public class CanBeParentServlet extends CommonServlet{
+	
 	@Override
 	protected Object handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Throwable {
-		// 1获取查询
-		// 2调用业务方法
-		OrganizationFunction fun = FunctionFactory.getFunction(OrganizationFunction.class);
-		List<DepartmentEntity> result = fun.loadAllDepartment();
-		return result.stream().map(DepartmentDto::of).collect(Collectors.toList());
-	}
+		String id=req.getParameter("id");
+		
+		OrganizationFunction fun=FunctionFactory.getFunction(OrganizationFunction.class);
+		List<DepartmentEntity> depts=fun.loadCanBeParentList(id);
+		
+		return depts.stream().map(m->{
+			VOMap vo=VOMap.of(4);
+			vo.put("id", m.getId())
+			.put("code", m.getCode())
+			.put("name", m.getName())
+			.put("parentId", Optional.ofNullable(m.getParent()).map(DepartmentEntity::getId).orElse(null));
+			return vo;
+		}).collect(Collectors.toList());
+		}
+	
+	
 }

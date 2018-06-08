@@ -9,17 +9,37 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+
 public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 	final protected String tableName;
+	final protected List<String> columns;
+	final protected String idColumn;
 
+	public TemplateDaoImpl(String tableName, String columns) {
+		super();
+		this.tableName = tableName;
+		this.columns = Arrays.asList(columns.split(","));
+		this.idColumn =this.columns.get(0);
+	}
 		
+	public TemplateDaoImpl(String tableName, List<String> columns, String idColumn) {
+		super();
+		this.tableName = tableName;
+		this.columns = columns;
+		this.idColumn = idColumn;
+	}
+
 	protected TemplateDaoImpl(String tableName) {
 		this.tableName = tableName;
+		this.columns=Collections.EMPTY_LIST;
+		this.idColumn="id";
 	}
 	
 	abstract	public void insert(T t) throws Exception;
@@ -27,37 +47,6 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 	protected Connection getConnection() throws SQLException{
 		return DBUtil.getConnection();
 	}
-	protected Timestamp utilDate2timestamp(java.util.Date d ) {
-		if (d != null) {
-			return  new Timestamp(d.getTime());
-		} 
-		return null;
-	}
-	protected Timestamp instant2timestamp(Instant instant) {
-		if (instant != null) {
-			return  new Timestamp(instant.getEpochSecond());
-		} 
-		return null;
-	}
-	protected Instant timestamp2Instant(Timestamp timestamp ) {
-		if (timestamp != null) {
-			return  timestamp.toInstant();
-		} 
-		return null;
-	}
-	protected LocalDate sqlDate2LocalDate(java.sql.Date d) {
-		if (d != null) {
-			return  d.toLocalDate();
-		} 
-		return null;
-	}
-	protected java.sql.Date localDate2sqlDate(LocalDate localDate) {
-		if (localDate != null) {
-			return  java.sql.Date.valueOf(localDate);
-		} 
-		return null;
-	}
-	
 	@Override
 	public List<T> selectAll(String... orderbys) throws Exception {
 		Connection connection = DBUtil.getConnection();
@@ -138,7 +127,7 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 			values.add(entry.getValue());
 		}
 		sql.setCharAt(sql.length() - 1, ' ');
-		sql.append(" where id=?");
+		sql.append(" where ").append(idColumn).append("=?");
 		PreparedStatement ps = connection.prepareStatement(sql.toString());
 
 		// 3传入参数并执行语句对象
@@ -159,7 +148,7 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 		StringBuilder sql = new StringBuilder();
 		sql.append("update ").append(this.tableName).append(" set ");
 		sql.append(column).append("=? ");
-		sql.append(" where id=?");
+		sql.append(" where ").append(idColumn).append("=?");
 		PreparedStatement ps = connection.prepareStatement(sql.toString());
 
 		// 3传入参数并执行语句对象
@@ -183,7 +172,12 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 		}
 		return null;
 	}
-
+	protected boolean containsColumn(String column) {
+		return this.columns.contains(column);
+	}
+	protected String generateInsertSql() {
+		return DBUtil.generateInsertSql(tableName, columns);
+	}
 	@Override
 	public boolean exist(String ufield, Object value) throws Exception {
 		Connection connection = DBUtil.getConnection();

@@ -46,7 +46,7 @@ public class TestAdministratorFunction {
 		ao.setName("xxx管理");
 		SysModuleEntity e=fun.addSysModule(ao);
 		
-		SysModuleEntity result=fun.checkSysModule(e.getId());
+		SysModuleEntity result=fun.loadSysModule(e.getId());
 		
 		Assert.assertNotNull("新增失败", result);
 		
