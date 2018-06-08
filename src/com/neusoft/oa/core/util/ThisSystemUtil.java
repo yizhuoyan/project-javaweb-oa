@@ -63,4 +63,11 @@ public class ThisSystemUtil {
 			return defaultInt;
 		}
 	}
+	public static int countPage(int totalRows, int pageSize) {
+		int page=totalRows/pageSize;
+		if(totalRows%pageSize!=0) {
+			page++;
+		}
+		return page;
+	}
 }
