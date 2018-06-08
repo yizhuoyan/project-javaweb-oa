@@ -46,7 +46,7 @@ public interface AdministratorFunction extends CommonFunction {
 	 * @return
 	 * @throws Exception
 	 */
-	SysModuleEntity  checkSysModule(String id)throws Exception;
+	SysModuleEntity  loadSysModule(String id)throws Exception;
 	/**
 	 * 删除功能模块
 	 * @param id 功能模块id
@@ -74,7 +74,7 @@ public interface AdministratorFunction extends CommonFunction {
 	SysRoleEntity addSysRole(SysRoleAo ao)throws Exception;
 	void deleteSysRole(String id)throws Exception;
 	void modifySysRole(String id,SysRoleAo ao)throws Exception;
-	SysRoleEntity checkSysRole(String id)throws Exception;
+	SysRoleEntity loadSysRole(String id)throws Exception;
 	List<SysRoleEntity> loadAllRole()throws Exception;
 	List<SysRoleEntity> loadRolesOfUser(String userId)throws Exception;
 	
@@ -84,6 +84,6 @@ public interface AdministratorFunction extends CommonFunction {
 	SysUserEntity addSysUser(SysUserAo ao)throws Exception;
 	void deleteSysUser(String id)throws Exception;
 	void modifySysUser(String id,SysUserAo ao)throws Exception;
-	SysUserEntity checkSysUser(String id)throws Exception;
+	SysUserEntity loadSysUser(String id)throws Exception;
 	PaginationQueryResult<SysUserEntity> querySysUserByKey(String key,String pageNo,String pageSize)throws Exception;
 }
