@@ -123,11 +123,16 @@ public class AdministratorFunctionImpl extends CommonFunctionImpl implements Adm
 			OAException.throwWithMessage("数据【?】不存在或已删除", id);
 		}
 		Map<String, Object> needUpdate = new HashMap<>(8, 1);
-		//父模块
+		//2.3父模块
+		
 		if(!Objects.equals(parentId, old.getParentId())) {
+			//父模块不能是本身
+			if(Objects.equals(parentId, id)) {
+				OAException.throwWithMessage("父模块不能是本身");
+			}	
 			needUpdate.put("parent_id", parentId);
 		}
-		// 2.2 代号
+		// 2.4 代号
 		if (!code.equals(old.getCode())) {
 			// 说明修改代号
 			// 2.2.1 新代号不能存在
@@ -153,7 +158,7 @@ public class AdministratorFunctionImpl extends CommonFunctionImpl implements Adm
 	}
 
 	@Override
-	public SysModuleEntity checkSysModule(String id) throws Exception {
+	public SysModuleEntity loadSysModule(String id) throws Exception {
 		// 1验证参数
 		id = $("id", id);
 		// 2执行业务逻辑
@@ -265,7 +270,7 @@ public class AdministratorFunctionImpl extends CommonFunctionImpl implements Adm
 	}
 
 	@Override
-	public SysRoleEntity checkSysRole(String id) throws Exception {
+	public SysRoleEntity loadSysRole(String id) throws Exception {
 		// 1验证参数
 		id = $("id", id);
 		// 2执行业务逻辑
@@ -443,7 +448,7 @@ public class AdministratorFunctionImpl extends CommonFunctionImpl implements Adm
 	}
 
 	@Override
-	public SysUserEntity checkSysUser(String id) throws Exception {
+	public SysUserEntity loadSysUser(String id) throws Exception {
 		// 1验证参数
 		id = $("id", id);
 		SysUserDao udao = DaoFactory.getDao(SysUserDao.class);

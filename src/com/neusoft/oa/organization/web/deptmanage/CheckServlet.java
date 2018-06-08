@@ -1,4 +1,6 @@
-package com.neusoft.oa.base.web.servlet.administrator.sysmodule;
+package com.neusoft.oa.organization.web.deptmanage;
+
+import java.util.Optional;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -8,9 +10,14 @@ import com.neusoft.oa.base.entity.SysModuleEntity;
 import com.neusoft.oa.base.function.AdministratorFunction;
 import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dto.AjaxResponse;
+import com.neusoft.oa.core.dto.VOMap;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.web.CommonServlet;
-@WebServlet("/sysmodule/check.ajax")
+import com.neusoft.oa.organization.dto.DepartmentDto;
+import com.neusoft.oa.organization.entity.DepartmentEntity;
+import com.neusoft.oa.organization.function.OrganizationFunction;
+
+@WebServlet("/deptmanage/check.ajax")
 public class CheckServlet extends CommonServlet {
 
 	@Override
@@ -18,13 +25,9 @@ public class CheckServlet extends CommonServlet {
 		// 1获取参数
 		String id = req.getParameter("id");
 		// 2调用业务方法
-		try {
-			AdministratorFunction fun=FunctionFactory.getFunction(AdministratorFunction.class);
-			SysModuleEntity e = fun.loadSysModule(id);
-			return AjaxResponse.ok(e.toJson());
-		} catch (OAException e) {
-			return AjaxResponse.fail(e);
-		} 
+		OrganizationFunction fun = FunctionFactory.getFunction(OrganizationFunction.class);
+		DepartmentEntity d = fun.loadDepartment(id);
+		return DepartmentDto.of(d);
 	}
 
 }

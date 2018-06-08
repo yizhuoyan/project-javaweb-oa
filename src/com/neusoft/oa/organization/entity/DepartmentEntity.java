@@ -5,6 +5,7 @@ import java.time.Instant;
 public class DepartmentEntity {
 
 	private String id;// 部门表ID
+	private DepartmentEntity parent;
 	private String code;// 部门编号
 	private EmployeeEntity manager;// 部门经理编号
 	private int members;// 部门人数
@@ -98,5 +99,14 @@ public class DepartmentEntity {
 			return false;
 		return true;
 	}
+
+	public DepartmentEntity getParent() {
+		return parent;
+	}
+
+	public void setParent(DepartmentEntity parent) {
+		this.parent = parent;
+	}
+	
 
 }

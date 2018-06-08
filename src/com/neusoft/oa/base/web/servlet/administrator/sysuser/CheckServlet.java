@@ -20,7 +20,7 @@ public class CheckServlet extends CommonServlet {
 		// 2调用业务方法
 		try {
 			AdministratorFunction fun=FunctionFactory.getFunction(AdministratorFunction.class);
-			SysUserEntity e = fun.checkSysUser(id);
+			SysUserEntity e = fun.loadSysUser(id);
 			req.setAttribute("vo", e);
 			return "/jsp/base/usermanage/check.jsp";
 		} catch (OAException e) {
