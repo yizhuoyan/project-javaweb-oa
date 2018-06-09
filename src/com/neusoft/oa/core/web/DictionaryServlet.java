@@ -70,7 +70,6 @@ public class DictionaryServlet extends HttpServlet {
 	private String getDictionaryFormat(HttpServletRequest req) {
 		String url = req.getRequestURI();
 		url=url.substring((req.getContextPath()+"/dictionary/").length());
-		System.out.println(url);
 		return url.substring(url.indexOf(".")+1);
 	}
 	private String getDictionaryType(HttpServletRequest req) {

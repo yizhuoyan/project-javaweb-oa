@@ -6,11 +6,8 @@ import java.util.Optional;
 import com.neusoft.oa.core.dto.VOMap;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 
-public class DepartmentDto extends VOMap {
+public class DepartmentDto {
 	
-	public DepartmentDto(int initialCapacity) {
-		super(initialCapacity);
-	}
 
 	static public VOMap of(DepartmentEntity d) {
 		return VOMap.of(8)

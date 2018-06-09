@@ -159,7 +159,20 @@ static public void assertIn(String label,Object target,Object[] chioces,Object..
 	}
 }
 
-
+public static void assertAllWordCharacter(String label,String target) {
+	char c=0;
+	for(int i=target.length();i-->0;) {
+		c=target.charAt(i);
+		if((c>='0'&&c<='9')||
+			(c>='a'&&c<='z')||
+			(c>='A'&&c<='Z')||
+			c=='-') {
+		}else {
+			throwException(label+"仅能是字母数字或下划线");	
+		}
+	}
+	
+}
 
 
 
