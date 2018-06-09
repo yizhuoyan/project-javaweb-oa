@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class DBUtil {
@@ -38,6 +39,7 @@ public class DBUtil {
 		}
 		return connection;
 	}
+	
 
 	public static void closeConnection() {
 		try {
@@ -80,5 +82,10 @@ public class DBUtil {
 	public static String generateInsertSql(String table, String columns) {
 		return generateInsertSql(table, Arrays.asList(columns.split(",")));
 	}
+	
+	public static List<Map<String,Object>> executeQuery(Object sql,Object... parameters)throws SQLException{
+		return null;
+	}
+	
 
 }

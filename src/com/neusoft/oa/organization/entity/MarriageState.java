@@ -1,4 +1,7 @@
 package com.neusoft.oa.organization.entity;
+
+import java.util.Arrays;
+
 /**
  * 婚姻状态
  * @author yizhouyan
@@ -16,16 +19,7 @@ public enum MarriageState {
 		this.id=id;
 	}
 	public static MarriageState of(int id) {
-		switch (id) {
-		case 0:
-			return MarriageState.UNMARRIED;
-		case 1:
-			return MarriageState.DIVORCED;
-		case 2:
-			return MarriageState.MARRIED;
-		case 9:
-			return MarriageState.WIDOWED;
-		}
-		return null;
+		return Arrays.stream(MarriageState.values()).
+		filter(m->m.id==id).findFirst().orElse(null);
 	}
 }

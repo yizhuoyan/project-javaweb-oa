@@ -38,7 +38,7 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 
 	protected TemplateDaoImpl(String tableName) {
 		this.tableName = tableName;
-		this.columns=Collections.EMPTY_LIST;
+		this.columns=new ArrayList<>(0);
 		this.idColumn="id";
 	}
 	

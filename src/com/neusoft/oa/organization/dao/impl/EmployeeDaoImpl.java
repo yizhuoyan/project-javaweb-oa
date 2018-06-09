@@ -24,11 +24,11 @@ import com.neusoft.oa.organization.entity.MarriageState;
 public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements EmployeeDao {
 
 	public EmployeeDaoImpl() {
-		super("oa_emp","uid,birthday,address,nation," 
+		super("oa_emp","uid,birthday,address,nationality," 
 				+ "politicalStatus,homePhone,"
 				+ "marriageState,hiredate,idcard,"
 				+ "nativePlace,workPhone,domicilePlace," 
-				+ "male,department_id,age,email");
+				+ "male,department_id,age,workemail");
 	}
 
 	@Override
@@ -45,16 +45,11 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 			ps.setString(i++, u.getId());
 			ps.setDate(i++, localDate2sqlDate(u.getBirthday()));
 			ps.setString(i++, u.getAddress());
-			ps.setString(i++, u.getNation());
-			ps.setString(i++, u.getPoliticalStatus());
+			ps.setInt(i++, u.getNationality());
+			ps.setInt(i++, u.getPoliticalStatus());
 			ps.setString(i++, u.getHomePhone());
-			MarriageState m = u.getMarriageState();
-			if (m == null) {
-				ps.setObject(i++, null);
-			} else {
-				ps.setInt(i++, m.id);
-			}
-			ps.setTimestamp(i++, instant2timestamp(u.getHiredate()));
+			ps.setInt(i++, u.getMarriageState());
+			ps.setDate(i++, localDate2sqlDate(u.getHiredate()));
 			ps.setString(i++, u.getIdcard());
 			ps.setString(i++, u.getNativePlace());
 			ps.setString(i++, u.getWorkPhone());
@@ -62,7 +57,7 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 			ps.setBoolean(i++, u.isMale());
 			ps.setString(i++, u.getDepartment().getId());
 			ps.setInt(i++, u.getAge());
-			ps.setString(i++, u.getEmail());
+			ps.setString(i++, u.getWorkEmail());
 			ps.executeUpdate();
 		}
 	}
@@ -206,7 +201,7 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 		StringBuilder countSql = new StringBuilder("select count(*)");
 
 		if (key != null) {
-			countSql.append(" from ").append("oa_emp e join sys_user  u on e.id=u.id ");
+			countSql.append(" from ").append("oa_emp e join sys_user  u on e.uid=u.id ");
 			countSql.append(" where u.account like ? or u.name like ? or e.idcard like ? ");
 		} else {
 			countSql.append(" from oa_emp e ");
@@ -267,13 +262,13 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 		EmployeeEntity e = new EmployeeEntity();
 		e.setId(rs.getString("id"));
 		e.setIdcard(rs.getString("idcard"));
-		e.setMarriageState(MarriageState.of(rs.getInt("MarriageState")));
+		e.setMarriageState(rs.getInt("MarriageState"));
 		e.setAge(rs.getInt("age"));
 		e.setMale(rs.getBoolean("male"));
 		e.setAddress(rs.getString("address"));
-		e.setEmail(rs.getString("email"));
+		e.setWorkEmail(rs.getString("workemail"));
 		e.setHomePhone(rs.getString("homePhone"));
-		e.setHiredate(timestamp2Instant(rs.getTimestamp("hiredate")));
+		e.setHiredate(sqlDate2LocalDate(rs.getDate("hiredate")));
 		e.setWorkPhone(rs.getString("workPhone"));
 		String departmentId = rs.getString("department_id");
 		if (departmentId != null) {
@@ -281,11 +276,11 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 			department.setId(departmentId);
 			e.setDepartment(department);
 		}
-		e.setNation(rs.getString("nation"));
+		e.setNationality(rs.getInt("nationality"));
 		e.setNativePlace(rs.getString("nativePlace"));
 		e.setDomicilePlace(rs.getString("domicilePlace"));
 		e.setBirthday(sqlDate2LocalDate(rs.getDate("birthday")));
-		e.setPoliticalStatus(rs.getString("politicalStatus"));
+		e.setPoliticalStatus(rs.getInt("politicalStatus"));
 		e.setName(rs.getString("name"));
 		e.setAccount(rs.getString("account"));
 		e.setLastLoginIP(rs.getString("lastLoginIP"));
