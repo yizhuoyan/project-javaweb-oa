@@ -20,7 +20,16 @@ public class DepartmentEntity {
 	public void setId(String id) {
 		this.id = id;
 	}
-
+	public String getParentId() {
+		if(this.parent==null)return null;
+		return this.parent.getId();
+	}
+	public String getManagerId() {
+		if(this.manager!=null) {
+			return this.manager.getId();
+		}
+		return null;
+	}
 	public String getCode() {
 		return code;
 	}

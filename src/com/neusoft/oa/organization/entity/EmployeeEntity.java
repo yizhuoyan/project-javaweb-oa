@@ -12,32 +12,27 @@ import com.neusoft.oa.base.entity.SysUserEntity;
  */
 
 public class EmployeeEntity extends SysUserEntity {
+	private String idcard;//身份证号码
 	private int age;//年龄
 	private boolean male;//性别
 	private String address;//住址
-	private String email;//邮箱
+	private String workEmail;//邮箱
 	private String homePhone; //       家庭电话
-	private Instant hiredate;//入职时间
+	private LocalDate hiredate;//入职日期
 	private String workPhone;//        办公电话
 	private DepartmentEntity department;// 部门
-	private String nation;//民族
 	private String nativePlace; //籍贯
 	private String domicilePlace;//户口所在地
 	private LocalDate birthday;//出生年月
-	private String politicalStatus;//政治面貌
-	private String idcard;//身份证号码
-	private MarriageState marriageState ;//婚姻状况
-	
-	
-	@Override
-	public String toString() {
-		return "EmployeeEntity [age=" + age + ", male=" + male + ", address=" + address + ", email=" + email
-				+ ", homePhone=" + homePhone + ", hiredate=" + hiredate + ", workPhone=" + workPhone + ", department="
-				+ department + ", nation=" + nation + ", nativePlace=" + nativePlace + ", domicilePlace="
-				+ domicilePlace + ", birthday=" + birthday + ", politicalStatus=" + politicalStatus + ", idcard="
-				+ idcard + ", marriageState=" + marriageState + "]";
+	private int nationality;//民族
+	private int politicalStatus;//政治面貌
+	private int marriageState ;//婚姻状况
+	public String getIdcard() {
+		return idcard;
 	}
-	
+	public void setIdcard(String idcard) {
+		this.idcard = idcard;
+	}
 	public int getAge() {
 		return age;
 	}
@@ -56,11 +51,11 @@ public class EmployeeEntity extends SysUserEntity {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getEmail() {
-		return email;
+	public String getWorkEmail() {
+		return workEmail;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setWorkEmail(String workEmail) {
+		this.workEmail = workEmail;
 	}
 	public String getHomePhone() {
 		return homePhone;
@@ -68,10 +63,10 @@ public class EmployeeEntity extends SysUserEntity {
 	public void setHomePhone(String homePhone) {
 		this.homePhone = homePhone;
 	}
-	public Instant getHiredate() {
+	public LocalDate getHiredate() {
 		return hiredate;
 	}
-	public void setHiredate(Instant hiredate) {
+	public void setHiredate(LocalDate hiredate) {
 		this.hiredate = hiredate;
 	}
 	public String getWorkPhone() {
@@ -85,12 +80,6 @@ public class EmployeeEntity extends SysUserEntity {
 	}
 	public void setDepartment(DepartmentEntity department) {
 		this.department = department;
-	}
-	public String getNation() {
-		return nation;
-	}
-	public void setNation(String nation) {
-		this.nation = nation;
 	}
 	public String getNativePlace() {
 		return nativePlace;
@@ -110,25 +99,23 @@ public class EmployeeEntity extends SysUserEntity {
 	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
-	public String getPoliticalStatus() {
+	public int getNationality() {
+		return nationality;
+	}
+	public void setNationality(int nationality) {
+		this.nationality = nationality;
+	}
+	public int getPoliticalStatus() {
 		return politicalStatus;
 	}
-	public void setPoliticalStatus(String politicalStatus) {
+	public void setPoliticalStatus(int politicalStatus) {
 		this.politicalStatus = politicalStatus;
 	}
-	public String getIdcard() {
-		return idcard;
-	}
-	public void setIdcard(String idcard) {
-		this.idcard = idcard;
-	}
-	public MarriageState getMarriageState() {
+	public int getMarriageState() {
 		return marriageState;
 	}
-	public void setMarriageState(MarriageState marriageState) {
+	public void setMarriageState(int marriageState) {
 		this.marriageState = marriageState;
 	}
-	
-	
 	
 }

@@ -33,4 +33,11 @@ public class DepartmentDto extends VOMap {
 								)
 						.orElse(null));
 	}
+	static public VOMap ofSimple(DepartmentEntity d) {
+		return VOMap.of(4)
+				.put("id", d.getId())
+				.put("code", d.getCode())
+				.put("name", d.getName())
+				.put("parentId",d.getParentId());
+	}
 }
