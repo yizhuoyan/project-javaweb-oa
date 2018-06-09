@@ -30,11 +30,16 @@ public class TestOrganizationFunction {
 //		ao.setDeptId(new DepartmentEntity());
 //		ao.setFlag(DOCUMENT_FLAG_NORMAL);
 //		ao.setId(id);
-		ao.setName("测试");
+		ao.setName("测试123");
 		ao.setProperty("dsf");
-		ao.setRemark("fff");
+		ao.setRemark("sss");
+		ao.setPath("123");
 		
 		DocumentFunctionImpl dd=new DocumentFunctionImpl();
 		DocumentEntity d=dd.addDocument("87017b45465867eabbd450109bdc18e6", ao);
+//		dd.modifyDocument("2b773d29242e89aa6e6418845391e8cc", ao);
+//		dd.deleteDocument("2b773d29242e89aa6e6418845391e8cc");
+
+		
 	}
 }

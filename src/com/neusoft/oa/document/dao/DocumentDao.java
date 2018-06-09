@@ -8,4 +8,5 @@ import com.neusoft.oa.document.entity.DocumentEntity;
 
 public interface DocumentDao extends TemplateDao<DocumentEntity>{
 	List<DocumentEntity> selectsByKey(String key)throws Exception;
+	int selectsByKey(String deptId,String key,int pageNo,int pageSize,List<DocumentEntity> pageData)throws Exception;
 }

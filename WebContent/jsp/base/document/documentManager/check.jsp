@@ -34,44 +34,41 @@
 				<strong id="messageEL"> </strong>				
 			</div>
 			<!-- form start -->
-			<form  action="sysuser/mod.ajax" method="post" class="box">
-				<input type="hidden" name="id" value="${vo==null?param.id:vo.id}">
+			<form  action="documentManage/mod.ajax" method="post" class="box">
+				<input type="hidden" name="id" id="nameEL" value="${vo==null?param.id:vo.id}">
 				<div class="box-body">
 					<p class="form-group">
-						<label for="accountEL">*文档编号：</label>
-						<input type="text" name="account" maxlength="32" value="${param.account}" class="form-control" id="accountEL" placeholder="3-32个字符，支持字母，数字，中横线">
+						<label for="nameEL">*文档名称：</label>
+						<input type="text" name="name" value="${vo.name}" maxlength="32"  class="form-control" id="nameEL" placeholder="不超过32个字符">
 					</p>
 					<p class="form-group">
 						<label for="nameEL">*文档属性说明：</label>
-						<input type="text" name="name" maxlength="32" value="${param.name}" class="form-control" id="nameEL" placeholder="不超过32个字符">
+						<input type="text" name="property" value="${vo.property}" maxlength="32"  class="form-control" id="propertyEL" placeholder="不超过32个字符">
 					</p>
 					<p class="form-group">
 						<label for="nameEL">*文档位置：</label>
-						<input type="text" name="name" maxlength="32" value="${param.name}" class="form-control" id="nameEL" placeholder="不超过32个字符">
+						<input type="text" name="path" value="${vo.path}" maxlength="32" class="form-control" id="pathEL" readonly>
 					</p>
-					<p class="form-group">
-						<label for="nameEL">*文档名称：</label>
-						<input type="text" name="name" maxlength="32" value="${param.name}" class="form-control" id="nameEL" placeholder="不超过32个字符">
-					</p>
+					
 					<p class="form-group">
 						<label for="nameEL">*文档创建者：</label>
-						<input type="text" name="name" maxlength="32" value="${param.name}" class="form-control" id="nameEL" placeholder="不超过32个字符">
+						<input type="text" name="createUserId" value="${vo.createUserId.id}" maxlength="32"  class="form-control" id="createUserIdEL" readonly>
 					</p>
 					<p class="form-group">
 						<label for="nameEL">*文档创建时间：</label>
-						<input type="text" name="name" maxlength="32" value="${param.name}" class="form-control" id="nameEL" placeholder="不超过32个字符">
+						<input type="text" name="createTime" value="${vo.createTime}"  maxlength="32"  class="form-control" id="createTimeEL" readonly>
 					</p>
 					<p class="form-group">
 						<label for="nameEL">*备注：</label>
-						<input type="text" name="name" maxlength="32" value="${param.name}" class="form-control" id="nameEL" placeholder="不超过32个字符">
+						<input type="text" name="remark" value="${vo.remark}"  maxlength="32" class="form-control" id="remarkEL" placeholder="不超过32个字符">
 					</p>
 					<p class="form-group">
 						<label for="nameEL">*文档状态：</label>
-						<input type="text" name="name" maxlength="32" value="${param.name}" class="form-control" id="nameEL" placeholder="不超过32个字符">
+						<input type="text" name="flag" value="${vo.flag}" maxlength="32"  class="form-control" id="flagEL" readonly>
 					</p>
 					<p class="form-group">
 						<label for="nameEL">*所属部门：</label>
-						<input type="text" name="name" maxlength="32" value="${param.name}" class="form-control" id="nameEL" placeholder="不超过32个字符">
+						<input type="text" name="deptId" value="${vo.deptId.id}" maxlength="32" class="form-control" id="deptIdEL" readonly>
 					</p>
 				</div>
 				<!-- /.box-body -->
@@ -101,7 +98,7 @@
 		<script>
 			var deleteConfirm=function(){
 				if(window.confirm("确认删除？")){
-					window.location.href="sysuser/del.do?id=${vo==null?param.id:vo.id}"					
+					window.location.href="docuemntManage/del.do?id=${vo==null?param.id:vo.id}"					
 				}
 			}
 		

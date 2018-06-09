@@ -31,9 +31,10 @@
 		<div class="container-fluid">
 			<a type="button" href="jsp/base/document/documentManager/add.jsp"
 				class="btn btn-primary navbar-btn">新建文档</a>
-			<form id="qryForm" action="sysuser/list.do" method="post"
+			<form id="qryForm" action="documentManage/list.do" method="post"
 				class="navbar-form navbar-right">
 				<input type="hidden" name="pageNo" value="1">
+				<input type="hidden" name="pageSize" value="10">
 				<div class="form-group">
 					<input type="text" name="key" value="${param.key}"
 						class="form-control" placeholder="Search">
@@ -57,40 +58,22 @@
 						<th width="100">操作</th>
 						<th>备注</th>
 					</tr>
-					<tr>
-						<th width="10">#</th>
-						
-						<th width="100"><a href="jsp/base/document/documentManager/listFile.jsp">文档1</a></th>
-						<th width="150">321</th>
-						<th width="150">321</th>
-						<th width="100">321</th>
-						<th width="100"><a href="jsp/base/document/documentManager/check.jsp">修改/删除</a></th>
-						<th>备注</th>
-					</tr>
+					
 					<!-- 把requestScope中的result对象放入到pageScope -->
 					<c:set var="result" value="${requestScope.result}" scope="page"></c:set>
 					<c:if test="${result.found}">
 						<c:forEach var="r" items="${result.rows}" varStatus="vs">
-							<tr ${r.flag==1?"locked":""}>
+							<tr>
 								<td>${vs.count}.</td>
+								<td><a href="documentManage/check.do?id=${r.id}">${r.name}</a></td>
+								<td>${r.path}</td>
+								<td>${r.createUserId.id}</td>
+								<td>${r.createTime}</td>
+								<td>${r.flag}</td>
 								<td><a href="sysuser/check.do?id=${r.id}">查看/修改</a></td>
-								<td>${r.account}</td>
-								<td>${r.name}</td>
-								<td>${r.phone}</td>
-								<td><c:choose>
-										<c:when test="${r.flag==0}">
-											正常
-										</c:when>
-										<c:when test="${r.flag==1}">
-											锁定
-										</c:when>
-									</c:choose></td>
-								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
-										value="${r.lastLoginTime}" /> / ${r.lastLoginIP}</td>
-
+								<td>${r.remark}</td>
 							</tr>
 						</c:forEach>
-						
 					</c:if>
 					<c:if test="${result.notFound}">
 						<tr>

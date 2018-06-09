@@ -2,9 +2,11 @@ package com.neusoft.oa.document.function;
 
 import java.util.List;
 
+import com.neusoft.oa.core.dto.PaginationQueryResult;
 import com.neusoft.oa.document.ao.DocumentAo;
 import com.neusoft.oa.document.entity.DocumentAttachmentEntity;
 import com.neusoft.oa.document.entity.DocumentEntity;
+import com.neusoft.oa.organization.entity.EmployeeEntity;
 
 public interface DocumentFunction {
 	
@@ -78,6 +80,18 @@ public interface DocumentFunction {
 	 * @throws Exception
 	 */
 	int queryDocumentFlag(String documentNo) throws Exception;
+	
+	/**
+	 * 文件分页查询展示
+	 * @author wangshuteng
+	 *
+	 * @param key
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 * @throws Exception
+	 */
+	PaginationQueryResult<DocumentEntity> listDocument(String deptId,String key,int pageNo,int pageSize)throws Exception;
 	
 	
 	
