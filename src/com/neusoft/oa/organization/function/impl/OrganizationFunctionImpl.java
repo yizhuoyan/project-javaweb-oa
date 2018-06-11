@@ -18,6 +18,7 @@ import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dictionary.Dictionary;
 import com.neusoft.oa.core.dto.PaginationQueryResult;
+import com.neusoft.oa.core.service.PinYinService;
 import com.neusoft.oa.core.util.IDCard;
 import com.neusoft.oa.core.util.ThisSystemUtil;
 import com.neusoft.oa.organization.ao.DepartmentAo;
@@ -33,17 +34,43 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 	DepartmentDao departmentDao = DaoFactory.getDao(DepartmentDao.class);
 	
 	@Override
+	public String generateEmployyWorkEmail(String name,String nativePlace) throws Exception {
+		name=$("姓名",name);
+		nativePlace=$("籍贯",nativePlace);
+		
+		String namePinyin=PinYinService.pinyin(name);
+		String emailAddress=System.getProperty("oa.default-work-email","@neusoft.com");
+		
+		String workEmail=namePinyin+emailAddress;
+		//判断是否有同名
+		if(employeeDao.exist("workEmail", workEmail)) {
+			//同名则添加籍贯拼音缩写
+			String nativePlacePy=null;
+			workEmail=namePinyin+nativePlacePy+emailAddress;
+			//判断是否还有同名
+			if(employeeDao.exist("workEmail", workEmail)) {
+				//则添加序号
+				int likeCount=employeeDao.selectWorkEmailLikeCount(workEmail);
+				
+			}
+		}
+		
+		
+		return null;
+	}
+	@Override
 	public String generateNextEmployeeAccount(String departmentId, String hiredate) throws Exception {
 		departmentId=$("部门id",departmentId);
 		hiredate=$("入职日期",hiredate);
 		DepartmentEntity department = departmentDao.select("id", departmentId);
 		
 		assertNotNull("部门不存在", department);
-		//规则入职时间+部门编号+序号
+		//规则入职时间（6位）+部门编号（6位）+3位序号+1位随机数字=共16
 		StringBuilder result=new StringBuilder();
 		result.append(hiredate.replaceAll("-",""));
-		result.append(department.getCode());
-		result.append(department.getMembers()+1);
+		result.append(prefixFill(department.getCode(),6,'0'));
+		result.append(prefixFill(department.getMembers()+1, 3,'0'));
+		result.append((int)(Math.random()*10));
 		return result.toString();
 	}
 	@Override

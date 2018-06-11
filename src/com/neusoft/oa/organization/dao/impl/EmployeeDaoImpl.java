@@ -26,6 +26,11 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 				+ "nativePlace,workPhone,domicilePlace," 
 				+ "male,department_id,age,workemail");
 	}
+	@Override
+	public int selectWorkEmailLikeCount(String workEmail) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	@Override
 	public void insert(EmployeeEntity u) throws Exception {
