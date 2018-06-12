@@ -9,7 +9,7 @@
 
 <body>
 	<header class="content-header">
-		<h1>新建文档</h1>
+		<h1>新建 b文档</h1>
 		<ol class="breadcrumb">
 			<li><a href="javascript:window.top.dashboard()"><i
 					class="fa fa-dashboard"></i>首页</a></li>
