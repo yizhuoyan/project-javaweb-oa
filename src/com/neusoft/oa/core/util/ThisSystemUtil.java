@@ -1,6 +1,7 @@
 package com.neusoft.oa.core.util;
 
 import java.security.MessageDigest;
+import java.util.Arrays;
 
 import com.neusoft.oa.core.OAException;
 
@@ -29,6 +30,23 @@ public class ThisSystemUtil {
 	public static void main(String[] args) {
 		String s=md5("123456");
 		System.out.println(s);
+	}
+	/**
+	 * 前缀填充
+	 * @param value 需填充值
+	 * @param fillLength 最后长度
+	 * @param fillchar 填充字符
+	 * @return 
+	 */
+	public static String  prefixFill(Object value,int fillLength,char fillchar) {
+		String orignString=String.valueOf(value);
+		if(orignString.length()>=fillLength) {
+			return orignString.substring(0, fillLength);
+		}
+		char[] resultChars=new char[fillLength];
+		for (int i =resultChars.length;i-->0;resultChars[i]=fillchar);
+		for(int i=orignString.length();i-->0;resultChars[i]=orignString.charAt(i));
+		return new String(resultChars);
 	}
 	public static boolean isBlank(String s) {
 		return s==null||s.trim().length()==0;
