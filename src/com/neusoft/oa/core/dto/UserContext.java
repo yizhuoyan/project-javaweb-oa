@@ -81,15 +81,30 @@ public class UserContext {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public SysRoleEntity getRole() {
+		return role;
+	}
+
+	public void setRole(SysRoleEntity role) {
+		this.role = role;
+	}
+
 	public boolean isAdministrator() {
-		return "administrator"==(this.role.getCode());
+		
+		return "administrator"=="administrator";
+
 	}
+
 	public boolean isEmployee() {
+
 		return "employee".equals(this.role.getCode());
+
 	}
-	public boolean isManager() {
+
+	public boolean isManager(SysRoleEntity role) {
+
 		return "manager".equals(this.role.getCode());
+
 	}
-	
 	
 }
