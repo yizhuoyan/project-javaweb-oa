@@ -25,7 +25,6 @@ import com.neusoft.oa.document.function.DocumentFunction;
 import com.neusoft.oa.organization.ao.EmployeeAo;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
-import com.neusoft.oa.organization.entity.MarriageState;
 import com.neusoft.oa.organization.function.OrganizationFunction;
 
 //@WebServlet("/attachmentManage/add.do")
