@@ -1,79 +1,211 @@
 package com.neusoft.oa.attendance.function.impl;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import com.neusoft.oa.attendance.dao.DeptAtteCountDao;
+import com.neusoft.oa.attendance.dao.DeptAttendanceDao;
 import com.neusoft.oa.attendance.dao.ManagerAtteCountDao;
-import com.neusoft.oa.attendance.dao.impl.ManagerAtteCountDaoImpl;
-import com.neusoft.oa.attendance.dto.PageFindResult;
+import com.neusoft.oa.attendance.dao.ManagerAtteRetroactiveDao;
+import com.neusoft.oa.attendance.dao.ManagerAtteVacateDao;
 import com.neusoft.oa.attendance.entity.AtteCountEntity;
 import com.neusoft.oa.attendance.entity.AtteRetroactiveEntity;
 import com.neusoft.oa.attendance.entity.AtteVacateEntity;
+import com.neusoft.oa.attendance.entity.AttendanceEntity;
 import com.neusoft.oa.attendance.function.DeptManagerFunction;
 import com.neusoft.oa.core.dao.DaoFactory;
-
-import static com.neusoft.oa.core.util.ThisSystemUtil.*;
-import static com.neusoft.oa.core.util.AssertThrowUtil.*;
+import com.neusoft.oa.core.dto.PaginationQueryResult;
+import com.neusoft.oa.core.dto.QueryResult;
+import com.neusoft.oa.core.util.ThisSystemUtil;
+import com.neusoft.oa.organization.entity.EmployeeEntity;
 
 public class DeptManagerFunctionImpl implements DeptManagerFunction {
 
 	@Override
-	public List<AtteCountEntity> queryCounts(String managerId, int mouth, String key, int pageNo, int pageSize)
-			throws Exception {
-		// 1验证参数
-		// 1.1去掉字符串前后空格
-		key = trim(key);
-		// 1.2pageNo和PageSize不能为负数和0
-		pageNo = assertPositiveInteger(pageNo, 1);
-		pageSize = assertPositiveInteger(pageSize, 10);
-		// 1.3页面必须在5-100之间
-		final int min = 5;
-		final int max = 100;
-		final String message = String.format("每页大小必须在%d-%d之间", min, max);
-		assertBetween(message, pageSize, min, max);
+	public PaginationQueryResult<AtteCountEntity> queryCounts(String managerid, String key, int pageNo,
+			
+			
+			int pageSize) throws Exception {
+		// 1清理验证参数
+		key = ThisSystemUtil.trim(key);
+		if (pageNo <= 0) {
+			pageNo = 1;
+		}
+		if (pageSize <= 0) {
+			pageSize = Integer.parseInt(System.getProperty("sys.default-page-size", "10"));
+		}
 
+		this.addAtteCounts();
+		List<AtteCountEntity> pageData = new ArrayList<>(pageSize);
 		// 2执行业务逻辑
-		ManagerAtteCountDao dao = DaoFactory.getDao(ManagerAtteCountDao.class);
-		//分页数据结果
-		List<AtteCountEntity> pageData=new ArrayList<>(pageSize);
-		// 执行业务方法
-		int totalRows = dao.selectsAtteCount(managerId, mouth,key,pageNo,pageSize,pageData);
-
+		ManagerAtteCountDao dao=DaoFactory.getDao(ManagerAtteCountDao.class);
+		String departmentId=dao.selectsDepartmentId(managerid);
+				
+		int total = dao.selectsAtteCount(departmentId, key, pageNo, pageSize, pageData);
 		// 3组装业务结果
-		PageFindResult result=new PageFindResult();
+		PaginationQueryResult<AtteCountEntity> result = new PaginationQueryResult<>();
+		result.setTotalRows(total);
+		result.setRows(pageData);
 		result.setPageNo(pageNo);
 		result.setPageSize(pageSize);
-		result.setRows(pageData);
-		result.setTotalRows(totalRows);
-		
 		return result;
-		return rs;
 	}
 
 	@Override
-	public List<AtteVacateEntity> queryVacate(String managerId, int mouth, String key, String pageNo, String pageSize)
+	public PaginationQueryResult<AtteVacateEntity> queryVacate(String managerid, String key, int pageNo, int pageSize)
 			throws Exception {
-				return null;
-			
+		// 1清理验证参数
+				key = ThisSystemUtil.trim(key);
+				if (pageNo <= 0) {
+					pageNo = 1;
+				}
+				if (pageSize <= 0) {
+					pageSize = Integer.parseInt(System.getProperty("sys.default-page-size", "10"));
+				}
+
+				List<AtteVacateEntity> pageData = new ArrayList<>(pageSize);
+				// 2执行业务逻辑
+				//ManagerAtteCountDao dao=DaoFactory.getDao(ManagerAtteCountDao.class);
+				//String departmentId=dao.selectsDepartmentId(managerid);
+				//System.out.println("部门id"+departmentId);				
+				//int total = dao.selectsAtteCount(departmentId, key, pageNo, pageSize, pageData);
+				ManagerAtteVacateDao dao=DaoFactory.getDao(ManagerAtteVacateDao.class);
+				String departmentId=dao.selectsDepartmentId(managerid);
+				int total = dao.selectsAtteVacate(departmentId, key, pageNo, pageSize, pageData);
+				// 3组装业务结果
+				PaginationQueryResult<AtteVacateEntity> result = new PaginationQueryResult<>();
+				result.setTotalRows(total);
+				result.setRows(pageData);
+				result.setPageNo(pageNo);
+				result.setPageSize(pageSize);
+				return result;
+
 	}
 
 	@Override
-	public List<AtteRetroactiveEntity> queryRetroactive(String managerId, String key, String pageNo, String pageSize)
-			throws Exception {
-				return null;
+	public PaginationQueryResult<AtteRetroactiveEntity> queryRetroactive(String managerid, String key, int pageNo,
+			int pageSize) throws Exception {
+		// 1清理验证参数
+		key = ThisSystemUtil.trim(key);
+		if (pageNo <= 0) {
+			pageNo = 1;
+		}
+		if (pageSize <= 0) {
+			pageSize = Integer.parseInt(System.getProperty("sys.default-page-size", "10"));
+		}
+
+		List<AtteRetroactiveEntity> pageData = new ArrayList<>(pageSize);
+		
+		ManagerAtteRetroactiveDao dao=DaoFactory.getDao(ManagerAtteRetroactiveDao.class);
+		String departmentId=dao.selectsDepartmentId(managerid);
+		int total = dao.selectsAtteRetroactive(departmentId, key, pageNo, pageSize, pageData);
+		// 3组装业务结果
+		PaginationQueryResult<AtteRetroactiveEntity> result = new PaginationQueryResult<>();
+		result.setTotalRows(total);
+		result.setRows(pageData);
+		result.setPageNo(pageNo);
+		result.setPageSize(pageSize);
+		return result;
 		
 	}
 
-	static public int assertPositiveInteger(int n, int defaultValue) {
-		if (n <= 0)
-			return defaultValue;
-		return n;
+	@Override
+	public PaginationQueryResult<AttendanceEntity> queryAttendance(String managerid, String key, int pageNo,
+			int pageSize) throws Exception {
+		// 1清理验证参数
+				key = ThisSystemUtil.trim(key);
+				if (pageNo <= 0) {
+					pageNo = 1;
+				}
+				if (pageSize <= 0) {
+					pageSize = Integer.parseInt(System.getProperty("sys.default-page-size", "10"));
+				}
+
+				List<AttendanceEntity> pageData = new ArrayList<>(pageSize);
+				// 2执行业务逻辑
+				DeptAttendanceDao dao=DaoFactory.getDao(DeptAttendanceDao.class);
+				String departmentId=dao.selectsDepartmentId(managerid);
+				
+				System.out.println("部门id"+departmentId);
+				
+				int total = dao.selectsAttedance(departmentId, key, pageNo, pageSize, pageData);
+				// 3组装业务结果
+				PaginationQueryResult<AttendanceEntity> result = new PaginationQueryResult<>();
+				result.setTotalRows(total);
+				result.setRows(pageData);
+				result.setPageNo(pageNo);
+				result.setPageSize(pageSize);
+				return result;
 	}
 
-	public static void assertBetween(String message, int n, int min, int max) {
-		if (n < min || n > max) {
-			throw new OAExeception(message);
+	@Override
+	public void addAtteCounts() throws Exception {
+		
+		List<AtteCountEntity> totalData= new LinkedList<>();
+		
+		DeptAtteCountDao dao=DaoFactory.getDao(DeptAtteCountDao.class);
+		List<AtteCountEntity> list=  dao.selectsAttetardy(totalData);
+//		if(list.isEmpty()) {
+//			OAException.throwWithMessage("迟到记录不存在",list);
+//		}
+		int tardycount=0;
+		String empId="";
+		for (AtteCountEntity integ:list) {
+			tardycount=integ.getTardycount();
+			empId=integ.getEmp().getId();
+			if(empId!=null) {	
+				dao.updateAtteCount(empId,tardycount);
+			}
 		}
+		 list=  dao.selectsAttelate(totalData);
+		int latecount=0;
+		for (AtteCountEntity integ:list) {
+			latecount=integ.getLatecount();
+			empId=integ.getEmp().getId();
+			if(empId!=null) {	
+				dao.updateAtteCount(empId,latecount);
+			}
+		}
+		 list=  dao.selectsAtteretroactive(totalData);
+		int retroactivecount=0;
+		for (AtteCountEntity integ:list) {
+			retroactivecount=integ.getRetroactivecount();
+			empId=integ.getEmp().getId();
+			if(empId!=null) {	
+				dao.updateAtteCount(empId,retroactivecount);
+			}
+		}
+		 list=  dao.selectsAtteEvection(totalData);
+		int evectioncount=0;
+		for (AtteCountEntity integ:list) {
+			evectioncount=integ.getEvectioncount();
+			empId=integ.getEmp().getId();
+			if(empId!=null) {	
+				dao.updateAtteCount(empId,evectioncount);
+			}
+		}
+		
+		list=  dao.selectsAtteVacate(totalData);
+		int vacatecount=0;
+		for (AtteCountEntity integ:list) {
+			vacatecount=integ.getVacatecount();
+			empId=integ.getEmp().getId();
+			if(empId!=null) {	
+				dao.updateAtteCount(empId,vacatecount);
+			}
+		}		
+		QueryResult<AtteCountEntity> result=new QueryResult<>();
+		
+		System.out.println(list);
+		System.out.println(result);
+	
 	}
+
+	
+	
+
+
 
 }

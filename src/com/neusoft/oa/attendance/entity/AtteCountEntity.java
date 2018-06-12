@@ -1,17 +1,41 @@
 package com.neusoft.oa.attendance.entity;
 
+import com.neusoft.oa.organization.entity.EmployeeEntity;
+
 public class AtteCountEntity {
-	private String empId;
+	private EmployeeEntity emp;
+	
 	private int mouth;
 	private int tardycount;
 	private int latecount;
-	private int retroactioncount;
-	private int vacatecount;
-	public String getEmpId() {
-		return empId;
+	private int retroactivecount;
+	public int getRetroactivecount() {
+		return retroactivecount;
 	}
-	public void setEmpId(String empId) {
-		this.empId = empId;
+	public void setRetroactivecount(int retroactivecount) {
+		this.retroactivecount = retroactivecount;
+	}
+	private int vacatecount;
+	private int absenteeismcount;
+	private int evectioncount;
+	
+	public int getAbsenteeismcount() {
+		return absenteeismcount;
+	}
+	public void setAbsenteeismcount(int absenteeismcount) {
+		this.absenteeismcount = absenteeismcount;
+	}
+	public int getEvectioncount() {
+		return evectioncount;
+	}
+	public void setEvectioncount(int evectioncount) {
+		this.evectioncount = evectioncount;
+	}
+	public EmployeeEntity getEmp() {
+		return emp;
+	}
+	public void setEmp(EmployeeEntity emp) {
+		this.emp = emp;
 	}
 	public int getMouth() {
 		return mouth;
@@ -31,12 +55,7 @@ public class AtteCountEntity {
 	public void setLatecount(int latecount) {
 		this.latecount = latecount;
 	}
-	public int getRetroactioncount() {
-		return retroactioncount;
-	}
-	public void setRetroactioncount(int retroactioncount) {
-		this.retroactioncount = retroactioncount;
-	}
+	
 	public int getVacatecount() {
 		return vacatecount;
 	}

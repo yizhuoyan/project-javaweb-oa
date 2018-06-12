@@ -15,7 +15,6 @@ import com.neusoft.oa.base.dao.SysUserDao;
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
-import com.neusoft.oa.core.dto.VOMap;
 import com.neusoft.oa.organization.dao.EmployeeDao;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;

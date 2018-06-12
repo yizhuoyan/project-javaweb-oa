@@ -1,15 +1,16 @@
 package com.neusoft.oa.attendance.dto;
 
-import com.neusoft.oa.attendance.entity.AtteCountEntity;
+import java.util.List;
+
 import com.neusoft.oa.core.util.ThisSystemUtil;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+
 
 public class PageFindResult {
 	private int totalRows;
 	private int totalPages=-1;
 	private int pageNo;
 	private int pageSize;
-	private List rows;
+	private List<?> rows;
 	public int getTotalRows() {
 		return totalRows;
 	}
@@ -35,7 +36,7 @@ public class PageFindResult {
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
-	public <T>List getRows() {
+	public <T>List<?> getRows() {
 		return rows;
 	}
 	

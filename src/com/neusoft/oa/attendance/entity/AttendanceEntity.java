@@ -1,50 +1,37 @@
 package com.neusoft.oa.attendance.entity;
 
 import java.sql.Date;
+import com.neusoft.oa.organization.entity.EmployeeEntity;
 
 public class AttendanceEntity {
-	private String id;
+	private String id;	
+	private EmployeeEntity emp;
+	private Date whenDay;
+	private Date signinTime;	
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getEmpId() {
-		return empId;
+	
+	public EmployeeEntity getEmp() {
+		return emp;
 	}
-	public void setEmpId(String empId) {
-		this.empId = empId;
+	public void setEmp(EmployeeEntity emp) {
+		this.emp = emp;
 	}
-	public Date getWhen() {
-		return when;
+	public Date getWhenDay() {
+		return whenDay;
 	}
-	public void setWhen(Date when) {
-		this.when = when;
+	public void setWhenDay(Date whenDay) {
+		this.whenDay = whenDay;
 	}
-	public String getSignIn() {
-		return signIn;
+	public Date getSigninTime() {
+		return signinTime;
 	}
-	public void setSignIn(String signIn) {
-		this.signIn = signIn;
-	}
-	public String getResultAm() {
-		return resultAm;
-	}
-	public void setResultAm(String resultAm) {
-		this.resultAm = resultAm;
-	}
-	public String getSignOut() {
-		return signOut;
-	}
-	public void setSignOut(String signOut) {
-		this.signOut = signOut;
-	}
-	public String getResultPm() {
-		return resultPm;
-	}
-	public void setResultPm(String resultPm) {
-		this.resultPm = resultPm;
+	public void setSigninTime(Date signinTime) {
+		this.signinTime = signinTime;
 	}
 	public String getRemark() {
 		return remark;
@@ -52,12 +39,6 @@ public class AttendanceEntity {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	private String empId;
-	private Date when;
-	private String signIn;
-	private String resultAm;
-	private String signOut;
-	private String resultPm;
 	private String remark;
 	
 }
