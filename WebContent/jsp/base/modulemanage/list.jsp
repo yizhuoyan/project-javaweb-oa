@@ -17,6 +17,7 @@
 		<ol class="breadcrumb">
 			<li>
 			<a href="javascript:window.top.dashboard()"><i class="fa fa-dashboard"></i>首页</a>
+			
 			</li>
 			<li><a>系统功能模块</a></li>
 		</ol>

@@ -81,7 +81,16 @@ public class ThisSystemUtil {
 			return defaultInt;
 		}
 	}
+<<<<<<< HEAD
+	public static int countPage(int totalRows, int pageSize) {
+		int page=totalRows/pageSize;
+		if(totalRows%pageSize!=0) {
+			page++;
+		}
+		return page;
+=======
 	public static int parseInt(String s) {
 		return Integer.parseInt(s);
+>>>>>>> 9e9b7621c8d4a7813daf057771910caeed2250ed
 	}
 }

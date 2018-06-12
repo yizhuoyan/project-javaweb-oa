@@ -26,12 +26,24 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 				+ "nativePlace,workPhone,domicilePlace," 
 				+ "male,department_id,age,workemail");
 
+
 	}
 	@Override
 	public int selectWorkEmailLikeCount(String workEmail) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 
+
+	}
+	@Override
+	public int selectWorkEmailLikeCount(String mailName,String emailAdress) throws Exception {
+		StringBuilder sql=new StringBuilder();
+		sql.append("select count(1) from ")
+		.append(tableName)
+		.append(" where workemail like ?");
+		Number result=(Number)selectOneRowOneColumn(sql.toString(), mailName+"%"+emailAdress);
+		return result.intValue(); 
+>>>>>>> 1dcd7aea9ecd9138c6c579166fae754679401074
 	}
 
 	@Override
