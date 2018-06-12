@@ -9,12 +9,7 @@ import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
 
 public interface OrganizationFunction {
-<<<<<<< HEAD
-
-	String generateEmployyWorkEmail(String name,String nativePlace)throws Exception;
-=======
 	String generateEmployyWorkEmail(String name)throws Exception;
->>>>>>> 1dcd7aea9ecd9138c6c579166fae754679401074
 	/**
 	 * 分配员工工号
 	 * @param departmentId
@@ -22,10 +17,6 @@ public interface OrganizationFunction {
 	 * @return
 	 * @throws Exception
 	 */
-<<<<<<< HEAD
-
-=======
->>>>>>> 1dcd7aea9ecd9138c6c579166fae754679401074
 	String generateNextEmployeeAccount(String departmentId,String hiredate)throws Exception;
 	EmployeeEntity loadEmployee(String id)throws Exception;
 	void deleteEmployee(String id)throws Exception;

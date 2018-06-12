@@ -46,7 +46,6 @@ public abstract class CommonServlet extends HttpServlet {
 		}
 		return null;
 	}
-	
 
 	protected boolean isLogin(HttpServletRequest req) {
 		HttpSession session = req.getSession();

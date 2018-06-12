@@ -18,13 +18,7 @@ import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dictionary.Dictionary;
 import com.neusoft.oa.core.dto.PaginationQueryResult;
-<<<<<<< HEAD
-
 import com.neusoft.oa.core.service.PinYinService;
-
-=======
-import com.neusoft.oa.core.service.PinYinService;
->>>>>>> 1dcd7aea9ecd9138c6c579166fae754679401074
 import com.neusoft.oa.core.util.IDCard;
 import com.neusoft.oa.core.util.ThisSystemUtil;
 import com.neusoft.oa.organization.ao.DepartmentAo;
@@ -40,12 +34,7 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 	DepartmentDao departmentDao = DaoFactory.getDao(DepartmentDao.class);
 	
 	@Override
-<<<<<<< HEAD
-
-	public String generateEmployyWorkEmail(String name,String nativePlace) throws Exception {
-=======
 	public String generateEmployyWorkEmail(String name) throws Exception {
->>>>>>> 1dcd7aea9ecd9138c6c579166fae754679401074
 		name=$("姓名",name);
 		String namePinyin=PinYinService.pinyin(name);
 		String emailAddress=System.getProperty("oa.default-work-email","@neusoft.com");
@@ -64,32 +53,18 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		return workEmail;
 	}
 	@Override
-<<<<<<< HEAD
-
-=======
->>>>>>> 1dcd7aea9ecd9138c6c579166fae754679401074
 	public String generateNextEmployeeAccount(String departmentId, String hiredate) throws Exception {
 		departmentId=$("部门id",departmentId);
 		hiredate=$("入职日期",hiredate);
 		DepartmentEntity department = departmentDao.select("id", departmentId);
 		
 		assertNotNull("部门不存在", department);
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 1dcd7aea9ecd9138c6c579166fae754679401074
 		//规则入职时间（6位）+部门编号（6位）+3位序号+1位随机数字=共16
 		StringBuilder result=new StringBuilder();
 		result.append(hiredate.replaceAll("-",""));
 		result.append(prefixFill(department.getCode(),6,'0'));
 		result.append(prefixFill(department.getMembers()+1, 3,'0'));
 		result.append((int)(Math.random()*10));
-<<<<<<< HEAD
-
-=======
->>>>>>> 1dcd7aea9ecd9138c6c579166fae754679401074
 		return result.toString();
 	}
 	@Override
@@ -550,25 +525,8 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		assertLessThan("办公电话", address, 32);
 
 		String workEmail = $("工作邮箱", ao.getWorkEmail());
-<<<<<<< HEAD
-		assertLessThan("工作邮箱", address, 16);
-		//必须是数字和字母
-		assertAllWordCharacter("工作邮箱", workEmail);
-
-		
-		String mailSuffix=System.getProperty("oa.default-work-email","@nuesoft.com");
-		
-
-		
-
-		if(!workEmail.endsWith(mailSuffix)) {
-			workEmail=workEmail+mailSuffix;
-		}
-		
-=======
 		assertLessThan("工作邮箱", address, 32);
 		assertIsEmail("工作邮箱",workEmail);
->>>>>>> 1dcd7aea9ecd9138c6c579166fae754679401074
 		if (employeeDao.exist("workemail", workEmail)) {
 			OAException.throwWithMessage("工作邮箱{1}已存在，请切换", workEmail);
 		}

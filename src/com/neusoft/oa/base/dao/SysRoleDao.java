@@ -14,5 +14,4 @@ public interface SysRoleDao extends TemplateDao<SysRoleEntity> {
 	public void unjoinModules(String id,String... moduelIds)throws Exception;
 	
 	public List<SysRoleEntity> selectsByUser(String userId)throws Exception;
-	
 }
