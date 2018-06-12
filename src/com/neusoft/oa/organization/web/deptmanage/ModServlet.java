@@ -11,12 +11,13 @@ import com.neusoft.oa.core.web.CommonServlet;
 import com.neusoft.oa.organization.ao.DepartmentAo;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.function.OrganizationFunction;
-@WebServlet({"/deptmanage/add.ajax"})
-public class AddServlet extends CommonServlet {
+@WebServlet({"/deptmanage/mod.ajax"})
+public class ModServlet extends CommonServlet {
 
 	@Override
 	protected Object handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Throwable {
 		//1获取参数
+		String id=req.getParameter("id");
 		String parentId=req.getParameter("parentId");
 		String code=req.getParameter("code");
 		String name=req.getParameter("name");
@@ -30,8 +31,8 @@ public class AddServlet extends CommonServlet {
 		ao.setParentId(parentId);
 		ao.setRemark(remark);
 		OrganizationFunction fun=FunctionFactory.getFunction(OrganizationFunction.class);
-		DepartmentEntity m=fun.addDepartment(ao);
-		return m.getId();
+		fun.modifyDepartment(id, ao);
+		return AjaxResponse.ok();
 	}
 	
 }

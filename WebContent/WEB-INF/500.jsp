@@ -21,8 +21,13 @@
 			别慌，我们正在修复中。。。
 		</p>
 		<p>
-			<span>同时，你可以玩玩下面这个游戏等会再试。或者返回</span></span>
-			<a href="dashboard.do"><i class="fa fa-dashboard"></i>首页</a>。
+			<span>同时，你可以玩玩下面这个游戏等会再试。
+            <br>
+                            或者<a href="javascript:window.location.goBack()">返回重试</a>
+            <br>
+                        或者返回</span>
+			 <a href="javascript:window.top.dashboard()"><i class="fa fa-dashboard"></i>首页</a>。
+             
 		</p>
 	</section>
 	

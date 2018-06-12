@@ -6,11 +6,8 @@ import java.util.Optional;
 import com.neusoft.oa.core.dto.VOMap;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 
-public class DepartmentDto extends VOMap {
+public class DepartmentDto {
 	
-	public DepartmentDto(int initialCapacity) {
-		super(initialCapacity);
-	}
 
 	static public VOMap of(DepartmentEntity d) {
 		return VOMap.of(8)
@@ -32,5 +29,12 @@ public class DepartmentDto extends VOMap {
 								.put("name",p.getName())
 								)
 						.orElse(null));
+	}
+	static public VOMap ofSimple(DepartmentEntity d) {
+		return VOMap.of(4)
+				.put("id", d.getId())
+				.put("code", d.getCode())
+				.put("name", d.getName())
+				.put("parentId",d.getParentId());
 	}
 }
