@@ -16,6 +16,8 @@ import com.neusoft.oa.core.email.SendEmailUtil;
 import com.neusoft.oa.core.email.TextEmail;
 import com.neusoft.oa.core.util.ThisSystemUtil;
 import com.neusoft.oa.core.util.TokenUtil;
+import com.neusoft.oa.organization.dao.EmployeeDao;
+
 import static com.neusoft.oa.core.util.AssertThrowUtil.*;
 /**
  * 处理通用相关的业务逻辑
@@ -45,7 +47,11 @@ public class CommonFunctionImpl  implements CommonFunction {
 		SysUserDao udao=DaoFactory.getDao(SysUserDao.class);
 		SysUserEntity u = udao.select("account", account);
 		if (u == null) {
-			throw new OAException("账号不存在！");
+			EmployeeDao employeeDao=DaoFactory.getDao(EmployeeDao.class);
+			u=employeeDao.select("workEmail", account);
+			if(u==null) {
+				throw new OAException("账号不存在！");
+			}
 		}
 		// 2.2账号密码是否一致
 		password=ThisSystemUtil.md5(password);
