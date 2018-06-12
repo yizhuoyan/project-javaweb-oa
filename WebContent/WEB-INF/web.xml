@@ -80,17 +80,17 @@
 		<error-code>500</error-code>
 		<location>/WEB-INF/500.jsp</location>
 	</error-page>
-<<<<<<< HEAD
 	
 	
 	<servlet>
-  	<servlet-name>文件上传</servlet-name>
-  	<servlet-class>com.neusoft.oa.document.web.attachmentManage.AddServlet</servlet-class>
-=======
+	  	<servlet-name>文件上传</servlet-name>
+	  	<servlet-class>com.neusoft.oa.document.web.attachmentManage.AddServlet</servlet-class>
+  	</servlet>
+  	
+  	
 	<servlet>
   	<servlet-name>邮件附件上传</servlet-name>
   	<servlet-class>com.neusoft.oa.message.web.email.WriteEmailServlet</servlet-class>
->>>>>>> e2b2b50f9cbc18503f9ef232a6885cae49d12bb6
   	
   	<multipart-config>
   		<!-- 超过阈值的文件存放路径，默认是系统临时目录 -->
@@ -102,8 +102,6 @@
   		<!-- 存放到内存阈（yu4）值，应该根据服务器内存大小进行设置byte -->
   		<file-size-threshold>102400</file-size-threshold>
   	</multipart-config>
-<<<<<<< HEAD
-  	
   	
   </servlet>
   <servlet-mapping>
@@ -111,13 +109,9 @@
   	<url-pattern>/attachmentManage/add.do</url-pattern>
   </servlet-mapping>
 	
-	
-=======
   		
-  </servlet>
   <servlet-mapping>
   	<servlet-name>邮件附件上传</servlet-name>
   	<url-pattern>/addEmail.do</url-pattern>
   </servlet-mapping>
->>>>>>> e2b2b50f9cbc18503f9ef232a6885cae49d12bb6
 </web-app>

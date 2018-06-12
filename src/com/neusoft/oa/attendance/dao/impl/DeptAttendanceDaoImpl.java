@@ -14,7 +14,6 @@ public class DeptAttendanceDaoImpl extends TemplateDaoImpl<AttendanceEntity> imp
 
 	protected DeptAttendanceDaoImpl() {
 		super("atte_attendances");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -24,21 +23,17 @@ public class DeptAttendanceDaoImpl extends TemplateDaoImpl<AttendanceEntity> imp
 		Connection connection = DBUtil.getConnection();
 		// 3创建预编译语句对象PreparedStatement
 		StringBuilder whereSql = new StringBuilder();
-		whereSql.append(" from atte_attendances m ")
-		.append(" join oa_emp s ")
-		.append(" on m.emp_id=s.id ")
-		.append(" join sys_user p ")
-		.append(" on m.emp_id=p.id ");
-		
-		
+		whereSql.append(" from atte_attendances m ").append(" join oa_emp s ").append(" on m.emp_id=s.id ")
+				.append(" join sys_user p ").append(" on m.emp_id=p.id ");
+
 		whereSql.append(" where s.department_id = ?");
-		
-		PreparedStatement ps = connection.prepareStatement("select count(*) "+whereSql);
-		
+
+		PreparedStatement ps = connection.prepareStatement("select count(*) " + whereSql);
+
 		ps.setString(1, departmentId);
-		
+
 		ResultSet rs = ps.executeQuery();
-		//分页查询获取总行数
+		// 分页查询获取总行数
 		int total = 0;
 		if (rs.next()) {
 			total = rs.getInt(1);
@@ -47,16 +42,14 @@ public class DeptAttendanceDaoImpl extends TemplateDaoImpl<AttendanceEntity> imp
 		if (total == 0) {
 			return total;
 		}
-		
+
 		// 执行分页查询
 		StringBuilder querySql = new StringBuilder();
 		querySql.append(" select p.name,e.department_id,u.*");
 		querySql.append(" from ").append(" oa_emp e join atte_attendances  u on e.id=u.emp_id ")
-		.append(" join sys_user p ")
-		.append(" on u.emp_id=p.id ")
-		.append("where department_id = ? ");
-		if (key != null) {					
-			
+				.append(" join sys_user p ").append(" on u.emp_id=p.id ").append("where department_id = ? ");
+		if (key != null) {
+
 			querySql.append(" and ( u.when_day like ? or u.signin_time like ? or u.remark like  ?) ");
 		}
 		querySql.append(" order by e.id desc");
@@ -68,7 +61,7 @@ public class DeptAttendanceDaoImpl extends TemplateDaoImpl<AttendanceEntity> imp
 		if (key != null) {
 			int i = 2;
 			key = "%" + key + "%";
-			
+
 			ps.setString(i++, key);
 			ps.setString(i++, key);
 			ps.setString(i++, key);
@@ -82,19 +75,20 @@ public class DeptAttendanceDaoImpl extends TemplateDaoImpl<AttendanceEntity> imp
 			pageData.add(e);
 		}
 		return total;
-		
+
 	}
+
 	@Override
 	protected AttendanceEntity resultset2entity(ResultSet rs) throws Exception {
 		AttendanceEntity u = new AttendanceEntity();
-		EmployeeEntity e=new EmployeeEntity();
+		EmployeeEntity e = new EmployeeEntity();
 		e.setName(rs.getString("name"));
 		u.setEmp(e);
 		u.setId(rs.getString("id"));
-		u.setSigninTime(rs.getDate("signin_time"));
-		u.setWhenDay(rs.getDate("when_day"));	
+		u.setSigninTime(sqlTime2LocalTime(rs.getTime("signin_time")));
+		u.setWhenDay(rs.getDate("when_day"));
 		return u;
-		
+
 	}
 
 	@Override
@@ -103,53 +97,45 @@ public class DeptAttendanceDaoImpl extends TemplateDaoImpl<AttendanceEntity> imp
 		Connection connection = DBUtil.getConnection();
 		// 3创建预编译语句对象PreparedStatement
 		StringBuilder whereSql = new StringBuilder();
-		whereSql.append(" from oa_emp  ")		
-		.append(" where id= ? ");
-		PreparedStatement ps = connection.prepareStatement("select department_id "+whereSql);
+		whereSql.append(" from oa_emp  ").append(" where id= ? ");
+		PreparedStatement ps = connection.prepareStatement("select department_id " + whereSql);
 		ps.setString(1, managerid);
 		// 4执行语句对象并获取结果
 		ResultSet rs = ps.executeQuery();
 		// 5转换结果为实体
-		while(rs.next()){      //这里必须循环遍历
-			String result = rs.getString("department_id");//返回一条记录			
+		while (rs.next()) { // 这里必须循环遍历
+			String result = rs.getString("department_id");// 返回一条记录
 			return result;
-			}
-		
+		}
+
 		return null;
-		
-		
+
 	}
 
-
-
-
 	@Override
-	public  String selectEmpName() throws Exception {
-				// 1获取连接
-				Connection connection = DBUtil.getConnection();
-				// 3创建预编译语句对象PreparedStatement
-				StringBuilder whereSql = new StringBuilder();
-				whereSql.append(" from sys_user s  ")
-				.append(" join atte_attendances m")
-				.append(" on s.id=m.emp_id ");
-				
-				PreparedStatement ps = connection.prepareStatement("select s.name "+whereSql);
-				
-				// 4执行语句对象并获取结果
-				ResultSet rs = ps.executeQuery();
-				// 5转换结果为实体
-				while(rs.next()){      //这里必须循环遍历
-					String result = rs.getString("name");//返回一条记录
+	public String selectEmpName() throws Exception {
+		// 1获取连接
+		Connection connection = DBUtil.getConnection();
+		// 3创建预编译语句对象PreparedStatement
+		StringBuilder whereSql = new StringBuilder();
+		whereSql.append(" from sys_user s  ").append(" join atte_attendances m").append(" on s.id=m.emp_id ");
 
-					return result;
-					}				
-				return null;	
+		PreparedStatement ps = connection.prepareStatement("select s.name " + whereSql);
+
+		// 4执行语句对象并获取结果
+		ResultSet rs = ps.executeQuery();
+		// 5转换结果为实体
+		while (rs.next()) { // 这里必须循环遍历
+			String result = rs.getString("name");// 返回一条记录
+
+			return result;
+		}
+		return null;
 	}
 
 	@Override
 	public void insert(AttendanceEntity t) throws Exception {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }
