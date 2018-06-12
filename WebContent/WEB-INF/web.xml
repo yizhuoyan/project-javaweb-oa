@@ -85,6 +85,16 @@
 	<servlet>
 	  	<servlet-name>文件上传</servlet-name>
 	  	<servlet-class>com.neusoft.oa.document.web.attachmentManage.AddServlet</servlet-class>
+	  	<multipart-config>
+  		<!-- 超过阈值的文件存放路径，默认是系统临时目录 -->
+  		<location>f:/temp</location>
+  		<!-- 上传单个文件的最大byte 1024*1024=1048576 -->
+  		<max-file-size>10485760</max-file-size>
+  		<!-- 整个请求最大byte -->
+  		<max-request-size>104857600</max-request-size>
+  		<!-- 存放到内存阈（yu4）值，应该根据服务器内存大小进行设置byte -->
+  		<file-size-threshold>102400</file-size-threshold>
+  	</multipart-config>
   	</servlet>
   	
   	

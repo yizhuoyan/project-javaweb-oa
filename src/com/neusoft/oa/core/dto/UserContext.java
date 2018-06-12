@@ -78,6 +78,8 @@ public class UserContext {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+	public boolean isSystem() {
+		return true;
+	}
 	
 }
