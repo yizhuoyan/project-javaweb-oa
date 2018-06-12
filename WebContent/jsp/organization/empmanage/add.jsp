@@ -234,7 +234,7 @@ form.table p>span>* {
                 </script>
                 <span>
                     <label for="accountEL">*员工工号：</label>
-                    <input type="text" name="account" id="accountEL"
+                    <input type="text"  readonly name="account" id="accountEL"
                         class="form-control" placeholder="根据部门和入职时间自动生成">
                 </span>
                 <script>
@@ -276,16 +276,18 @@ form.table p>span>* {
                 <span>
                     <label for="workEmailEL">*工作邮箱：</label>
                     <input type="text" name="workEmail"
-                        class="form-control" id="workEmailEL"
-                        maxlength="32" placeholder="尽量使用拼音">
-                    <b> @neusoft.com</b>
+                        class="form-control" id="workEmailEL" readonly
+                         placeholder="邮箱名默认通过名字自动生成">
                     <script title="邮箱名默认通过名字自动生成">
                     	$("#nameEL").blur(function(evt){
                     		var name=this.value.trim();
                     		if(name.length>0){
-                        		$.get("api/pinyin",{w:name},function(data){
-                        			if(data){
-                        				$("#workEmailEL").val(data);
+                        		$.get("empmanage/generateWorkEmail.ajax",
+                        				{name:name},function(resp){
+                        			if(resp.code==="ok"){
+                        				$("#workEmailEL").val(resp.data);
+                        			}else{
+                        				$("#workEmailEL").val(resp.message);
                         			}
                         		})
                     		}

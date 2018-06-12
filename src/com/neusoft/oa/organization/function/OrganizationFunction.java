@@ -9,7 +9,7 @@ import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
 
 public interface OrganizationFunction {
-	String generateEmployyWorkEmail(String name,String nativePlace)throws Exception;
+	String generateEmployyWorkEmail(String name)throws Exception;
 	/**
 	 * 分配员工工号
 	 * @param departmentId
