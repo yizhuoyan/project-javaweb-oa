@@ -18,10 +18,9 @@ import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dictionary.Dictionary;
 import com.neusoft.oa.core.dto.PaginationQueryResult;
-<<<<<<< HEAD
-=======
+
 import com.neusoft.oa.core.service.PinYinService;
->>>>>>> 9e9b7621c8d4a7813daf057771910caeed2250ed
+
 import com.neusoft.oa.core.util.IDCard;
 import com.neusoft.oa.core.util.ThisSystemUtil;
 import com.neusoft.oa.organization.ao.DepartmentAo;
@@ -37,8 +36,7 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 	DepartmentDao departmentDao = DaoFactory.getDao(DepartmentDao.class);
 	
 	@Override
-<<<<<<< HEAD
-=======
+
 	public String generateEmployyWorkEmail(String name,String nativePlace) throws Exception {
 		name=$("姓名",name);
 		nativePlace=$("籍贯",nativePlace);
@@ -64,27 +62,23 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		return null;
 	}
 	@Override
->>>>>>> 9e9b7621c8d4a7813daf057771910caeed2250ed
+
 	public String generateNextEmployeeAccount(String departmentId, String hiredate) throws Exception {
 		departmentId=$("部门id",departmentId);
 		hiredate=$("入职日期",hiredate);
 		DepartmentEntity department = departmentDao.select("id", departmentId);
 		
 		assertNotNull("部门不存在", department);
-<<<<<<< HEAD
-		//规则入职时间+部门编号+序号
-		StringBuilder result=new StringBuilder();
-		result.append(hiredate.replaceAll("-",""));
-		result.append(department.getCode());
-		result.append(department.getMembers()+1);
-=======
+
+
+
 		//规则入职时间（6位）+部门编号（6位）+3位序号+1位随机数字=共16
 		StringBuilder result=new StringBuilder();
 		result.append(hiredate.replaceAll("-",""));
 		result.append(prefixFill(department.getCode(),6,'0'));
 		result.append(prefixFill(department.getMembers()+1, 3,'0'));
 		result.append((int)(Math.random()*10));
->>>>>>> 9e9b7621c8d4a7813daf057771910caeed2250ed
+
 		return result.toString();
 	}
 	@Override
@@ -548,15 +542,13 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		assertLessThan("工作邮箱", address, 16);
 		//必须是数字和字母
 		assertAllWordCharacter("工作邮箱", workEmail);
-<<<<<<< HEAD
+
 		
 		String mailSuffix=System.getProperty("oa.default-work-email","@nuesoft.com");
 		
-=======
+
 		
-		String mailSuffix=System.getProperty("oa.default-work-email","@nuesoft.com");
-		
->>>>>>> 9e9b7621c8d4a7813daf057771910caeed2250ed
+
 		if(!workEmail.endsWith(mailSuffix)) {
 			workEmail=workEmail+mailSuffix;
 		}
