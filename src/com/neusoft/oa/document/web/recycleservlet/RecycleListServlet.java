@@ -9,8 +9,9 @@ import com.neusoft.oa.core.dto.PaginationQueryResult;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.util.ThisSystemUtil;
 import com.neusoft.oa.core.web.CommonServlet;
-import com.neusoft.oa.document.dao.AttachmentDao;
+import com.neusoft.oa.document.dao.DocumentAttachmentDao;
 import com.neusoft.oa.document.entity.DocumentAttachmentEntity;
+import com.neusoft.oa.document.entity.DocumentEntity;
 import com.neusoft.oa.document.entity.RecycleEntity;
 import com.neusoft.oa.document.function.RecycleBinFunction;
 import com.neusoft.oa.organization.function.OrganizationFunction;
@@ -25,20 +26,27 @@ public class RecycleListServlet extends CommonServlet {
 	@Override
 	protected String handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Throwable {
 		// 1获取查询
+		String userId =getCurrentUserId(req);
 		String key = req.getParameter("key");
 		String pageSize = req.getParameter("pageSize");
 		int pageSizeInt = ThisSystemUtil.parseInt(pageSize, -1);
 		String pageNo = req.getParameter("pageNo");
 		int pageNoInt = ThisSystemUtil.parseInt(pageNo, -1);
+		System.out.println("表现层:"+userId);
 		// 2调用业务方法
 		try {
 			
 			RecycleBinFunction fun = FunctionFactory.getFunction(RecycleBinFunction.class);
-			PaginationQueryResult<DocumentAttachmentEntity> result = fun.queryRecycleAttachment(key, pageNoInt, pageSizeInt);
+			PaginationQueryResult<DocumentAttachmentEntity> atmResult = fun.queryRecycleAttachment(userId, key, pageNoInt, pageSizeInt);
+			PaginationQueryResult<DocumentEntity>	docResult =fun.queryRecycleDocument(userId, key, pageNoInt, pageSizeInt);
 			
-			req.setAttribute("result", result);
-			
+			System.out.println("附件:"+atmResult+"文档:"+docResult);
+			//保存附件变量在request中
+			req.setAttribute("docResult", docResult);
+			//保存文档变量在request中
+			req.setAttribute("atmResult", atmResult);
 			// 3确定视图
+			
 		} catch (OAException e) {
 			req.setAttribute("message", e.getMessage());
 		}

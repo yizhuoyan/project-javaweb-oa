@@ -6,26 +6,26 @@ import com.neusoft.oa.base.entity.SysUserEntity;
 
 public class DocumentAttachmentEntity {
 	private String id;//附件编号
-	private String	documentId;//附件所属文档编号
+	private DocumentEntity	documentId;//附件所属文档编号
 	private String path;//附件位置
 	private String name;//附件名称
 	private String property;//附件描述
-	private String createUserId;//附件创建者编号
+	private SysUserEntity createUserId;//附件创建者编号
 	private Instant createTime;//附件创建时间
 	private String remark;//备注
 	public static final int FLAG_ENABLE=1,FLAG_BEUSED=2,FLAG_DELETED=0;//删除标志
 	private String deptId;//部门编号
+	
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	public String getDocumentId() {
+	public DocumentEntity getDocumentId() {
 		return documentId;
 	}
-	public void setDocumentId(String documentId) {
+	public void setDocumentId(DocumentEntity documentId) {
 		this.documentId = documentId;
 	}
 	public String getPath() {
@@ -46,10 +46,10 @@ public class DocumentAttachmentEntity {
 	public void setProperty(String property) {
 		this.property = property;
 	}
-	public String getCreateUserId() {
+	public SysUserEntity getCreateUserId() {
 		return createUserId;
 	}
-	public void setCreateUserId(String createUserId) {
+	public void setCreateUserId(SysUserEntity createUserId) {
 		this.createUserId = createUserId;
 	}
 	public Instant getCreateTime() {
@@ -79,6 +79,7 @@ public class DocumentAttachmentEntity {
 	public static int getFlagDeleted() {
 		return FLAG_DELETED;
 	}
+	
 	
 	
 

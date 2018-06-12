@@ -22,27 +22,27 @@ import static com.neusoft.oa.core.util.AssertThrowUtil.*;
  * @author zhoujingmeng
  *
  */
-@WebServlet("/document/recycle/documentmod.ajax")
+@WebServlet("/document/recycle/documentmod.do")
 public class RestoreDocumentServlet extends CommonServlet {
 
 	
 	private static final long serialVersionUID = -3183005778809700151L;
 	
 	@Override
-	protected AjaxResponse handleRequest(HttpServletRequest req, HttpServletResponse resp)throws Throwable {
+	protected String handleRequest(HttpServletRequest req, HttpServletResponse resp)throws Throwable {
 		//1验证参数
 		String id=$("获取文档编号",req.getParameter("id"));
-		
+		resp.setContentType("text/html");
 			
 		//2调用业务方法
-		
 		RecycleBinFunction rFun=FunctionFactory.getFunction(RecycleBinFunction.class);
 		try {	
 			rFun.restoreDocument(id);
-			return AjaxResponse.ok();
+			req.setAttribute("message", "数据已还原!");
 		} catch (OAException e) {
-			return AjaxResponse.fail(e);
+			req.setAttribute("message", e.getMessage());
 		}
+		return "/jsp/base/document/recyclemanage/list.jsp";
 	}
 	
 }

@@ -7,5 +7,5 @@ import com.neusoft.oa.document.entity.DocumentEntity;
 import com.neusoft.oa.document.entity.RecycleEntity;
 
 public interface DocumentDao extends TemplateDao<DocumentEntity>{
-	int selectsByKey(String key, int pageNo, int pageSize, List<DocumentEntity> pageData)throws Exception;
+	int selectsByKey(String userId,String key, int pageNo, int pageSize, List<DocumentEntity> pageData)throws Exception;
 }

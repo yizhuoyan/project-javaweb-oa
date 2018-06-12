@@ -45,6 +45,20 @@ public interface RecycleBinFunction {
 	 */
 	void deleteAttachment(String id) throws Exception;
 	/**
+	 * 清空回收站数据
+	 * @throws Exception
+	 */
+	void emptyRecycle()throws Exception;
+	
+	/**
+	 * 查询回收站数据是否超时
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	
+	
+	/**
 	 * 分页模块
 	 * @param key
 	 * @param pageNo
@@ -52,6 +66,7 @@ public interface RecycleBinFunction {
 	 * @return
 	 * @throws Exception
 	 */
-	PaginationQueryResult<DocumentAttachmentEntity> queryRecycleAttachment(String key,int pageNo,int pageSize)throws Exception;
-	PaginationQueryResult<DocumentEntity> queryRecycleDocument(String key,int pageNo,int pageSize)throws Exception;
+	
+	PaginationQueryResult<DocumentAttachmentEntity> queryRecycleAttachment(String userId, String key,int pageNo,int pageSize)throws Exception;
+	PaginationQueryResult<DocumentEntity> queryRecycleDocument(String userId, String key,int pageNo,int pageSize)throws Exception;
 }

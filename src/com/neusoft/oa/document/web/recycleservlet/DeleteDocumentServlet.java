@@ -15,7 +15,7 @@ import com.neusoft.oa.document.function.RecycleBinFunction;
  * @author zhoujingmeng
  *
  */
-@WebServlet("/document/recycle/docdelete.ajax")
+@WebServlet("/document/recycle/documentdelete.do")
 public class DeleteDocumentServlet extends CommonServlet {
 	@Override
 	protected String handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Throwable {

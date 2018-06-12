@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dto.AjaxResponse;
+import com.neusoft.oa.core.dto.PaginationQueryResult;
+import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.web.CommonServlet;
 import com.neusoft.oa.document.entity.DocumentAttachmentEntity;
 import com.neusoft.oa.document.function.RecycleBinFunction;
@@ -25,13 +27,13 @@ public class RestoreAttachmentServlet extends CommonServlet{
 		String id=$("获取附件编号",req.getParameter("id"));
 		resp.setContentType("text/html");
 		//2调用业务方法
-		RecycleBinFunction rFun=DaoFactory.getDao(RecycleBinFunction.class);
+		RecycleBinFunction rFun=FunctionFactory.getFunction(RecycleBinFunction.class);
 		try {
 		rFun.restoreAttachment(id);
-		
-		return AjaxResponse.ok();
+		req.setAttribute("message", "数据已还原！");	
 		}catch(OAException e){
-			return AjaxResponse.fail(e);
+			req.setAttribute("message", e.getMessage());
 		}
+		return "/jsp/base/document/recyclemanage/list.jsp";
 	}
 }

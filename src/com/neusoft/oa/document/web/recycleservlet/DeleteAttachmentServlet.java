@@ -16,7 +16,7 @@ import static com.neusoft.oa.core.util.AssertThrowUtil.*;
  * @author zhoujingmeng
  *
  */
-@WebServlet("/document/recycle/attachmentdelete.ajax")
+@WebServlet("/document/recycle/attachmentdelete.do")
 public class DeleteAttachmentServlet extends CommonServlet {
 	@Override
 	protected Object handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Throwable {
