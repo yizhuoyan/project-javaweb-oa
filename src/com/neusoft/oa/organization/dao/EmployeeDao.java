@@ -8,7 +8,14 @@ import com.neusoft.oa.organization.entity.EmployeeEntity;
 public interface EmployeeDao extends TemplateDao<EmployeeEntity>{
 
 	int selectsByKey(String key,int pageNo,int pageSize,List<EmployeeEntity> pageData)throws Exception;
-	int selectWorkEmailLikeCount(String workEmail)throws Exception;
+	/**
+	 * 查询具有相同邮箱名称的员工数量
+	 * @param mailName 邮箱名称
+	 * @param emailAdress 公司邮箱统一地址
+	 * @return
+	 * @throws Exception
+	 */
+	int selectWorkEmailLikeCount(String mailName,String emailAdress)throws Exception;
 	
 	
 }
