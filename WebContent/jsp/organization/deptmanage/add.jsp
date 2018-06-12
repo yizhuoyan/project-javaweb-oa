@@ -18,7 +18,7 @@
                 </a>
             </li>
             <li>
-                <a href="jsp/base/organization/deptmanage/list.jsp">系统功能模块管理</a>
+                <a href="jsp/organization/deptmanage/list.jsp">系统功能模块管理</a>
             </li>
             <li>
                 <a>新增</a>
@@ -33,7 +33,6 @@
             <label for="parentIdEL">*父部门：</label>
             <select id="parentIdEL" name="parentId"
                 class="form-control">
-                
             </select>
         </p>
         <p>
@@ -77,7 +76,6 @@
 		*/
 		var loadCanBeParents = function(pid) {
 			pid=pid||window.location.params("pid");
-			console.log(pid);
 			var url = "deptmanage/canBeParent.ajax";
 			$.getJSON(url, function(resp) {
 				if (resp.code === "ok") {

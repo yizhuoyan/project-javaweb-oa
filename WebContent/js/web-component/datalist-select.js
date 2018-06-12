@@ -21,7 +21,7 @@ window.addEventListener("load",function(){
 },false);
 
 var loadDataList=function(dataType){
-	var src="data-"+dataType;
+	var src="/dictionary/"+dataType+".js";
 	var scripts=document.querySelectorAll("head>script[src]");
 	var scriptTag;
 	for(var i=scripts.length;i-->0;){
@@ -34,9 +34,9 @@ var loadDataList=function(dataType){
 	return new Promise(function(ok,fail){
 		var scriptTag=document.createElement("script");
 		scriptTag.onload=function(evt){
-			ok(window[src.toUpperCase()]);
+			ok(window[dataType]);
 		}
-		scriptTag.src="js/data/"+src+".js";
+		scriptTag.src="dictionary/"+dataType+".js";
 		document.head.appendChild(scriptTag);
 	});
 	

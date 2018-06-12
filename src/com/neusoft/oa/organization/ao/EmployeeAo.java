@@ -1,11 +1,5 @@
 package com.neusoft.oa.organization.ao;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Date;
-
-import com.neusoft.oa.organization.entity.DepartmentEntity;
-import com.neusoft.oa.organization.entity.MarriageState;
 /**
  * 员工参数对象
  * @author yizhouyan
@@ -22,7 +16,7 @@ public class EmployeeAo {
 	//备注
 	private String remark;
 	private String idcard;// 身份证号码
-	private String nation;// 民族
+	private String nationality;// 民族
 	private String nativePlace; // 籍贯
 	private String domicilePlace;// 户口所在地
 	private String politicalStatus;// 政治面貌
@@ -32,18 +26,19 @@ public class EmployeeAo {
 	
 	private String homePhone; // 家庭电话
 	private String workPhone;// 办公电话
-	private String email;// 邮箱
+	private String workEmail;// 邮箱
 	private String address;// 住址
-	
-	
-	
-	
-	
-	public String getIdcard() {
-		return idcard;
+	public String getDepartmentId() {
+		return departmentId;
 	}
-	public void setIdcard(String idcard) {
-		this.idcard = idcard;
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
+	}
+	public String getHiredate() {
+		return hiredate;
+	}
+	public void setHiredate(String hiredate) {
+		this.hiredate = hiredate;
 	}
 	public String getAccount() {
 		return account;
@@ -63,48 +58,13 @@ public class EmployeeAo {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public String getAddress() {
-		return address;
+	public String getIdcard() {
+		return idcard;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setIdcard(String idcard) {
+		this.idcard = idcard;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getHomePhone() {
-		return homePhone;
-	}
-	public void setHomePhone(String homePhone) {
-		this.homePhone = homePhone;
-	}
-	public String getHiredate() {
-		return hiredate;
-	}
-	public void setHiredate(String hiredate) {
-		this.hiredate = hiredate;
-	}
-	public String getWorkPhone() {
-		return workPhone;
-	}
-	public void setWorkPhone(String workPhone) {
-		this.workPhone = workPhone;
-	}
-	public String getDepartmentId() {
-		return departmentId;
-	}
-	public void setDepartmentId(String departmentId) {
-		this.departmentId = departmentId;
-	}
-	public String getNation() {
-		return nation;
-	}
-	public void setNation(String nation) {
-		this.nation = nation;
-	}
+	
 	public String getNativePlace() {
 		return nativePlace;
 	}
@@ -129,6 +89,41 @@ public class EmployeeAo {
 	public void setMarriageState(String marriageState) {
 		this.marriageState = marriageState;
 	}
+	public String getHomePhone() {
+		return homePhone;
+	}
+	public void setHomePhone(String homePhone) {
+		this.homePhone = homePhone;
+	}
+	public String getWorkPhone() {
+		return workPhone;
+	}
+	public void setWorkPhone(String workPhone) {
+		this.workPhone = workPhone;
+	}
+	public String getWorkEmail() {
+		return workEmail;
+	}
+	public void setWorkEmail(String workEmail) {
+		this.workEmail = workEmail;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getNationality() {
+		return nationality;
+	}
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+	
+	
+	
+	
+	
 	
 
 }
