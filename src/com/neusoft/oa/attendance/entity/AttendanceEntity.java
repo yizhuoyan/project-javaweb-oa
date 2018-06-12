@@ -1,11 +1,10 @@
 package com.neusoft.oa.attendance.entity;
 
-
-import java.time.LocalTime;
 import java.util.Date;
-
+import java.time.LocalTime;
 
 import com.neusoft.oa.organization.entity.EmployeeEntity;
+
 
 /**
  * @author 田梦源
@@ -20,7 +19,6 @@ public class AttendanceEntity {
 	private String remark;
 	private int isvalid;
 	private int ampm;
-	
 	public String getId() {
 		return id;
 	}
@@ -33,8 +31,6 @@ public class AttendanceEntity {
 	public void setEmp(EmployeeEntity emp) {
 		this.emp = emp;
 	}
-	
-	
 	public Date getWhenDay() {
 		return whenDay;
 	}
@@ -64,8 +60,7 @@ public class AttendanceEntity {
 	}
 	public void setAmpm(int ampm) {
 		this.ampm = ampm;
-	}	
-	
+	}
 	
 	
 }

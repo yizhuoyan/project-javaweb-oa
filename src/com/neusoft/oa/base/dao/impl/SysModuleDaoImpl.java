@@ -114,8 +114,10 @@ public class SysModuleDaoImpl extends TemplateDaoImpl<SysModuleEntity> implement
 		.append(" join sys_user u on u.id=ur.user_id ")
 		.append(" where u.id=?") 
 		.append(" order by showorder,code");
-		Connection connection=DBUtil.getConnection();
+		Connection connection=this.getConnection();
+		
 		PreparedStatement ps = connection.prepareStatement(sql.toString());
+		System.out.println(ps);
 		ps.setString(1, userId);
 		ResultSet rs = ps.executeQuery();
 		List<SysModuleEntity> result=new LinkedList<>();

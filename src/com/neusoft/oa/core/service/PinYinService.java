@@ -10,10 +10,15 @@ public class PinYinService {
 	public static String pinyin(String str) {
 		StringBuilder result=new StringBuilder();
 		for(int i=0;i<str.length();i++) {
-		 String one=pinyin(Character.codePointAt(str, i));
-		 if(one!=null) {
-			 result.append(one.replaceAll("\\d", ""));
-		 }
+			int code=Character.codePointAt(str, i);
+			if(0x4e00<code&&code<=0x9fa5) {
+				String one=pinyin(code);
+				if(one!=null) {
+					 result.append(one.replaceAll("\\d", ""));
+				 }
+			}else {
+				result.append(str.charAt(i));
+			}
 		}
 		return result.toString();
 	}
