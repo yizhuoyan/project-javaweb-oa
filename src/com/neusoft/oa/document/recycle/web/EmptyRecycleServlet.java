@@ -17,7 +17,7 @@ import com.neusoft.oa.document.recycle.function.RecycleBinFunction;
 @WebServlet("/document/recycle/emptyrecycle.do")
 public class EmptyRecycleServlet  extends CommonServlet{
 		
-	
+		
 		@Override
 		protected Object handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Throwable {
 			//调用业务层方法

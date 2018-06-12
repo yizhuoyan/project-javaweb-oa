@@ -2,6 +2,8 @@ package com.neusoft.oa.core.dto;
 
 import java.util.Date;
 
+import com.neusoft.oa.base.entity.SysRoleEntity;
+
 /**
  * 用户上下文
  * 包含用户的信息
@@ -12,6 +14,7 @@ public class UserContext {
 	private String id;
 	private String account;
 	private String name;
+	private SysRoleEntity role ;
 	private Date lastLoginTime;
 	private String lastLoginIp;
 	private Date lastModPasswordTime;
@@ -78,8 +81,31 @@ public class UserContext {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public boolean isSystem() {
-		return true;
+
+	public SysRoleEntity getRole() {
+		return role;
+	}
+
+	public void setRole(SysRoleEntity role) {
+		this.role = role;
+	}
+
+	public boolean isAdministrator() {
+		
+		return "administrator"=="administrator";
+
+	}
+
+	public boolean isEmployee() {
+
+		return "employee".equals(this.role.getCode());
+
+	}
+
+	public boolean isManager(SysRoleEntity role) {
+
+		return "manager".equals(this.role.getCode());
+
 	}
 	
 }
