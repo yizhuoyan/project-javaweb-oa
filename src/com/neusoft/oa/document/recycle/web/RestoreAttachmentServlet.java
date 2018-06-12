@@ -1,4 +1,4 @@
-package com.neusoft.oa.document.web.recycleservlet;
+package com.neusoft.oa.document.recycle.web;
 
 import static com.neusoft.oa.core.util.AssertThrowUtil.*;
 
@@ -12,8 +12,8 @@ import com.neusoft.oa.core.dto.AjaxResponse;
 import com.neusoft.oa.core.dto.PaginationQueryResult;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.web.CommonServlet;
-import com.neusoft.oa.document.entity.DocumentAttachmentEntity;
-import com.neusoft.oa.document.function.RecycleBinFunction;
+import com.neusoft.oa.document.recycle.entity.DocumentAttachmentEntity;
+import com.neusoft.oa.document.recycle.function.RecycleBinFunction;
 /**
  * 附件还原
  * @author zhoujingmeng

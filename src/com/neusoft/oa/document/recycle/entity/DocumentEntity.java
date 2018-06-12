@@ -1,4 +1,4 @@
-package com.neusoft.oa.document.entity;
+package com.neusoft.oa.document.recycle.entity;
 
 import java.time.Instant;
 

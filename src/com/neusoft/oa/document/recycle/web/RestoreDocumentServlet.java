@@ -1,4 +1,4 @@
-package com.neusoft.oa.document.web.recycleservlet;
+package com.neusoft.oa.document.recycle.web;
 
 import java.io.IOException;
 
@@ -12,9 +12,7 @@ import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dto.AjaxResponse;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.web.CommonServlet;
-
-import com.neusoft.oa.document.function.RecycleBinFunction;
-
+import com.neusoft.oa.document.recycle.function.RecycleBinFunction;
 
 import static com.neusoft.oa.core.util.AssertThrowUtil.*;
 /**

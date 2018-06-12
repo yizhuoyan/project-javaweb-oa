@@ -1,4 +1,4 @@
-package com.neusoft.oa.document.web.recycleservlet;
+package com.neusoft.oa.document.recycle.web;
 
 import static com.neusoft.oa.core.util.AssertThrowUtil.$;
 
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.web.CommonServlet;
-import com.neusoft.oa.document.function.RecycleBinFunction;
+import com.neusoft.oa.document.recycle.function.RecycleBinFunction;
 /**
  * 彻底删除文档
  * @author zhoujingmeng

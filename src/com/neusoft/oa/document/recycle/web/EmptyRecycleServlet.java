@@ -1,4 +1,4 @@
-package com.neusoft.oa.document.web.recycleservlet;
+package com.neusoft.oa.document.recycle.web;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.web.CommonServlet;
-import com.neusoft.oa.document.function.RecycleBinFunction;
+import com.neusoft.oa.document.recycle.function.RecycleBinFunction;
 
 /**
  *	清空回收站

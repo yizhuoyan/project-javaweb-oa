@@ -1,16 +1,15 @@
-package com.neusoft.oa.document.function.impl;
+package com.neusoft.oa.document.recycle.function.impl;
 
 import com.neusoft.oa.core.dto.PaginationQueryResult;
-
-import com.neusoft.oa.document.dao.DocumentAttachmentDao;
-import com.neusoft.oa.document.dao.DocumentDao;
-import com.neusoft.oa.document.dao.RecycleDao;
-import com.neusoft.oa.document.dao.impl.DocumentAttachmentDaoImpl;
-import com.neusoft.oa.document.dao.impl.DocumentDaoImpl;
-import com.neusoft.oa.document.entity.DocumentAttachmentEntity;
-import com.neusoft.oa.document.entity.DocumentEntity;
-import com.neusoft.oa.document.entity.RecycleEntity;
-import com.neusoft.oa.document.function.RecycleBinFunction;
+import com.neusoft.oa.document.recycle.dao.DocumentAttachmentDao;
+import com.neusoft.oa.document.recycle.dao.DocumentDao;
+import com.neusoft.oa.document.recycle.dao.RecycleDao;
+import com.neusoft.oa.document.recycle.dao.impl.DocumentAttachmentDaoImpl;
+import com.neusoft.oa.document.recycle.dao.impl.DocumentDaoImpl;
+import com.neusoft.oa.document.recycle.entity.DocumentAttachmentEntity;
+import com.neusoft.oa.document.recycle.entity.DocumentEntity;
+import com.neusoft.oa.document.recycle.entity.RecycleEntity;
+import com.neusoft.oa.document.recycle.function.RecycleBinFunction;
 import com.neusoft.oa.organization.dao.EmployeeDao;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
 import com.sun.xml.internal.messaging.saaj.soap.AttachmentPartImpl;

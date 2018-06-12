@@ -1,4 +1,4 @@
-package com.neusoft.oa.document.dao.impl;
+package com.neusoft.oa.document.recycle.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,9 +8,9 @@ import java.util.List;
 import com.neusoft.oa.base.entity.SysUserEntity;
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
-import com.neusoft.oa.document.dao.RecycleDao;
-import com.neusoft.oa.document.entity.DocumentEntity;
-import com.neusoft.oa.document.entity.RecycleEntity;
+import com.neusoft.oa.document.recycle.dao.RecycleDao;
+import com.neusoft.oa.document.recycle.entity.DocumentEntity;
+import com.neusoft.oa.document.recycle.entity.RecycleEntity;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
 

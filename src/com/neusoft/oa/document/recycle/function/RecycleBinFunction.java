@@ -1,12 +1,11 @@
-package com.neusoft.oa.document.function;
+package com.neusoft.oa.document.recycle.function;
 
 import java.util.List;
 
 import com.neusoft.oa.core.dto.PaginationQueryResult;
-
-import com.neusoft.oa.document.entity.DocumentAttachmentEntity;
-import com.neusoft.oa.document.entity.DocumentEntity;
-import com.neusoft.oa.document.entity.RecycleEntity;
+import com.neusoft.oa.document.recycle.entity.DocumentAttachmentEntity;
+import com.neusoft.oa.document.recycle.entity.DocumentEntity;
+import com.neusoft.oa.document.recycle.entity.RecycleEntity;
 
 /**
  * 业务层

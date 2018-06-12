@@ -1,4 +1,4 @@
-package com.neusoft.oa.document.dao.impl;
+package com.neusoft.oa.document.recycle.dao.impl;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -12,9 +12,9 @@ import java.util.Map;
 import com.neusoft.oa.base.entity.SysUserEntity;
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
-import com.neusoft.oa.document.dao.DocumentAttachmentDao;
-import com.neusoft.oa.document.entity.DocumentAttachmentEntity;
-import com.neusoft.oa.document.entity.DocumentEntity;
+import com.neusoft.oa.document.recycle.dao.DocumentAttachmentDao;
+import com.neusoft.oa.document.recycle.entity.DocumentAttachmentEntity;
+import com.neusoft.oa.document.recycle.entity.DocumentEntity;
 
 public class DocumentAttachmentDaoImpl extends TemplateDaoImpl<DocumentAttachmentEntity>  implements DocumentAttachmentDao{
 

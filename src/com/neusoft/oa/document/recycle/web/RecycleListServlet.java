@@ -1,4 +1,4 @@
-package com.neusoft.oa.document.web.recycleservlet;
+package com.neusoft.oa.document.recycle.web;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,11 +9,11 @@ import com.neusoft.oa.core.dto.PaginationQueryResult;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.util.ThisSystemUtil;
 import com.neusoft.oa.core.web.CommonServlet;
-import com.neusoft.oa.document.dao.DocumentAttachmentDao;
-import com.neusoft.oa.document.entity.DocumentAttachmentEntity;
-import com.neusoft.oa.document.entity.DocumentEntity;
-import com.neusoft.oa.document.entity.RecycleEntity;
-import com.neusoft.oa.document.function.RecycleBinFunction;
+import com.neusoft.oa.document.recycle.dao.DocumentAttachmentDao;
+import com.neusoft.oa.document.recycle.entity.DocumentAttachmentEntity;
+import com.neusoft.oa.document.recycle.entity.DocumentEntity;
+import com.neusoft.oa.document.recycle.entity.RecycleEntity;
+import com.neusoft.oa.document.recycle.function.RecycleBinFunction;
 import com.neusoft.oa.organization.function.OrganizationFunction;
 
 @WebServlet("/document/recycle/list.do")
