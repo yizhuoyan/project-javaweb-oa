@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import com.neusoft.oa.base.dao.SysModuleDao;
+import com.neusoft.oa.base.dao.SysRoleDao;
 import com.neusoft.oa.base.dao.SysUserDao;
 import com.neusoft.oa.base.entity.SysModuleEntity;
+import com.neusoft.oa.base.entity.SysRoleEntity;
 import com.neusoft.oa.base.entity.SysUserEntity;
 import com.neusoft.oa.base.function.CommonFunction;
 import com.neusoft.oa.core.OAException;
@@ -87,6 +89,14 @@ public class CommonFunctionImpl  implements CommonFunction {
 		uc.setLastLoginIp(u.getLastLoginIP());
 		uc.setSecurityEmail(u.getSecurityEmail());
 		uc.setLastModPasswordTime(u.getLastModPasswordTime());
+		
+		SysRoleDao roleDao=DaoFactory.getDao(SysRoleDao.class);
+		List<SysRoleEntity> roles=roleDao.selectsByUser(u.getId());
+		if(roles==null||roles.size()==0) {
+			throw new OAException("用户角色为空");
+		}
+		uc.setRole(roles.get(0));
+		
 		return uc;
 	}
 	

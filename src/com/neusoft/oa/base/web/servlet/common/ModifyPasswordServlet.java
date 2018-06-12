@@ -12,6 +12,8 @@ import com.neusoft.oa.core.dto.UserContext;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.web.CommonServlet;
 
+import com.neusoft.oa.document.function.RecycleBinFunction;
+
 @WebServlet("/user/modifyPassword.ajax")
 public class ModifyPasswordServlet extends CommonServlet {
 
@@ -31,6 +33,9 @@ public class ModifyPasswordServlet extends CommonServlet {
 		} catch (OAException e) {
 			return AjaxResponse.fail(e);
 		}
+		
+		
+		
 	}
 	
 }
