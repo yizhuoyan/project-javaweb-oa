@@ -558,7 +558,8 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		e.setMarriageState(marriageStateInt);
 		e.setName(name);
 		e.setAccount(account);
-		e.setPassword("123456");
+		String defaultPassword=idcardString;
+		e.setPassword(ThisSystemUtil.md5(defaultPassword));
 		e.setCreateTime(new Date());
 		e.setPhone(null);
 		e.setSecurityEmail(null);
