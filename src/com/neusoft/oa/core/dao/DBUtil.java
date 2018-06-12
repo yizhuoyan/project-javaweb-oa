@@ -12,15 +12,27 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import com.sun.org.apache.bcel.internal.generic.LUSHR;
 
 public class DBUtil {
 	private static final String DRIVER = System.getProperty("db.driver-class"), URL = System.getProperty("db.url"),
 			USERNAME = System.getProperty("db.username"), PASSWORD = System.getProperty("db.password");
-
+	private static final String IP=System.getProperty("db.ip-port"),
+			DATABASE_NAME=System.getProperty("db.name");
+	
+	
 	private final static ThreadLocal<Connection> THREADLOCAL = new ThreadLocal<>();
+	
 	static {
+		init();
+	}
+	
+	
+	
+	 
+	private static void init() {
 		// 加载数据库驱动
 		try {
 			Class.forName(DRIVER);
@@ -171,7 +183,14 @@ public class DBUtil {
 		}
 		return null;
 	}
-	
+	/**
+	 * count语句返回Long型
+	 * 
+	 * @param sql
+	 * @param parameters
+	 * @return
+	 * @throws SQLException
+	 */
 	public static <T>T selectOneRowOneColumn(Object sql,Object... parameters)throws SQLException{
 		Connection connection=DBUtil.getConnection();
 		try(PreparedStatement ps=connection.prepareStatement(sql.toString())){

@@ -8,6 +8,8 @@ package com.neusoft.oa.core.util;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import com.neusoft.oa.core.OAException;
@@ -158,7 +160,16 @@ static public void assertIn(String label,Object target,Object[] chioces,Object..
 		throwException(label+"的值必须从"+Arrays.toString(chioces)+"中选取", args);
 	}
 }
-
+private static final Pattern PATTERN_EMAIL=Pattern.compile("\\w+@[\\w.]+"); 
+public static void assertIsEmail(String  label,String target) {
+	Matcher matcher = PATTERN_EMAIL.matcher(target);
+	if(!matcher.matches()) {
+		throwException(label+"不是合格的邮箱形式");	
+	}
+}
+public static void main(String[] args) {
+	assertIsEmail("xx", "caijietai@neusoft.com");
+}
 public static void assertAllWordCharacter(String label,String target) {
 	char c=0;
 	for(int i=target.length();i-->0;) {

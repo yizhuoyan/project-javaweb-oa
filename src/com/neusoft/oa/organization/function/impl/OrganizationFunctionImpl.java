@@ -34,29 +34,23 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 	DepartmentDao departmentDao = DaoFactory.getDao(DepartmentDao.class);
 	
 	@Override
-	public String generateEmployyWorkEmail(String name,String nativePlace) throws Exception {
+	public String generateEmployyWorkEmail(String name) throws Exception {
 		name=$("姓名",name);
-		nativePlace=$("籍贯",nativePlace);
-		
 		String namePinyin=PinYinService.pinyin(name);
 		String emailAddress=System.getProperty("oa.default-work-email","@neusoft.com");
 		
 		String workEmail=namePinyin+emailAddress;
 		//判断是否有同名
 		if(employeeDao.exist("workEmail", workEmail)) {
-			//同名则添加籍贯拼音缩写
-			String nativePlacePy=null;
-			workEmail=namePinyin+nativePlacePy+emailAddress;
-			//判断是否还有同名
-			if(employeeDao.exist("workEmail", workEmail)) {
-				//则添加序号
-				int likeCount=employeeDao.selectWorkEmailLikeCount(workEmail);
-				
+			//则添加序号
+			int likeCount=employeeDao.selectWorkEmailLikeCount(namePinyin,emailAddress);
+			workEmail=namePinyin+likeCount+emailAddress;
+			while(employeeDao.exist("workEmail", workEmail)) {
+				likeCount++;
+				workEmail=namePinyin+likeCount+emailAddress;
 			}
 		}
-		
-		
-		return null;
+		return workEmail;
 	}
 	@Override
 	public String generateNextEmployeeAccount(String departmentId, String hiredate) throws Exception {
@@ -500,7 +494,7 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		int politicalStatusInt = parseInt(politicalStatus);
 
 		String marriageState = $("婚姻状况", ao.getMarriageState());
-		if (!Dictionary.of("marital-status").contains(politicalStatus)) {
+		if (!Dictionary.of("marital-status").contains(marriageState)) {
 			OAException.throwWithMessage("非法婚姻状况值");
 		}
 		int marriageStateInt = parseInt(marriageState);
@@ -531,16 +525,8 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		assertLessThan("办公电话", address, 32);
 
 		String workEmail = $("工作邮箱", ao.getWorkEmail());
-		assertLessThan("工作邮箱", address, 16);
-		//必须是数字和字母
-		assertAllWordCharacter("工作邮箱", workEmail);
-		
-		String mailSuffix=System.getProperty("oa.default-work-email","@nuesoft.com");
-		
-		if(!workEmail.endsWith(mailSuffix)) {
-			workEmail=workEmail+mailSuffix;
-		}
-		
+		assertLessThan("工作邮箱", address, 32);
+		assertIsEmail("工作邮箱",workEmail);
 		if (employeeDao.exist("workemail", workEmail)) {
 			OAException.throwWithMessage("工作邮箱{1}已存在，请切换", workEmail);
 		}

@@ -25,14 +25,14 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 	public TemplateDaoImpl(String tableName, String columns) {
 		super();
 		this.tableName = tableName;
-		this.columns = Arrays.asList(columns.split(","));
+		this.columns = Arrays.asList(columns.toUpperCase().split(","));
 		this.idColumn =this.columns.get(0);
 	}
 		
 	public TemplateDaoImpl(String tableName, List<String> columns, String idColumn) {
 		super();
 		this.tableName = tableName;
-		this.columns = columns;
+		this.columns = new ArrayList<>();
 		this.idColumn = idColumn;
 	}
 
@@ -45,6 +45,21 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 	abstract	public void insert(T t) throws Exception;
 	protected Connection getConnection() throws SQLException{
 		return DBUtil.getConnection();
+	}
+	public static List<Map<String,Object>> selectManyRow2map(Object sql,Object... parameters)throws SQLException{
+		return DBUtil.selectManyRow2map(sql, parameters);
+	}
+	public  <R>List<R> selectManyRowOneColumn(Object sql,Object... parameters)throws SQLException{
+		return DBUtil.selectManyRowOneColumn(sql, parameters);
+	}
+	public  Map<String,Object> selectOneRow2map(Object sql,Object... parameters)throws SQLException{
+		return DBUtil.selectOneRow2map(sql, parameters);
+	}
+	public  Object[] selectOneRow2Array(Object sql,Object... parameters)throws SQLException{
+		return DBUtil.selectOneRow2Array(sql, parameters);
+	}
+	public <R>R selectOneRowOneColumn(Object sql,Object... parameters)throws SQLException{
+		return DBUtil.selectOneRowOneColumn(sql, parameters);
 	}
 	@Override
 	public List<T> selectAll(String... orderbys) throws Exception {
@@ -128,12 +143,6 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 		sql.setCharAt(sql.length() - 1, ' ');
 		sql.append(" where ").append(idColumn).append("=?");
 		PreparedStatement ps = connection.prepareStatement(sql.toString());
-<<<<<<< HEAD
-		System.out.println(sql);
-=======
-
-		System.out.println(ps);
->>>>>>> f0100effbe801e418a332af71846b53c66ebf047
 		// 3传入参数并执行语句对象
 		for (int i = 0, len = values.size(); i < len; i++) {
 			ps.setObject(i + 1, values.get(i));
@@ -141,11 +150,6 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 		ps.setObject(values.size() + 1, id);
 		// 4获取执行结果（如果是查询，则转化为实体）
 		ps.executeUpdate();
-		
-<<<<<<< HEAD
-=======
-
->>>>>>> f0100effbe801e418a332af71846b53c66ebf047
 	}
 
 	@Override
@@ -181,7 +185,7 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 		return null;
 	}
 	protected boolean containsColumn(String column) {
-		return this.columns.contains(column);
+		return this.columns.contains(column.toUpperCase());
 	}
 	protected String generateInsertSql() {
 		return DBUtil.generateInsertSql(tableName, columns);
