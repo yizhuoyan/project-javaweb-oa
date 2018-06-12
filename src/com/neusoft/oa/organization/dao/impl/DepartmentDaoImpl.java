@@ -20,6 +20,42 @@ public class DepartmentDaoImpl extends TemplateDaoImpl<DepartmentEntity> impleme
 	}
 
 	@Override
+	public void updateDepartmentMembers(String id, int append) throws Exception{
+		Connection connection=this.getConnection();
+		StringBuilder sql=new StringBuilder();
+		sql.append("update ")
+		.append(tableName).append(" set members=members");
+		if(append>0) {
+			sql.append("+").append(append);
+		}else {
+			sql.append(append);
+		}
+		sql.append(" where id=?");
+		try(PreparedStatement ps=connection.prepareStatement(sql.toString())){
+			ps.setString(1, id);
+			ps.executeUpdate();
+		}
+	}
+	
+	@Override
+	public boolean existsChildren(String id) throws Exception {
+		Connection connection=this.getConnection();
+		
+		StringBuilder sql=new StringBuilder();
+		sql.append("select count(1) from ")
+		.append(tableName).append(" where parent_id=?");
+		
+		try(PreparedStatement ps=connection.prepareStatement(sql.toString())){
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				return rs.getInt(1)>0;
+			}
+		}
+		return false;
+	}
+	
+	@Override
 	public void insert(DepartmentEntity t) throws Exception {
 		Connection connection = this.getConnection();
 		String sql = DBUtil.generateInsertSql(tableName, "id,code,manager_id,createTime,members,name,remark,parent_id");

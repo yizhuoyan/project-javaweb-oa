@@ -216,7 +216,13 @@
 	        for(var i=0;i<children.length;i++){
 	        	var child=children[i];
 	        	html+='<li><a class="module-link" href="';
-	        	html+=child.url;
+	        	var url=child.url;
+	        	if(url){
+	        		if(url.charAt(0)=='/'){
+		        		url=url.substr(1);
+		        	}	
+	        	}
+	        	html+=url;
 	        	html+='" target="mainFrame">';
 	        	html+=child.name;
 	        	html+='</a></li>';

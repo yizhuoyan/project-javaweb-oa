@@ -48,11 +48,10 @@
 					<tr>
 						<th width="10">#</th>
 						<th width="100">操作</th>
-						<th width="150">账号(编号)</th>
+						<th width="150">工号(账号)</th>
 						<th width="150">名称</th>
-						<th width="150">身份证号</th>
-						<th width="100">性别</th>
-						<th width="100">age</th>
+						<th width="100">性别/年龄</th>
+						<th width="150">工作电话/邮箱</th>
 						<th>备注</th>
 					</tr>
 					<!-- 把requestScope中的result对象放入到pageScope -->
@@ -61,12 +60,11 @@
 						<c:forEach var="r" items="${result.rows}" varStatus="vs">
 							<tr>
 								<td>${vs.count}.</td>
-								<td><a href="sysuser/check.do?id=${r.id}">查看/修改</a></td>
+								<td><a href="jsp/organization/empmanage/check.jsp?${r.id}">查看/修改</a></td>
 								<td>${r.account}</td>
 								<td>${r.name}</td>
-								<td>${r.idcard}</td>
-								<td>${r.male?"男":"女"}</td>
-								<td>${r.age}</td>
+								<td>${r.male?"男":"女"}/${r.age}</td>
+								<td>${r.workPhone}/${r.workEmail}</td>
 								<td>${r.remark}</td>
 							</tr>
 						</c:forEach>
