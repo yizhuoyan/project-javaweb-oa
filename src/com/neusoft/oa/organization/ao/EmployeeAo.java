@@ -1,11 +1,5 @@
 package com.neusoft.oa.organization.ao;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Date;
-
-import com.neusoft.oa.organization.entity.DepartmentEntity;
-import com.neusoft.oa.organization.entity.MarriageState;
 /**
  * 员工参数对象
  * @author yizhouyan

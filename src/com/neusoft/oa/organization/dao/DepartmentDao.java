@@ -22,4 +22,6 @@ public interface DepartmentDao extends TemplateDao<DepartmentEntity>{
 	 */
 	boolean existsChildren(String id)throws Exception;
 	
+	void updateDepartmentMembers(String id,int append)throws Exception;
+	
 }

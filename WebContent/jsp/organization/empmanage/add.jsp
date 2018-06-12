@@ -233,12 +233,36 @@ form.table p>span>* {
                 	$("#hiredateEL").val(Date.format(new Date(),"yyyy-MM-dd"));
                 </script>
                 <span>
-                    <label>*员工工号：</label>
-                    <input type="text" name="account"
+                    <label for="accountEL">*员工工号：</label>
+                    <input type="text" name="account" id="accountEL"
                         class="form-control" placeholder="根据部门和入职时间自动生成">
                 </span>
                 <script>
-                	
+                	$("#departmentIdEL").change(function(evt){
+                		var departmentId=this.value;
+                		var hiredate=$("#hiredateEL").val();
+                		if(hiredate&&departmentId){
+                			generateEmployeeAccount(departmentId,hiredate);
+                		}
+                	});
+                	$("#hiredateEL").change(function(evt){
+                		var hiredate=this.value;
+                		var departmentId=$("#departmentIdEL").val();
+                		if(hiredate&&departmentId){
+                			generateEmployeeAccount(departmentId,hiredate);
+                		}
+                	})
+                	var generateEmployeeAccount=function(deptId,hiredate){
+                		var url="empmanage/nextEmployeeAccount.ajax";
+                		$.getJSON(url,{
+                			departmentId:deptId,
+                			hiredate:hiredate
+                		}).then(function(resp){
+                			if(resp.code==="ok"){
+                				$("#accountEL").val(resp.data);
+                			}
+                		})
+                	}
                 </script>
             </p>
             <p>
@@ -255,8 +279,21 @@ form.table p>span>* {
                         class="form-control" id="workEmailEL"
                         maxlength="32" placeholder="尽量使用拼音">
                     <b> @neusoft.com</b>
+                    <script title="邮箱名默认通过名字自动生成">
+                    	$("#nameEL").blur(function(evt){
+                    		var name=this.value.trim();
+                    		if(name.length>0){
+                        		$.get("api/pinyin",{w:name},function(data){
+                        			if(data){
+                        				$("#workEmailEL").val(data);
+                        			}
+                        		})
+                    		}
+                    	});
+                    </script>
                 </span>
-                <span> </span>
+                
+                <span></span>
             </p>
             <p>
                 <span class="full">
@@ -270,7 +307,7 @@ form.table p>span>* {
         <p style="margin: 1em">
             <button type="submit" class="btn btn-lg btn-primary">保存</button>
             <i class="padh"></i>
-            <a  type="button" class="btn btn-info" href="sysuser/list.do">返回</a>
+            <a  type="button" class="btn btn-info" href="empmanage/list.do">返回</a>
         </p>
     </form>
     </main>

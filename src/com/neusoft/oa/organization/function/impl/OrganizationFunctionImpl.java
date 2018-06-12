@@ -11,15 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
-import com.neusoft.oa.base.dao.SysModuleDao;
-import com.neusoft.oa.base.entity.SysModuleEntity;
 import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dictionary.Dictionary;
 import com.neusoft.oa.core.dto.PaginationQueryResult;
-import com.neusoft.oa.core.util.AssertThrowUtil;
+import com.neusoft.oa.core.service.PinYinService;
 import com.neusoft.oa.core.util.IDCard;
 import com.neusoft.oa.core.util.ThisSystemUtil;
 import com.neusoft.oa.organization.ao.DepartmentAo;
@@ -28,27 +27,247 @@ import com.neusoft.oa.organization.dao.DepartmentDao;
 import com.neusoft.oa.organization.dao.EmployeeDao;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
-import com.neusoft.oa.organization.entity.MarriageState;
 import com.neusoft.oa.organization.function.OrganizationFunction;
 
 public class OrganizationFunctionImpl extends ThisSystemUtil implements OrganizationFunction {
+	EmployeeDao employeeDao = DaoFactory.getDao(EmployeeDao.class);
+	DepartmentDao departmentDao = DaoFactory.getDao(DepartmentDao.class);
+	
+	@Override
+	public String generateEmployyWorkEmail(String name,String nativePlace) throws Exception {
+		name=$("姓名",name);
+		nativePlace=$("籍贯",nativePlace);
+		
+		String namePinyin=PinYinService.pinyin(name);
+		String emailAddress=System.getProperty("oa.default-work-email","@neusoft.com");
+		
+		String workEmail=namePinyin+emailAddress;
+		//判断是否有同名
+		if(employeeDao.exist("workEmail", workEmail)) {
+			//同名则添加籍贯拼音缩写
+			String nativePlacePy=null;
+			workEmail=namePinyin+nativePlacePy+emailAddress;
+			//判断是否还有同名
+			if(employeeDao.exist("workEmail", workEmail)) {
+				//则添加序号
+				int likeCount=employeeDao.selectWorkEmailLikeCount(workEmail);
+				
+			}
+		}
+		
+		
+		return null;
+	}
+	@Override
+	public String generateNextEmployeeAccount(String departmentId, String hiredate) throws Exception {
+		departmentId=$("部门id",departmentId);
+		hiredate=$("入职日期",hiredate);
+		DepartmentEntity department = departmentDao.select("id", departmentId);
+		
+		assertNotNull("部门不存在", department);
+		//规则入职时间（6位）+部门编号（6位）+3位序号+1位随机数字=共16
+		StringBuilder result=new StringBuilder();
+		result.append(hiredate.replaceAll("-",""));
+		result.append(prefixFill(department.getCode(),6,'0'));
+		result.append(prefixFill(department.getMembers()+1, 3,'0'));
+		result.append((int)(Math.random()*10));
+		return result.toString();
+	}
+	@Override
+	public EmployeeEntity modifyEmployee(String id, EmployeeAo ao) throws Exception {
+		// 1验证参数
+		id=$("id",id);
+		EmployeeEntity old=employeeDao.select("id", id);
+		if(old==null) {
+			//当成新增
+			return this.addEmployee(ao);
+		}
+		Map<String,Object> updateMap=new HashMap<>();
+		
+		String name = $("姓名", ao.getName());
+		if(!Objects.equals(name, old.getName())) {
+			assertLessThan("姓名", name, 16);
+			updateMap.put("name", name);
+			old.setName(name);
+		}
+		
+
+		String idcardString = $("身份证号", ao.getIdcard());
+		if(!Objects.equals(idcardString, old.getIdcard())) {
+			IDCard idcard = null;
+			try {
+				idcard = IDCard.of(idcardString);
+			} catch (Exception e) {
+				OAException.throwWithMessage("身份证格式不正确");
+			}
+			updateMap.put("idcard", idcardString);
+			updateMap.put("sex", idcard.isMale());
+			updateMap.put("age", idcard.getAge());
+			updateMap.put("birthday", idcard.getBirthDay());
+			old.setIdcard(idcardString);
+			old.setAge(idcard.getAge());
+			old.setMale(idcard.isMale());
+			old.setBirthday(idcard.getBirthDay());
+		}
+		String homePhone = $("家庭电话", ao.getHomePhone());
+		if(!Objects.equals(homePhone, old.getHomePhone())) {
+			assertLessThan("家庭电话", homePhone, 32);
+			updateMap.put("homePhone", homePhone);
+			old.setHomePhone(homePhone);
+		}
+		String nativePlace = $("籍贯", ao.getNativePlace());
+		if(!Objects.equals(nativePlace, old.getNativePlace())) {
+			assertLessThan("籍贯", homePhone, 64);
+			updateMap.put("nativePlace", nativePlace);
+			old.setNativePlace(nativePlace);
+		}
+		String domicilePlace = $("户口所在地", ao.getDomicilePlace());
+		if(!Objects.equals(domicilePlace, old.getDomicilePlace())) {
+			assertLessThan("户口所在地", homePhone, 64);
+			updateMap.put("domicilePlace", domicilePlace);
+			old.setDomicilePlace(domicilePlace);
+		}
+
+		String nationality = $("民族", ao.getNationality());
+		if(!Objects.equals(nationality, Integer.toString(old.getNationality()))) {
+			if (!Dictionary.of("nationality").contains(nationality)) {
+				OAException.throwWithMessage("非法民族值");
+			}
+			int nationalityInt = parseInt(nationality);
+			updateMap.put("nationality", nationalityInt);
+			old.setNationality(nationalityInt);
+		}
+
+		String politicalStatus = $("政治面貌", ao.getPoliticalStatus());
+		if(!Objects.equals(politicalStatus, Integer.toString(old.getPoliticalStatus()))) {
+			if (!Dictionary.of("political-status").contains(politicalStatus)) {
+				OAException.throwWithMessage("非法政治面貌值");
+			}
+			int politicalStatusInt = parseInt(politicalStatus);
+			updateMap.put("politicalStatus", politicalStatusInt);
+			old.setPoliticalStatus(politicalStatusInt);
+		}
+		
+		String marriageState = $("婚姻状况", ao.getMarriageState());
+		if(!Objects.equals(marriageState, Integer.toString(old.getMarriageState()))) {
+			if (!Dictionary.of("marital-status").contains(politicalStatus)) {
+				OAException.throwWithMessage("非法婚姻状况值");
+			}
+			int marriageStateInt = parseInt(marriageState);
+			updateMap.put("marriageState", marriageStateInt);
+			old.setPoliticalStatus(marriageStateInt);
+		}
+		
+		String address = $("现居住地", ao.getAddress());
+		if(!Objects.equals(address, old.getAddress())) {
+			assertLessThan("现居住地", address, 128);
+			updateMap.put("address", address);
+			old.setAddress(address);
+		}
+
+		// 入职信息
+		String departmentId = $("入职部门", ao.getDepartmentId());
+		String oldDepartmentId=old.getDepartment().getId();
+		if(!Objects.equals(departmentId, oldDepartmentId)) {
+				if (!departmentDao.exist("id", departmentId)) {
+					OAException.throwWithMessage("入职部门值非法");
+				}
+				DepartmentEntity newDepartment=new DepartmentEntity();
+				newDepartment.setId(departmentId);
+				old.setDepartment(newDepartment);
+				//新部门+1
+				departmentDao.updateDepartmentMembers(departmentId, 1);
+				//旧部门-1
+				departmentDao.updateDepartmentMembers(oldDepartmentId, -1);
+			
+				updateMap.put("department_Id", departmentId);
+			
+		}
+		
+		String hiredate = $("入职日期", ao.getHiredate());
+		LocalDate hiredateUse = null;
+		try {
+			hiredateUse = LocalDate.parse(hiredate);
+		} catch (DateTimeParseException e) {
+			OAException.throwWithMessage("入职日期格式错误，格式为yyyy-MM-dd");
+		}
+		
+		if(!Objects.equals(hiredateUse, old.getHiredate())) {
+			updateMap.put("hiredate", hiredateUse);
+			old.setHiredate(hiredateUse);
+		}
+
+		
+		//工号不能修改
+		
+
+		String workPhone = $("办公电话", ao.getWorkPhone());
+		if(!Objects.equals(workPhone, old.getWorkPhone())) {
+			assertLessThan("办公电话", address, 32);
+			updateMap.put("workPhone", workPhone);
+		}
+		
+		//工作邮箱不能修改（单独修改）
+
+		String remark = trim(ao.getRemark());
+		if(!Objects.equals(remark, old.getRemark())) {
+			if (remark != null) {
+				assertLessThan("工作邮箱", remark, 128);
+			}
+			updateMap.put("remark", remark);
+		}
+		// 2执行业务逻辑
+		employeeDao.update(id, updateMap);
+		
+		// 3组装业务结果
+		return old;
+	}
+
+	@Override
+	public void deleteEmployee(String id) throws Exception {
+		// 1验证参数
+		id = $("id", id);
+		// 2执行业务逻辑
+
+		employeeDao.delete("id", id);
+	}
+
+	@Override
+	public EmployeeEntity loadEmployee(String id) throws Exception {
+		// 1验证参数
+		id = $("id", id);
+		// 2执行业务逻辑
+		EmployeeEntity e = employeeDao.select("id", id);
+		// 2.1 验证id
+		if (e == null) {
+			OAException.throwWithMessage("数据【?】不存在或已删除", id);
+		}
+
+		// 2.2 查询入职部门
+		DepartmentEntity department = e.getDepartment();
+		if (department != null) {
+			department = departmentDao.select("id", department.getId());
+			e.setDepartment(department);
+		}
+		// 3组装业务结果
+		return e;
+	}
 
 	@Override
 	public void deleteDepartment(String id) throws Exception {
 		id = $("id", id);
-		DepartmentDao dao = DaoFactory.getDao(DepartmentDao.class);
-		DepartmentEntity d = dao.select("id", id);
+		DepartmentEntity d = departmentDao.select("id", id);
 		assertNotNull("部门{1}不存在或已被删除", d, id);
 		// 1不能入职员工
 		if (d.getMembers() > 0) {
 			OAException.throwWithMessage("此部门已有入职员工，不能删除");
 		}
 		// 2不能包含子部门
-		if (dao.existsChildren(id)) {
+		if (departmentDao.existsChildren(id)) {
 			OAException.throwWithMessage("此部门包含子部门，不能删除");
 		}
 		// 3执行删除
-		dao.delete("id", id);
+		departmentDao.delete("id", id);
 
 	}
 
@@ -63,8 +282,7 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		String remark = trim(ao.getRemark());
 		// 2执行业务逻辑
 		// 2.1 查询出旧数据
-		DepartmentDao dao = DaoFactory.getDao(DepartmentDao.class);
-		DepartmentEntity old = dao.select("id", id);
+		DepartmentEntity old = departmentDao.select("id", id);
 		// 2.2 验证数据id是否有效
 		if (old == null) {
 			OAException.throwWithMessage("数据【?】不存在或已删除", id);
@@ -78,7 +296,7 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 				OAException.throwWithMessage("父部门不能是本身");
 			}
 			if (parentId != null) {
-				newParent = dao.select("id", parentId);
+				newParent = departmentDao.select("id", parentId);
 			}
 			// 父部门不能是当前部门的后代
 			if (newParent.getCode().startsWith(old.getCode())) {
@@ -89,7 +307,7 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		} else {
 			String oldParentId = old.getParentId();
 			if (oldParentId != null) {
-				newParent = dao.select("id", oldParentId);
+				newParent = departmentDao.select("id", oldParentId);
 			}
 		}
 
@@ -106,7 +324,7 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 				OAException.throwWithMessage("代号非法", parentId);
 			}
 			// 2.2.1 新代号不能存在
-			if (dao.exist("code", code)) {
+			if (departmentDao.exist("code", code)) {
 				OAException.throwWithMessage("代号【?】已存在", code);
 			}
 			// 代号符合规范
@@ -123,8 +341,7 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		if (!Objects.equals(managerId, old.getManagerId())) {
 			EmployeeEntity newManager = null;
 			if (managerId != null) {
-				EmployeeDao edao = DaoFactory.getDao(EmployeeDao.class);
-				if (!edao.exist("uid", managerId)) {
+				if (!employeeDao.exist("uid", managerId)) {
 					OAException.throwWithMessage("部门经理【?】不存在", managerId);
 				}
 				newManager = new EmployeeEntity();
@@ -139,23 +356,22 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 			old.setRemark(remark);
 		}
 		// 2.5 进行数据库更新
-		dao.update(id, needUpdate);
+		departmentDao.update(id, needUpdate);
 		return old;
 	}
 
 	@Override
 	public List<DepartmentEntity> loadCanBeParentList(String id) throws Exception {
 		id = trim(id);
-		DepartmentDao dao = DaoFactory.getDao(DepartmentDao.class);
 		if (id != null) {
 			// 找到对应code
-			DepartmentEntity excludeDept = dao.select("id", id);
+			DepartmentEntity excludeDept = departmentDao.select("id", id);
 			assertNotNull("id{1}无效", excludeDept, id);
 			String treeCode = excludeDept.getCode();
-			List<DepartmentEntity> result = dao.selectsExcludeWithDescendantByTreeCode(treeCode);
+			List<DepartmentEntity> result = departmentDao.selectsExcludeWithDescendantByTreeCode(treeCode);
 			return result;
 		} else {
-			return dao.selectAll("code");
+			return departmentDao.selectAll("code");
 		}
 	}
 
@@ -164,8 +380,7 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		// 1验证参数
 		id = $("id", id);
 		// 2执行业务逻辑
-		DepartmentDao dao = DaoFactory.getDao(DepartmentDao.class);
-		DepartmentEntity e = dao.select("id", id);
+		DepartmentEntity e = departmentDao.select("id", id);
 		// 2.1 验证id
 		if (e == null) {
 			OAException.throwWithMessage("数据【?】不存在或已删除", id);
@@ -173,14 +388,13 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		// 2.2 查询出父模块
 		DepartmentEntity parent = e.getParent();
 		if (parent != null) {
-			parent = dao.select("id", parent.getId());
+			parent = departmentDao.select("id", parent.getId());
 			e.setParent(parent);
 		}
 		// 2.3 查询部门经理
 		EmployeeEntity manager = e.getManager();
 		if (manager != null) {
-			EmployeeDao edao = DaoFactory.getDao(EmployeeDao.class);
-			manager = edao.select("id", manager.getId());
+			manager = employeeDao.select("id", manager.getId());
 			e.setManager(manager);
 		}
 		// 3组装业务结果
@@ -196,11 +410,10 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		String name = $("名字", ao.getName());
 		String remark = trim(ao.getRemark());
 		// 2 执行业务逻辑
-		DepartmentDao dao = DaoFactory.getDao(DepartmentDao.class);
 		// 2.1验证父模块是否存在
 		DepartmentEntity parent = null;
 		if (parentId != null) {
-			parent = dao.select("id", parentId);
+			parent = departmentDao.select("id", parentId);
 			if (parent == null) {
 				OAException.throwWithMessage("父部门【?】不存在", parentId);
 			}
@@ -216,15 +429,15 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 			OAException.throwWithMessage("代号非法", parentId);
 		}
 		// 不能重复
-		if (dao.exist("code", code)) {
+		if (departmentDao.exist("code", code)) {
 			OAException.throwWithMessage("代号【?】已存在", code);
 		}
 
 		// 2.3 部门经理
 		EmployeeEntity manager = null;
 		if (managerId != null) {
-			EmployeeDao edao = DaoFactory.getDao(EmployeeDao.class);
-			if (!edao.exist("id", managerId)) {
+			
+			if (!employeeDao.exist("id", managerId)) {
 				OAException.throwWithMessage("部门经理【?】不存在", managerId);
 			}
 			manager = new EmployeeEntity();
@@ -240,14 +453,14 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		t.setName(name);
 		t.setParent(parent);
 		t.setRemark(remark);
-		dao.insert(t);
+		departmentDao.insert(t);
 		return t;
 	}
 
 	@Override
 	public List<DepartmentEntity> loadAllDepartment() throws Exception {
-		DepartmentDao dao = DaoFactory.getDao(DepartmentDao.class);
-		List<DepartmentEntity> depts = dao.selectAll("code");
+		
+		List<DepartmentEntity> depts = departmentDao.selectAll("code");
 		return depts;
 	}
 
@@ -256,7 +469,7 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		// 1验证参数
 		String name = $("姓名", ao.getName());
 		assertLessThan("姓名", name, 16);
-		
+
 		String idcardString = $("身份证号", ao.getIdcard());
 		IDCard idcard = null;
 		try {
@@ -267,46 +480,40 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 
 		String homePhone = $("家庭电话", ao.getHomePhone());
 		assertLessThan("家庭电话", homePhone, 32);
-		
-		
+
 		String nativePlace = $("籍贯", ao.getNativePlace());
 		assertLessThan("籍贯", homePhone, 64);
-		
+
 		String domicilePlace = $("户口所在地", ao.getDomicilePlace());
 		assertLessThan("户口所在地", homePhone, 64);
-		
+
 		String nationalityStr = $("民族", ao.getNationality());
 		if (!Dictionary.of("nationality").contains(nationalityStr)) {
 			OAException.throwWithMessage("非法民族值");
 		}
 		int nationality = parseInt(nationalityStr);
-		
-		
+
 		String politicalStatus = $("政治面貌", ao.getPoliticalStatus());
-		if(!Dictionary.of("political-status").contains(politicalStatus)) {
+		if (!Dictionary.of("political-status").contains(politicalStatus)) {
 			OAException.throwWithMessage("非法政治面貌值");
 		}
 		int politicalStatusInt = parseInt(politicalStatus);
 
-		
 		String marriageState = $("婚姻状况", ao.getMarriageState());
-		if(!Dictionary.of("marital-status").contains(politicalStatus)) {
+		if (!Dictionary.of("marital-status").contains(politicalStatus)) {
 			OAException.throwWithMessage("非法婚姻状况值");
 		}
 		int marriageStateInt = parseInt(marriageState);
-		
-		
+
 		String address = $("现居住地", ao.getAddress());
 		assertLessThan("现居住地", address, 128);
-		
-		
+
 		// 入职信息
 		String departmentId = $("入职部门", ao.getDepartmentId());
-		DepartmentDao deptDao=DaoFactory.getDao(DepartmentDao.class);
-		if(!deptDao.exist("id", departmentId)) {
+		if (!departmentDao.exist("id", departmentId)) {
 			OAException.throwWithMessage("入职部门值非法");
 		}
-		
+
 		String hiredate = $("入职日期", ao.getHiredate());
 		LocalDate hiredateUse = null;
 		try {
@@ -314,25 +521,32 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		} catch (DateTimeParseException e) {
 			OAException.throwWithMessage("入职日期格式错误，格式为yyyy-MM-dd");
 		}
-		
-		EmployeeDao employeeDao=DaoFactory.getDao(EmployeeDao.class);
+
 		String account = $("员工工号", ao.getAccount());
-		if(employeeDao.exist("account", account)) {
-			OAException.throwWithMessage("员工工号{1}已存在，请切换",account);
+		if (employeeDao.exist("account", account)) {
+			OAException.throwWithMessage("员工工号{1}已存在，请切换", account);
 		}
-		
+
 		String workPhone = $("办公电话", ao.getWorkPhone());
 		assertLessThan("办公电话", address, 32);
-		
+
 		String workEmail = $("工作邮箱", ao.getWorkEmail());
-		assertLessThan("工作邮箱", address, 32);
-		if(employeeDao.exist("workemail", workEmail)) {
-			OAException.throwWithMessage("工作邮箱{1}已存在，请切换",workEmail);
+		assertLessThan("工作邮箱", address, 16);
+		//必须是数字和字母
+		assertAllWordCharacter("工作邮箱", workEmail);
+		
+		String mailSuffix=System.getProperty("oa.default-work-email","@nuesoft.com");
+		
+		if(!workEmail.endsWith(mailSuffix)) {
+			workEmail=workEmail+mailSuffix;
 		}
 		
-		
-		String remark =trim(ao.getRemark());
-		if(remark!=null) {
+		if (employeeDao.exist("workemail", workEmail)) {
+			OAException.throwWithMessage("工作邮箱{1}已存在，请切换", workEmail);
+		}
+
+		String remark = trim(ao.getRemark());
+		if (remark != null) {
 			assertLessThan("工作邮箱", remark, 128);
 		}
 		// 2执行业务逻辑
@@ -346,9 +560,9 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		e.setHomePhone(homePhone);
 		e.setHiredate(hiredateUse);
 		e.setWorkPhone(workPhone);
-		DepartmentEntity dept = new DepartmentEntity();
-		dept.setId(departmentId);
-		e.setDepartment(dept);
+		DepartmentEntity department = new DepartmentEntity();
+		department.setId(departmentId);
+		e.setDepartment(department);
 		e.setNationality(nationality);
 		e.setNativePlace(nativePlace);
 
@@ -364,9 +578,15 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		e.setSecurityEmail(null);
 		e.setAvatar(null);
 		e.setRemark(remark);
+		e.setFlag(EmployeeEntity.FLAG_NORMAL);
+		//添加员工
+		employeeDao.insert(e);
+		//更新员工部门人数
+		if(departmentId!=null) {
+			departmentDao.updateDepartmentMembers(departmentId, 1);
+		}
+		
 		// 3组装业务结果
-		EmployeeDao dao = DaoFactory.getDao(EmployeeDao.class);
-		dao.insert(e);
 		return e;
 	}
 
@@ -375,10 +595,6 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 		return null;
 	}
 
-	@Override
-	public EmployeeEntity modifyEmployee(String id, EmployeeAo ao) throws Exception {
-		return null;
-	}
 
 	@Override
 	public void resetEmployeePassword(String id) throws Exception {
@@ -398,8 +614,7 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 
 		List<EmployeeEntity> pageData = new ArrayList<>(pageSize);
 		// 2执行业务逻辑
-		EmployeeDao udao = DaoFactory.getDao(EmployeeDao.class);
-		int total = udao.selectsByKey(key, pageNo, pageSize, pageData);
+		int total = employeeDao.selectsByKey(key, pageNo, pageSize, pageData);
 		// 3组装业务结果
 		PaginationQueryResult<EmployeeEntity> result = new PaginationQueryResult<>();
 		result.setTotalRows(total);

@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,11 +13,9 @@ import com.neusoft.oa.base.dao.SysUserDao;
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
-import com.neusoft.oa.core.dto.VOMap;
 import com.neusoft.oa.organization.dao.EmployeeDao;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
-import com.neusoft.oa.organization.entity.MarriageState;
 
 public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements EmployeeDao {
 
@@ -29,6 +25,11 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 				+ "marriageState,hiredate,idcard,"
 				+ "nativePlace,workPhone,domicilePlace," 
 				+ "male,department_id,age,workemail");
+	}
+	@Override
+	public int selectWorkEmailLikeCount(String workEmail) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
@@ -96,6 +97,7 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 				.append(EmployeeEntity.FLAG_DELETED).append(" and ").append(ufield).append("=? limit 0,1");
 		PreparedStatement ps = connection.prepareStatement(sql.toString());
 		ps.setObject(1, value);
+		System.out.println(ps);
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
 			return resultset2entity(rs);

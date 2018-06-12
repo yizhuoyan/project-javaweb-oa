@@ -9,6 +9,17 @@ import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
 
 public interface OrganizationFunction {
+	String generateEmployyWorkEmail(String name,String nativePlace)throws Exception;
+	/**
+	 * 分配员工工号
+	 * @param departmentId
+	 * @param hiredate
+	 * @return
+	 * @throws Exception
+	 */
+	String generateNextEmployeeAccount(String departmentId,String hiredate)throws Exception;
+	EmployeeEntity loadEmployee(String id)throws Exception;
+	void deleteEmployee(String id)throws Exception;
 	/**
 	 * 删除部门，仅允许删除无员工和无子部门的部门
 	 * @param id 

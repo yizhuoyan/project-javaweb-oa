@@ -130,6 +130,7 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 		sql.append(" where ").append(idColumn).append("=?");
 		PreparedStatement ps = connection.prepareStatement(sql.toString());
 
+		System.out.println(ps);
 		// 3传入参数并执行语句对象
 		for (int i = 0, len = values.size(); i < len; i++) {
 			ps.setObject(i + 1, values.get(i));
@@ -137,6 +138,7 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 		ps.setObject(values.size() + 1, id);
 		// 4获取执行结果（如果是查询，则转化为实体）
 		ps.executeUpdate();
+		
 
 	}
 
