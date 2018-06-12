@@ -123,31 +123,30 @@ static public void assertFalse(String message, boolean b, Object... args){
   }
 }
 
-static public void assertLessThan(String message,int len,int target,Object... args ) {
+static public void assertLessThan(String label,int len,int target,Object... args ) {
 	if(len>=target) {
-		
-		throwException(message,target,args);
+		throwException(label+"必须小于"+target,args);
 	}
 }
-static public void assertGreatThan(String message,int len,int target,Object... args ) {
+static public void assertGreatThan(String label,int len,int target,Object... args ) {
 	if(len<=target) {
-		throwException(message,target, args);
+		throwException(label+"必须大于"+target, args);
 	}
 }
-static public void assertLessThan(String message,String s,int target,Object... args ) {
+static public void assertLessThan(String label,String s,int target,Object... args ) {
 	int len=s==null?0:s.length();
 	if(len>=target) {
-		throwException(message,target, args);
+		throwException(label+"长度不可超过"+target,args);
 	}
 }
-static public void assertGreatThan(String message,String s,int target,Object... args ) {
+static public void assertGreatThan(String label,String s,int target,Object... args ) {
 	int len=s==null?0:s.length();
 	if(len<=target) {
-		throwException(message,target, args);
+		throwException(label+"长度不可小于"+target, args);
 	}
 }
 
-static public void assertIn(String message,Object target,Object[] chioces,Object... args ) {
+static public void assertIn(String label,Object target,Object[] chioces,Object... args ) {
 	boolean contains=false;
 	for(Object choice:chioces) {
 		if(Objects.equals(target, choice)) {
@@ -156,11 +155,24 @@ static public void assertIn(String message,Object target,Object[] chioces,Object
 		}
 	}
 	if(!contains) {
-		throwException(message, args);
+		throwException(label+"的值必须从"+Arrays.toString(chioces)+"中选取", args);
 	}
 }
 
-
+public static void assertAllWordCharacter(String label,String target) {
+	char c=0;
+	for(int i=target.length();i-->0;) {
+		c=target.charAt(i);
+		if((c>='0'&&c<='9')||
+			(c>='a'&&c<='z')||
+			(c>='A'&&c<='Z')||
+			c=='-') {
+		}else {
+			throwException(label+"仅能是字母数字或下划线");	
+		}
+	}
+	
+}
 
 
 

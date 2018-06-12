@@ -1,7 +1,5 @@
 package com.neusoft.oa.organization.web.empmanage;
 
-import java.time.Instant;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,9 +8,7 @@ import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.util.ArgumentObjectUtil;
 import com.neusoft.oa.core.web.CommonServlet;
 import com.neusoft.oa.organization.ao.EmployeeAo;
-import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
-import com.neusoft.oa.organization.entity.MarriageState;
 import com.neusoft.oa.organization.function.OrganizationFunction;
 
 @WebServlet("/empmanage/add.ajax")

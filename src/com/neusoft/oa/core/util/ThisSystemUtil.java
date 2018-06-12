@@ -63,4 +63,7 @@ public class ThisSystemUtil {
 			return defaultInt;
 		}
 	}
+	public static int parseInt(String s) {
+		return Integer.parseInt(s);
+	}
 }
