@@ -3,6 +3,8 @@ package com.neusoft.oa.core.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class DBUtil {
@@ -60,23 +62,23 @@ public class DBUtil {
 		}
 		return new String(cs);
 	}
-
-	public static String generateInsertSql(String table, String columns) {
+	public static String generateInsertSql(String table,List<String> columns) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into ").append(table).append('(');
-		String[] columnsArray = columns.split(",");
-		int columnAmount = columnsArray.length;
-		for (int i = 0; i < columnAmount; i++) {
-			sql.append(columnsArray[i]).append(',');
+		
+		for (String column:columns) {
+			sql.append(column).append(',');
 		}
 		sql.setCharAt(sql.length() - 1, ')');
 		sql.append("values(");
-
-		for (int i = 0; i < columnAmount; i++) {
+		for (int i = columns.size(); i-->0;) {
 			sql.append("?,");
 		}
 		sql.setCharAt(sql.length() - 1, ')');
 		return sql.toString();
+	}
+	public static String generateInsertSql(String table, String columns) {
+		return generateInsertSql(table, Arrays.asList(columns.split(",")));
 	}
 
 }

@@ -5,22 +5,21 @@
 <html>
 
 <head>
- <%@include  file="/WEB-INF/jspf/head.jsp"%>
- <style>
- tr[locked]{
- 	background:#eeeeee;
- }
- </style>
- 
+<%@include file="/WEB-INF/jspf/head.jsp"%>
+<style>
+tr[locked] {
+	background: #eeeeee;
+}
+</style>
+
 </head>
 
 <body>
 	<header class="content-header">
 		<h1>废件箱</h1>
 		<ol class="breadcrumb">
-			<li>
-			<a href="javascript:window.top.dashboard()"><i class="fa fa-dashboard"></i>首页</a>
-			</li>
+			<li><a href="javascript:window.top.dashboard()"><i
+					class="fa fa-dashboard"></i>首页</a></li>
 			<li><a>废件箱</a></li>
 		</ol>
 		<hr>
@@ -30,10 +29,9 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<a type="button" href="welcome.jsp"
-				class="btn btn-primary navbar-btn">首页</a>
-			<a type="button" href="jsp/message/emailIndex.jsp"
-				class="btn btn-primary navbar-btn">返回</a>
-			<form id="qryForm" action="sysuser/list.do" method="post"
+				class="btn btn-primary navbar-btn">首页</a> <a type="button"
+				href="email/ListSentAndReceivedEmailServlet.do" class="btn btn-primary navbar-btn">返回</a>
+			<form id="qryForm" action="searchRecycleBinServlet.do" method="post"
 				class="navbar-form navbar-right">
 				<input type="hidden" name="pageNo" value="1">
 				<div class="form-group">
@@ -51,53 +49,49 @@
 					<tr>
 						<th width="100">主题</th>
 						<th width="150">发件人</th>
+						<th width="150">收件人</th>
 						<th width="150">发件时间</th>
-						<th width="10"></th> <!-- 恢复 -->
-						<th width="10"></th>  <!-- 删除 -->
+						<th width="10"></th>
+						<th width="10"></th>
 					</tr>
-					<!-- 把requestScope中的result对象放入到pageScope -->
 					<c:set var="result" value="${requestScope.result}" scope="page"></c:set>
-					<c:if test="${result.found}">
-						<c:forEach var="r" items="${result.rows}" varStatus="vs">
-							<tr ${r.flag==1?"locked":""}>
-								<td>${vs.count}.</td>
-								<td><a href="sysuser/check.do?id=${r.id}">查看/修改</a></td>
-								<td>${r.account}</td>
-								<td>${r.name}</td>
-								<td><a href="">恢复</a></td>
-								<td><a href="">彻底删除</a></td>
-								<td><c:choose>
-										<c:when test="${r.flag==0}">
-											正常
-										</c:when>
-										<c:when test="${r.flag==1}">
-											锁定
-										</c:when>
-									</c:choose></td>
-								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
-										value="${r.lastLoginTime}" /> / ${r.lastLoginIP}</td>
-
+					<c:forEach var="r" items="${requestScope.result}" varStatus="vs">
+					       <tr>
+								<td>${r.title}</td>
+								<td>${r.sender.name}</td>
+								<td>${r.recipient.name}</td>
+								<td>${r.sendTime}</td>
+								<td><a href="CompletelyDeleteServlet.do?emailId=${r.id}"><button>彻底删除</button></a></td>
+								<td><a href="RecoverEmailServlet.do?emailId=${r.id}"><button>恢复</button></a></td>
 							</tr>
-						</c:forEach>
-						
-					</c:if>
-					<c:if test="${result.notFound}">
-						<tr>
-							<td colspan="99" align="center">很抱歉，未找到相关数据！</td>
-						</tr>
-					</c:if>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
-		<!-- /.box-body -->
-		<c:if test="${result.found}">
-			<jsp:include page="/WEB-INF/jspf/pagination.jsp" >
-				<jsp:param name="resultVarName" value="result"/>
-				<jsp:param name="pageClickHandler" value="gotoPage"/>
-			</jsp:include>
-		</c:if>
+		<footer class="box-footer clearfix">
+					<div class="col-xs-6" style="text-align: right">
+						<c:if test="${requestScope.pageNo!=1}">
+							<a href="emailAddressBookServlet.do&key=${requestScope.key}">首页</a>
+							<a href="emailAddressBookServlet.do?pageNo=${requestScope.pageNo-1}&key=${requestScope.key}">上一页</a>
+						</c:if>
+						<c:if test="${requestScope.pageNo==1}">
+							<span>首页</span>
+							<span>上一页</span>
+						</c:if>
+						共<b>${requestScope.total}</b>条
+						第<b>${requestScope.pageNo}</b>页
+						<c:if test="${requestScope.pageNo!=requestScope.totalPages}">
+							<a href="emailAddressBookServlet.do?pageNo=${requestScope.pageNo+1}&key=${requestScope.key}">下一页</a>
+							<a href="emailAddressBookServlet.do?pageNo=${requestScope.totalPages}&key=${requestScope.key}">末页</a>
+						</c:if>
+						<c:if test="${requestScope.pageNo==requestScope.totalPages}">
+							<span>下一页</span>
+							<span>末页</span>
+						</c:if>
+					</div>
+		        </footer>
 	</section>
-	
+
 	</main>
 	<script>
 		var gotoPage = function(no) {

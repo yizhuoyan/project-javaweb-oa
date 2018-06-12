@@ -19,7 +19,7 @@ public class CheckServlet extends CommonServlet {
 		// 2调用业务方法
 		try {
 			AdministratorFunction fun=FunctionFactory.getFunction(AdministratorFunction.class);
-			SysRoleEntity e = fun.checkSysRole(id);
+			SysRoleEntity e = fun.loadSysRole(id);
 			req.setAttribute("vo", e);
 			
 		} catch (OAException e) {

@@ -6,10 +6,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.web.CommonServlet;
 import com.neusoft.oa.message.entity.AddressBookEntity;
+import com.neusoft.oa.message.function.AddressBookFuntion;
 import com.neusoft.oa.message.function.EmailFunction;
-import com.neusoft.oa.message.function.impl.EmailFuntionImpl;
+import com.neusoft.oa.message.function.impl.AddressBookFuntionImpl;
+import com.neusoft.oa.message.function.impl.EmailFunctionImpl;
 @WebServlet("/emailAddressBookServlet.do")
 public class EmailAddressBookServlet extends CommonServlet{
 /**
@@ -20,16 +23,28 @@ public class EmailAddressBookServlet extends CommonServlet{
 @Override
 protected Object handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Throwable {
 	//获取参数
+	int pageNo;
+	int totalPages;
 	String key=req.getParameter("key");
-	String pageNo=req.getParameter("pageNo");
-	String pageSize=req.getParameter("pageSize");
-	System.out.println(key);
+	if(req.getParameter("pageNo")==null) {
+		 pageNo=1;
+	}else {
+		pageNo=Integer.parseInt(req.getParameter("pageNo"));
+	}
+	int pageSize=10;
+	String pageData=req.getParameter("pageSize");
 	//调用业务逻辑
-	EmailFunction fun = new EmailFuntionImpl();
-	List<AddressBookEntity>  EmailAddressBooks=fun.SearchEmailAddressBookByKey(key);
+	AddressBookFuntion fun =FunctionFactory.getFunction(AddressBookFuntion.class);
+	List<AddressBookEntity>  EmailAddressBooks=fun.searchEmailAddressBookByKey(key);
+	EmailAddressBooks.clear();
 	//返回组装结果
+	int total=fun.searchTotal(key, pageNo, pageSize, EmailAddressBooks);
+	totalPages=total/pageSize+1;
 	req.setAttribute("result", EmailAddressBooks);
-	System.out.println(EmailAddressBooks);
+	req.setAttribute("key",key);
+	req.setAttribute("pageNo", pageNo);
+	req.setAttribute("totalPages", totalPages);
+	req.setAttribute("total", total);
 	return "/jsp/message/email/outbox/emailAddressList.jsp";
 }
 }

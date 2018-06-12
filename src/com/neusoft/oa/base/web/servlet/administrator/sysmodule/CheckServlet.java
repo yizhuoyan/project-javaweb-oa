@@ -20,7 +20,7 @@ public class CheckServlet extends CommonServlet {
 		// 2调用业务方法
 		try {
 			AdministratorFunction fun=FunctionFactory.getFunction(AdministratorFunction.class);
-			SysModuleEntity e = fun.checkSysModule(id);
+			SysModuleEntity e = fun.loadSysModule(id);
 			return AjaxResponse.ok(e.toJson());
 		} catch (OAException e) {
 			return AjaxResponse.fail(e);

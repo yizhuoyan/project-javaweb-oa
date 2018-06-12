@@ -25,84 +25,41 @@
 		</ol>
 		<hr>
 	</header>
-
+	<c:if test="${not empty message}">
+			<div class="alert alert-info " user="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+				</button> 
+				${message}					
+		</div>
+	</c:if>
 	<a style="position:relative;left:3%" href="emailAddressBookServlet.do"><button type="button" class="btn btn-primary">邮件通讯录</button></a>
-	<a style="position:relative;left:3%" href="jsp/message/email/outbox/outbox.jsp"><button type="button" class="btn btn-primary">返回</button></a>
+	<a style="position:relative;left:3%" href="email/ListSentAndReceivedEmailServlet.do"><button type="button" class="btn btn-primary">返回</button></a>
 	
 	<main class="container-fluid">
 		<center>
+		<form class="bs-example bs-example-form"  name="form" action="addEmail.do" enctype="multipart/form-data" method="post">
 		<div style="padding: 10px 10px 10px;">
-			<form class="bs-example bs-example-form"  name="form" action="addEmail.ajax">
 				<div class="input-group">
 					<span class="input-group-addon" >收件人</span>
-					<input type="text" class="form-control" placeholder="Receiver" name="recipient">
+					<input type="text" id="recipient" class="form-control" value="${requestScope.result.recipient.name}" placeholder="Receiver" name="recipient">
 				</div>
 				<br>
 				<div class="input-group">
 					<span class="input-group-addon">主&emsp;题</span>
-					<input type="text" class="form-control" name="title" placeholder="Theme">
+					<input type="text" class="form-control" id="title" name="title" value="${requestScope.result.title}" placeholder="Theme">
 				</div>
 				<br>
-				<input id="savee" type="hidden" name="save" value="">
 				<div class="input-group">
-					<textarea class="form-control" rows="10" cols="300" placeholder="内容描述" name="content"></textarea>
+					<textarea class="form-control" rows="10" cols="300" id="content" placeholder="内容描述" name="content">${requestScope.result.content}</textarea>
 				</div>
 				<br>
-				<center>
-					<div class="row" style="height: 80px">
-					<input id="input-1a" type="file" class="file" data-show-preview="false" name="attachment">
-					</div>
-				</center>
-			
+				<input type="file" name="attachment"/><br>
 		</div>
-			<button id="submitBtn" type="submit" class="btn btn-primary" onclick="save()">保存</button>
-			<button  id="button" type="submit" class="btn btn-primary" onclick="send()">发送</button>			
-		</center>
+			<button type="submit" name="submit" value="1" class="btn btn-primary">保存</button>
+			<button type="submit" name="submit" value="0" class="btn btn-primary">发送</button>		
 		</form>
+		</center>
 	</main>
 </body>
-<script src="js/plugins/jquery.min.js" ></script>
-	<script>
-	    $("#button").submit(function(){  
-		$("#savee").val(true);
-		$.post(this.action,$(this).serializeArray(),function(resp){
-			if(resp.code==="ok"){
-				toast("发送成功");
-				//防止重复提交
-				$("#submitBtn")[0].disabled=true;
-				//window.location.href="index.do";
-			}else{
-				toast(resp.message);
-			}
-		});
-		return false;
-	   });
-		$("#submitBtn").submit(function(){  
-			$("#savee").val(false);
-			$.post(this.action,$(this).serializeArray(),function(resp){
-				if(resp.code==="ok"){
-					toast("保存成功");
-					//window.location.href="index.do";
-				}else{
-					toast(resp.message);
-				}
-			});
-			return false;
-		});
-		
-	</script>
-    <script type="text/javascript">
-    //  function  save() {
-    //	  document.form1.action="addEmail.do?save=true";
-    //	toast("发送");
-    //		document.form1.submit();
-	// }
-     // function  send() {
-  	//document.form1.action="addEmail.do?save=flase";
-  	//	toast("发送");
-  	//	document.form1.submit();
-  	//}
-
-		
-    </script>
 </html>

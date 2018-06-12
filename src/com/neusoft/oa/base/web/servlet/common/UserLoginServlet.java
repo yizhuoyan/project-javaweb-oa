@@ -28,52 +28,49 @@ import com.neusoft.thirdparty.WeatherThirdParty;
 public class UserLoginServlet extends CommonServlet {
 	@Override
 	protected AjaxResponse handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Throwable {
-		
 		// 1获取参数
 		String account = req.getParameter("account");
 		String password = req.getParameter("password");
-		//获取登陆ip地址
-		String loginIP=req.getRemoteHost();
+		// 获取登陆ip地址
+		String loginIP = req.getRemoteHost();
 		// 2业务逻辑
 		try {
-			//2.1 判断验证码
-			String captchaMessage=(String)req.getAttribute("captchaError");
-			if(captchaMessage!=null) {
-				//验证码错误
+			// 2.1 判断验证码
+			String captchaMessage = (String) req.getAttribute("captchaError");
+			if (captchaMessage != null) {
+				// 验证码错误
 				throw new OAException(captchaMessage);
 			}
-			CommonFunction fun=FunctionFactory.getFunction(CommonFunction.class);
-			//2.2 执行业务逻辑
-			UserContext uc = fun.login(account, password,loginIP);
-			//2.3session控制
-			HttpSession session=req.getSession(false);
-			//如果之前登陆过，则失效之前的session
-			if(session!=null) {
+			CommonFunction fun = FunctionFactory.getFunction(CommonFunction.class);
+			// 2.2 执行业务逻辑
+			UserContext uc = fun.login(account, password, loginIP);
+			// 2.3session控制
+			HttpSession session = req.getSession(false);
+			// 如果之前登陆过，则失效之前的session
+			if (session != null) {
 				session.invalidate();
 			}
-			//新建session
-			session=req.getSession();
+			// 新建session
+			session = req.getSession();
 			uc.setJsessionId(session.getId());
-			
-			
 			session.setAttribute("loginUser", uc);
-			
-			//获取用户所在区域的当前天气
-//			String clientIp="183.67.56.132";//req.getRemoteHost();
-//			
-//			String cityName=GetCityNameByIpThirdPart.get(clientIp);
-//			WeatherResponseJson weather = WeatherThirdParty.get(cityName);
-//			
-//			WeatherForecastDto weatherDto=WeatherForecastDto.of(weather);
-//			
-//			session.setAttribute("weather", weatherDto);
-			
-			
-			
+			try {
+				// 获取用户所在区域的当前天气
+				String clientIp = "183.67.56.132";// req.getRemoteHost();
+				String cityName = GetCityNameByIpThirdPart.get(clientIp);
+				WeatherResponseJson weather = WeatherThirdParty.get(cityName);
+
+				WeatherForecastDto weatherDto = WeatherForecastDto.of(weather);
+
+				session.setAttribute("weather", weatherDto);
+			} catch (Exception e) {
+				// 不影响登陆流程
+				e.printStackTrace();
+			}
 			return AjaxResponse.ok(uc);
 		} catch (OAException e) {
 			e.printStackTrace();
 			return AjaxResponse.fail(e);
-		} 
+		}
 	}
 }
