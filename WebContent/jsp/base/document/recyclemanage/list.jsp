@@ -26,11 +26,9 @@
 	<nav class="navbar navbar-default">
 
 		<div class="container-fluid">
-		
 			<a type="button" 
 				href="document/recycle/emptyrecycle.do"
 				class="btn btn-primary navbar-btn">清空回收站</a>
-		
 			<form id="qryForm" action="document/recycle/list.do" method="post"
 				class="navbar-form navbar-right">
 				<input type="hidden" name="pageNo" value="1">
