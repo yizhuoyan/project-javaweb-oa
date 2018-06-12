@@ -29,13 +29,9 @@ public class AddServlet extends CommonServlet {
 		ao.setName(name);
 		ao.setParentId(parentId);
 		ao.setRemark(remark);
-		try {
-			OrganizationFunction fun=FunctionFactory.getFunction(OrganizationFunction.class);
-			DepartmentEntity m=fun.addDepartment(ao);
-			return AjaxResponse.ok(m.getId());
-		}catch(OAException e) {
-			return AjaxResponse.fail(e);
-		}
+		OrganizationFunction fun=FunctionFactory.getFunction(OrganizationFunction.class);
+		DepartmentEntity m=fun.addDepartment(ao);
+		return m.getId();
 	}
 	
 }

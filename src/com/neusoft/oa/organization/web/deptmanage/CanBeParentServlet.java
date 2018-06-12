@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.neusoft.oa.core.dto.VOMap;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.organization.dto.DepartmentDto;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.function.OrganizationFunction;
 
@@ -24,14 +25,7 @@ public class CanBeParentServlet extends CommonServlet{
 		OrganizationFunction fun=FunctionFactory.getFunction(OrganizationFunction.class);
 		List<DepartmentEntity> depts=fun.loadCanBeParentList(id);
 		
-		return depts.stream().map(m->{
-			VOMap vo=VOMap.of(4);
-			vo.put("id", m.getId())
-			.put("code", m.getCode())
-			.put("name", m.getName())
-			.put("parentId", Optional.ofNullable(m.getParent()).map(DepartmentEntity::getId).orElse(null));
-			return vo;
-		}).collect(Collectors.toList());
+		return depts.stream().map(DepartmentDto::ofSimple).collect(Collectors.toList());
 		}
 	
 	

@@ -29,6 +29,7 @@
 
     <main class="container">
     <form action="deptmanage/mod.ajax" method="post">
+        <input name="id" type="hidden">
         <p>
             <label for="parentIdEL">*父部门：</label>
             <select id="parentIdEL" name="parentId"
@@ -72,6 +73,8 @@
             <button type="submit" class="btn btn-lg btn-primary">保存</button>
             <a type="button" class="btn btn-info"
                 href="jsp/organization/deptmanage/list.jsp">返回</a>
+                
+            <a  href="javascript:deleteConfirm()">删除</a>  
         </div>
     </form>
     </main>
@@ -93,8 +96,7 @@
     			if (resp.code === "ok") {
     				alert("修改成功，请返回");
     			} else {
-    				$("#messageEL").html(resp.message);
-    				$("#message-container").show();
+    				toast(resp.message);
     			}
     			submitBtn.disabled = false;
     		});
@@ -147,6 +149,7 @@ var loadCanBeParents = function(pid) {
 	
 	var paintFormView = function(m) {
 		var form = $("form")[0];
+		form.id.value=m.id;
 		//父部门
 		var parentId;
 		if (m.parent) {
@@ -168,14 +171,14 @@ var loadCanBeParents = function(pid) {
 	
 	var deleteConfirm = function() {
 		if (window.confirm("确认删除？")) {
-			var url = "sysmodule/del.ajax?id=" + id;
+			var url = "deptmanage/del.ajax?id=" + id;
 			$.getJSON(url,function(resp) {
-								if (resp.code === "ok") {
-									alert("删除成功！");
-									window.location.href = "jsp/base/modulemanage/list.jsp";
-								} else {
-									alert(resp.message);
-								}
+				if (resp.code === "ok") {
+					toast("删除成功！");
+					window.location.href = "jsp/organization/deptmanage/list.jsp";
+				} else {
+					toast(resp.message);
+				}
 			});
 		}
 	};

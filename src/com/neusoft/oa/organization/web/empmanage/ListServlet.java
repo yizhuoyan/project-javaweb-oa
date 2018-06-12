@@ -28,7 +28,6 @@ public class ListServlet extends CommonServlet{
 		try {
 			OrganizationFunction fun=FunctionFactory.getFunction(OrganizationFunction.class);
 			PaginationQueryResult<EmployeeEntity> result = fun.listEmployee(key, pageNoInt, pageSizeInt);
-			
 			req.setAttribute("result", result);
 			// 3确定视图
 		} catch (OAException e) {
