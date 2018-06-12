@@ -38,7 +38,7 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 
 	protected TemplateDaoImpl(String tableName) {
 		this.tableName = tableName;
-		this.columns=Collections.EMPTY_LIST;
+		this.columns=new ArrayList<>(0);
 		this.idColumn="id";
 	}
 	
@@ -128,7 +128,12 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 		sql.setCharAt(sql.length() - 1, ' ');
 		sql.append(" where ").append(idColumn).append("=?");
 		PreparedStatement ps = connection.prepareStatement(sql.toString());
+<<<<<<< HEAD
 		System.out.println(sql);
+=======
+
+		System.out.println(ps);
+>>>>>>> f0100effbe801e418a332af71846b53c66ebf047
 		// 3传入参数并执行语句对象
 		for (int i = 0, len = values.size(); i < len; i++) {
 			ps.setObject(i + 1, values.get(i));
@@ -137,6 +142,10 @@ public abstract class TemplateDaoImpl<T> implements TemplateDao<T> {
 		// 4获取执行结果（如果是查询，则转化为实体）
 		ps.executeUpdate();
 		
+<<<<<<< HEAD
+=======
+
+>>>>>>> f0100effbe801e418a332af71846b53c66ebf047
 	}
 
 	@Override

@@ -8,5 +8,7 @@ import com.neusoft.oa.organization.entity.EmployeeEntity;
 public interface EmployeeDao extends TemplateDao<EmployeeEntity>{
 
 	int selectsByKey(String key,int pageNo,int pageSize,List<EmployeeEntity> pageData)throws Exception;
+	int selectWorkEmailLikeCount(String workEmail)throws Exception;
+	
 	
 }

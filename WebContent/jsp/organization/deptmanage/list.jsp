@@ -27,7 +27,7 @@
     
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
-			<a type="button" href="jsp/base/modulemanage/add.jsp"
+			<a type="button" href="jsp/organization/deptmanage/add.jsp"
 				class="btn btn-primary navbar-btn">新增</a>
 		</div>
 	</nav>
