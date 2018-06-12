@@ -15,7 +15,7 @@ public class AppConfig {
 		try (BufferedReader reader = new BufferedReader(
 				new InputStreamReader(AppConfig.class.getResourceAsStream(CONFIG_PATH), "utf-8"))) {
 			String line = null;
-			while ((reader.readLine()) != null) {
+			while ((line=reader.readLine()) != null) {
 				if ((line = line.trim()).length() == 0) {
 					continue;
 				}

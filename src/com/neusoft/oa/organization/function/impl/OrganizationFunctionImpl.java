@@ -526,9 +526,7 @@ public class OrganizationFunctionImpl extends ThisSystemUtil implements Organiza
 
 		String workEmail = $("工作邮箱", ao.getWorkEmail());
 		assertLessThan("工作邮箱", address, 32);
-		//验证邮箱格式
 		assertIsEmail("工作邮箱",workEmail);
-		
 		if (employeeDao.exist("workemail", workEmail)) {
 			OAException.throwWithMessage("工作邮箱{1}已存在，请切换", workEmail);
 		}
