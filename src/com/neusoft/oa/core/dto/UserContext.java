@@ -81,6 +81,7 @@ public class UserContext {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public SysRoleEntity getRole() {
 		return role;
 	}

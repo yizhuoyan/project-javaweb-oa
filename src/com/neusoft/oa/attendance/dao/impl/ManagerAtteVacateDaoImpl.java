@@ -33,7 +33,7 @@ public class ManagerAtteVacateDaoImpl extends TemplateDaoImpl<AtteVacateEntity> 
 				StringBuilder whereSql = new StringBuilder();
 				whereSql.append(" from atte_vacate m ")
 				.append(" join oa_emp s ")
-				.append(" on m.emp_id=s.id ");
+				.append(" on m.emp_id=s.uid ");
 				
 				whereSql.append(" where s.department_id = ?")
 				.append(" and result= ? ");
@@ -119,7 +119,7 @@ public class ManagerAtteVacateDaoImpl extends TemplateDaoImpl<AtteVacateEntity> 
 		// 3创建预编译语句对象PreparedStatement
 		StringBuilder whereSql = new StringBuilder();
 		whereSql.append(" from oa_emp  ")		
-		.append(" where id= ? ");
+		.append(" where uid= ? ");
 		PreparedStatement ps = connection.prepareStatement("select department_id "+whereSql);
 		ps.setString(1, managerid);
 		// 4执行语句对象并获取结果
