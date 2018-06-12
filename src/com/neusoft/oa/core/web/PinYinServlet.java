@@ -21,16 +21,14 @@ import com.neusoft.oa.core.util.JsonUtil;
 
 @WebServlet("/api/pinyin")
 public class PinYinServlet extends HttpServlet {
-<<<<<<< HEAD
+
 	private static Map<Integer,String> CACHE_MAP=new   WeakHashMap<>();
-=======
-	
->>>>>>> 9e9b7621c8d4a7813daf057771910caeed2250ed
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String word = req.getParameter("w");
 		if(word!=null&&(word=word.trim()).length()>0) {
-<<<<<<< HEAD
+
 			StringBuilder result=new StringBuilder();
 			for(int i=0;i<word.length();i++) {
 			 String one=pinyin(Character.codePointAt(word, i));
@@ -39,18 +37,17 @@ public class PinYinServlet extends HttpServlet {
 			 }
 			}
 			resp.setContentType("application/json");
-=======
+
 			
 			resp.setContentType("application/json");
 			String result=PinYinService.pinyin(word);
->>>>>>> 9e9b7621c8d4a7813daf057771910caeed2250ed
 			try(PrintWriter out = resp.getWriter()){
 				out.write(JsonUtil.toJsonString(result.toString()));
 				out.flush();
 			}
 		}
 	}
-<<<<<<< HEAD
+
 	private String pinyin(int unicode) {
 		try {
 		Integer key=Integer.valueOf(unicode);
@@ -66,8 +63,6 @@ public class PinYinServlet extends HttpServlet {
 		}
 		return null;
 	}
-=======
-	
->>>>>>> 9e9b7621c8d4a7813daf057771910caeed2250ed
+
 		
 }
