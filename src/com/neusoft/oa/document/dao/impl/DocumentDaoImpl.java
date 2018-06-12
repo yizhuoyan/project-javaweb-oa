@@ -24,6 +24,7 @@ public class DocumentDaoImpl extends TemplateDaoImpl<DocumentEntity> implements 
 		super("oa_document");
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	@Override
 	public void insert(DocumentEntity t) throws Exception {
@@ -56,12 +57,15 @@ public class DocumentDaoImpl extends TemplateDaoImpl<DocumentEntity> implements 
 		// id,property,path,name,createUser_id,createTime,remark,flag,dept_id
 		DocumentEntity d = new DocumentEntity();
 		d.setCreateTime(timestamp2Instant(rs.getTimestamp("createTime")));
+		
 		String creatUserId = rs.getString("createUser_id");
 		EmployeeDao edao = DaoFactory.getDao(EmployeeDao.class);
 		d.setCreateUserId(edao.select("id", creatUserId));
+		
 		String deptId = rs.getString("dept_id");
 		DepartmentDao ddao = DaoFactory.getDao(DepartmentDao.class);
 		d.setDeptId(ddao.select("id", deptId));
+		
 		d.setFlag(rs.getInt("flag"));
 		d.setId(rs.getString("id"));
 		d.setName(rs.getString("name"));

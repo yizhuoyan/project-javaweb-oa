@@ -1,6 +1,7 @@
 package com.neusoft.oa.document.function;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 import com.neusoft.oa.document.ao.DocumentAttachmentAo;
@@ -17,7 +18,7 @@ public interface AttachmentFunction {
 	 * @return
 	 * @throws Exception
 	 */
-	void addAttachment(DocumentAttachmentAo ao,File file)throws Exception;
+	DocumentAttachmentEntity addAttachment(DocumentAttachmentAo ao ,InputStream in)throws Exception;
 	
 	/**
 	 * 删除附件
@@ -35,7 +36,7 @@ public interface AttachmentFunction {
 	 * @param AttachmentNo
 	 * @throws Exception
 	 */
-	File downloadAttachment(String AttachmentNo)throws Exception;
+	DocumentAttachmentEntity downloadAttachment(String AttachmentNo)throws Exception;
 	
 	
 	

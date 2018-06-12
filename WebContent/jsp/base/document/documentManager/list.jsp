@@ -65,12 +65,12 @@
 						<c:forEach var="r" items="${result.rows}" varStatus="vs">
 							<tr>
 								<td>${vs.count}.</td>
-								<td><a href="documentManage/check.do?id=${r.id}">${r.name}</a></td>
+								<td><a href="attachmentManage/list.do?documentId=${r.id}">${r.name}</a></td>
 								<td>${r.path}</td>
-								<td>${r.createUserId.id}</td>
+								<td>${r.createUserId.name}</td>
 								<td>${r.createTime}</td>
 								<td>${r.flag}</td>
-								<td><a href="sysuser/check.do?id=${r.id}">查看/修改</a></td>
+								<td><a href="documentManage/check.do?id=${r.id}">删除/修改</a></td>
 								<td>${r.remark}</td>
 							</tr>
 						</c:forEach>

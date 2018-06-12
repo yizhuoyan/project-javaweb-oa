@@ -10,6 +10,8 @@ import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dto.AjaxResponse;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.document.ao.DocumentAo;
+import com.neusoft.oa.document.function.DocumentFunction;
 @WebServlet("/documentManage/mod.ajax")
 public class DocumentModServlet extends CommonServlet {
 
@@ -17,20 +19,20 @@ public class DocumentModServlet extends CommonServlet {
 	protected AjaxResponse handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Throwable {
 		// 1获取参数
 		String id = req.getParameter("id");
-		String account = req.getParameter("account");
 		String name = req.getParameter("name");
 		String remark = req.getParameter("remark");
-		String flag = req.getParameter("flag");
+		String property = req.getParameter("property");
 		// 2调用业务方法
-		SysUserAo ao = new SysUserAo();
-		ao.setAccount(account);
+		DocumentAo ao= new DocumentAo();
 		ao.setName(name);
+		ao.setProperty(property);
 		ao.setRemark(remark);
-		ao.setFlag(flag);
 
 		try {
-			AdministratorFunction fun=FunctionFactory.getFunction(AdministratorFunction.class);
-			fun.modifySysUser(id, ao);
+			DocumentFunction fun=FunctionFactory.getFunction(DocumentFunction.class);
+			fun.modifyDocument(id, ao);
+			
+			
 			return AjaxResponse.ok();
 		} catch (OAException e) {
 			return AjaxResponse.fail(e);

@@ -54,7 +54,7 @@
 		<div class="box-footer">
 			<button type="submit" class="btn btn-lg btn-primary">保存</button>
 			<a type="button" class="btn btn-info"
-				href="jsp/base/document/documentManager/list.jsp">返回</a>
+				href="documentManage/list.do">返回</a>
 		</div>
 	</form>
 

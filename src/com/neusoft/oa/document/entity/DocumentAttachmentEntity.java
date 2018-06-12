@@ -1,5 +1,7 @@
 package com.neusoft.oa.document.entity;
 
+import java.time.Instant;
+
 import com.neusoft.oa.base.entity.SysUserEntity;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
@@ -11,10 +13,12 @@ public class DocumentAttachmentEntity {
 	private String name;//附件名称
 	private String property;//附件属性说明
 	private EmployeeEntity createUserId;//附件创建者
-	private String createTime;//附件创建时间
+	private Instant createTime;//附件创建时间
 	private String remark;//备注
 	private int flag;//状态标志 0在回收站1正常2被占用
 	private DepartmentEntity deptId;//所属部门id
+	private String type;//附件类型
+	private long size;//附件大小
 	public String getId() {
 		return id;
 	}
@@ -51,10 +55,10 @@ public class DocumentAttachmentEntity {
 	public void setCreateUserId(EmployeeEntity createUserId) {
 		this.createUserId = createUserId;
 	}
-	public String getCreateTime() {
+	public Instant getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(Instant createTime) {
 		this.createTime = createTime;
 	}
 	public String getRemark() {
@@ -75,6 +79,19 @@ public class DocumentAttachmentEntity {
 	public void setDeptId(DepartmentEntity deptId) {
 		this.deptId = deptId;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public long getSize() {
+		return size;
+	}
+	public void setSize(long size) {
+		this.size = size;
+	}
+	
 	
 	
 	

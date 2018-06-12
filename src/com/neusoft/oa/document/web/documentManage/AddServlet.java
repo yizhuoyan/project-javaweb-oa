@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.util.ArgumentObjectUtil;
 import com.neusoft.oa.core.web.CommonServlet;
@@ -28,7 +29,10 @@ public class AddServlet extends CommonServlet {
 		DocumentAo ao=ArgumentObjectUtil.parse(req, DocumentAo.class);
 		
 		// 2调用业务层方法
+		//获取当前用户id
+		
 		String userId=getCurrentUserId(req);
+		
 		DocumentFunction fun=FunctionFactory.getFunction(DocumentFunction.class);
 		DocumentEntity doc=fun.addDocument(userId, ao);
 		// 3返回业务结果

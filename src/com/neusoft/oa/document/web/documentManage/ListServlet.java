@@ -30,10 +30,13 @@ public class ListServlet extends CommonServlet{
 		int pageSizeInt=ThisSystemUtil.parseInt(pageSize, -1);
 		String pageNo=req.getParameter("pageNo");
 		int pageNoInt=ThisSystemUtil.parseInt(pageNo, -1);
-		//获取部门id
+		//获取userId
 		String userId=getCurrentUserId(req);
 		EmployeeDao edao=DaoFactory.getDao(EmployeeDao.class);
-		EmployeeEntity emp=edao.select("id", userId);
+		EmployeeEntity emp=edao.select("uid", userId);
+		if (emp==null) {
+			OAException.throwWithMessage("员工未找到", emp);
+		}
 		String deptId=emp.getDepartment().getId();
 		if (deptId==null) {
 			OAException.throwWithMessage("部门id为空", deptId);
@@ -44,7 +47,7 @@ public class ListServlet extends CommonServlet{
 			PaginationQueryResult<DocumentEntity> result = fun.listDocument(deptId,key, pageNoInt, pageSizeInt);
 			
 			req.setAttribute("result", result);
-			System.out.println(result);
+//			System.out.println(result);
 			// 3确定视图
 		} catch (OAException e) {
 			req.setAttribute("message", e.getMessage());

@@ -36,16 +36,21 @@
 			</div>
 			</c:if>
 			<!-- form start -->
-			<form user="form" action="sysuser/add.do" method="post" class="box">
+			<form user="form" action="attachmentManage/add.do" method="post" class="box" enctype="multipart/form-data">
+				
 				<div class="box-body">
 					<p class="form-group">
 						<label for="nameEL">*附件：</label>
-						<input type="file" id="file" >
+						<input type="file" name="file1" >
 					</p>
-					
+					<input name="documentId" type="hidden" value="${param.documentId}" >
 					<p class="form-group">
 						<label for="nameEL">*备注：</label>
-						<input type="text" name="name" maxlength="32" value="${param.name}" class="form-control" id="nameEL" placeholder="不超过32个字符">
+						<input type="text" name="remark" maxlength="32" class="form-control" id="remarkEL" placeholder="不超过32个字符">
+					</p>
+					<p class="form-group">
+						<label for="nameEL">*属性说明：</label>
+						<input type="text" name="property" maxlength="32" class="form-control" id="propertyEL" placeholder="不超过32个字符">
 					</p>
 					
 				</div>

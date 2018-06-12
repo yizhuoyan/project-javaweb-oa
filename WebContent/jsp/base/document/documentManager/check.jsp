@@ -75,7 +75,7 @@
 
 				<div class="box-footer">
 					<button type="submit" class="btn btn-lg btn-primary">修改</button>
-					<a type="button" class="btn btn-info" href="jsp/base/document/documentManager/list.jsp">返回</a>
+					<a type="button" class="btn btn-info" href="documentManage/list.do">返回</a>
 					<a type="button" class="btn btn-link" href="javascript:deleteConfirm()" >删除</a>
 					
 				</div>
