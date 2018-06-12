@@ -233,6 +233,14 @@ form.table p>span>* {
                 	$("#hiredateEL").val(Date.format(new Date(),"yyyy-MM-dd"));
                 </script>
                 <span>
+<<<<<<< HEAD
+                    <label>*员工工号：</label>
+                    <input type="text" name="account"
+                        class="form-control" placeholder="根据部门和入职时间自动生成">
+                </span>
+                <script>
+                	
+=======
                     <label for="accountEL">*员工工号：</label>
                     <input type="text" name="account" id="accountEL"
                         class="form-control" placeholder="根据部门和入职时间自动生成">
@@ -263,6 +271,7 @@ form.table p>span>* {
                 			}
                 		})
                 	}
+>>>>>>> 9e9b7621c8d4a7813daf057771910caeed2250ed
                 </script>
             </p>
             <p>
@@ -285,6 +294,10 @@ form.table p>span>* {
                     		if(name.length>0){
                         		$.get("api/pinyin",{w:name},function(data){
                         			if(data){
+<<<<<<< HEAD
+                        				console
+=======
+>>>>>>> 9e9b7621c8d4a7813daf057771910caeed2250ed
                         				$("#workEmailEL").val(data);
                         			}
                         		})
