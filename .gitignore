@@ -6,3 +6,4 @@
 *.class
 /src/system.config
 META-INF
+.gitignore
