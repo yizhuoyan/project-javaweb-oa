@@ -301,24 +301,36 @@ public class AdministratorFunctionImpl extends CommonFunctionImpl implements Adm
 	@Override
 	public void grantModules2Role(String roleId, String... moduelIds) throws Exception {
 		roleId = $("roleId", roleId);
-		SysRoleDao rdao = DaoFactory.getDao(SysRoleDao.class);
-		// 先清除全部
-		rdao.unjoinModules(roleId);
 		if (moduelIds.length > 0) {
+			//估算大概需要两倍长度，因为里面还有放入对应的父模块id
 			Set<String> moduleIdSet = new HashSet<>(moduelIds.length * 2);
+			
 			SysModuleDao mdao = DaoFactory.getDao(SysModuleDao.class);
 			// 处理层级关系
 			for (String mid : moduelIds) {
-
+				SysModuleEntity module = mdao.select("id", mid);
+				//对应模块不存在，忽略
+				if(module==null)continue;
+				
 				// 判断其父节点是否存在数组中
-				SysModuleEntity parent = mdao.select("id", mid);
-				if (parent != null) {
-					moduleIdSet.add(mid);
+				String  parentId=module.getParentId();
+				//parentId 等于null为顶层模块，不处理
+				if (parentId != null) {
+					if(!moduleIdSet.contains(parentId)) {
+						//不存在，则放入
+						moduleIdSet.add(parentId);	
+					}
 				}
+				//放入当前模块id
 				moduleIdSet.add(mid);
 			}
-			// 再添加
-			rdao.joinModules(roleId, moduleIdSet.toArray(new String[moduelIds.length]));
+			SysRoleDao rdao = DaoFactory.getDao(SysRoleDao.class);
+			// 先清除全部
+			rdao.unjoinModules(roleId);
+			if(moduelIds.length>0) {
+				// 再添加
+				rdao.joinModules(roleId, moduleIdSet.toArray(new String[moduelIds.length]));
+			}
 		}
 	}
 

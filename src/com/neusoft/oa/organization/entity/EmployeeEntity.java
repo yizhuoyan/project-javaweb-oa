@@ -5,12 +5,13 @@ import java.time.LocalDate;
 
 import com.neusoft.oa.base.entity.SysUserEntity;
 
+import jdk.nashorn.internal.ir.annotations.Immutable;
+
 /**
  * 
  * @author yizhouyan
  *
  */
-
 public class EmployeeEntity extends SysUserEntity {
 	private String idcard;//身份证号码
 	private int age;//年龄

@@ -18,7 +18,6 @@ public class ManagerAtteVacateDaoImpl extends TemplateDaoImpl<AtteVacateEntity> 
 
 	protected ManagerAtteVacateDaoImpl() {
 		super("atte_vacate");
-		// TODO Auto-generated constructor stub
 	}
 
 

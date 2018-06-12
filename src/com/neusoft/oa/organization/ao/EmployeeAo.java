@@ -6,7 +6,6 @@ package com.neusoft.oa.organization.ao;
  *
  */
 public class EmployeeAo {
-	
 	private String departmentId;// 部门
 	private String hiredate;// 入职时间
 	/** 账号 */
