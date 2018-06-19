@@ -20,7 +20,7 @@ public class DeptAtteCountDaoImpl extends TemplateDaoImpl<AtteCountEntity> imple
 	@Override
 	public void updateAtteCount(String empId,int lie) throws Exception {
 			// 1获取连接 AtteCountEntity
-				Connection connection = DBUtil.getConnection();
+				Connection connection = getCurrentConnection();
 				// 2创建sql语句对象
 				StringBuilder sql = new StringBuilder();
 				sql.append(" update ").append(" atte_count").append(" set ");
@@ -45,7 +45,7 @@ public class DeptAtteCountDaoImpl extends TemplateDaoImpl<AtteCountEntity> imple
 
 	@Override
 	public List<AtteCountEntity> selectsAttetardy(List<AtteCountEntity> totalData) throws Exception {
-		Connection connection = this.getConnection();
+		Connection connection = this.getCurrentConnection();
 
 		StringBuilder sql = new StringBuilder();
 		sql.append(" select emp_id,count(*) from ").append(" atte_attendances ");
@@ -79,7 +79,7 @@ public class DeptAtteCountDaoImpl extends TemplateDaoImpl<AtteCountEntity> imple
 	}
 	@Override
 	public List<AtteCountEntity> selectsAtteretroactive(List<AtteCountEntity> totalData) throws Exception {
-		Connection connection = this.getConnection();
+		Connection connection = this.getCurrentConnection();
 
 		StringBuilder sql = new StringBuilder();
 		sql.append("select emp_id,count(*) from ").append(" atte_retroactive ")		
@@ -108,7 +108,7 @@ public class DeptAtteCountDaoImpl extends TemplateDaoImpl<AtteCountEntity> imple
 	}
 	@Override
 	public List<AtteCountEntity> selectsAttelate(List<AtteCountEntity> totalData) throws Exception {
-		Connection connection = this.getConnection();
+		Connection connection = this.getCurrentConnection();
 
 		StringBuilder sql = new StringBuilder();
 		sql.append("select s.emp_id,count(*) from ").append(" atte_attendances s ")	
@@ -139,7 +139,7 @@ public class DeptAtteCountDaoImpl extends TemplateDaoImpl<AtteCountEntity> imple
 	}
 	@Override
 	public List<AtteCountEntity> selectsAtteEvection(List<AtteCountEntity> totalData) throws Exception {
-		Connection connection = this.getConnection();
+		Connection connection = this.getCurrentConnection();
 
 		StringBuilder sql = new StringBuilder();
 		sql.append(" select emp_id,count(*) from ").append(" atte_vacate ")	
@@ -170,7 +170,7 @@ public class DeptAtteCountDaoImpl extends TemplateDaoImpl<AtteCountEntity> imple
 	}
 	@Override
 	public List<AtteCountEntity> selectsAtteVacate(List<AtteCountEntity> totalData) throws Exception {
-		Connection connection = this.getConnection();
+		Connection connection = this.getCurrentConnection();
 
 		StringBuilder sql = new StringBuilder();
 		sql.append(" select emp_id,count(*) from ").append(" atte_vacate ")	
@@ -198,10 +198,10 @@ public class DeptAtteCountDaoImpl extends TemplateDaoImpl<AtteCountEntity> imple
 		}				
 	}
 
-	@Override
 	protected AtteCountEntity resultset2entity(ResultSet rs) throws Exception {
 	
 		return null;
 	}
+
 	
 }

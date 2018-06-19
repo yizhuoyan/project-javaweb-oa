@@ -116,10 +116,8 @@ public class AddressBookDaoImpl extends TemplateDaoImpl<AddressBookEntity> imple
 	
 	@Override
 	public void insert(AddressBookEntity t) throws Exception {
-		// TODO Auto-generated method stub
 		
 	}
-	@Override
 	protected AddressBookEntity resultset2entity(ResultSet rs) throws Exception {
 		AddressBookEntity e = new AddressBookEntity();
 		e.setName(rs.getString("name"));

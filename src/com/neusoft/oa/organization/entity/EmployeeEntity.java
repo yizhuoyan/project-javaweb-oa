@@ -3,7 +3,7 @@ package com.neusoft.oa.organization.entity;
 import java.time.Instant;
 import java.time.LocalDate;
 
-import com.neusoft.oa.base.entity.SysUserEntity;
+import com.neusoft.oa.system.entity.SysUserEntity;
 
 import jdk.nashorn.internal.ir.annotations.Immutable;
 

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.neusoft.oa.attendance.function.admin.AdminCountFunction;
 import com.neusoft.oa.attendance.function.admin.impl.AdminCountFunctionImpl;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 @WebServlet("/attendance/admin/count/list.do")
 public class ListServlet extends CommonServlet{
 	@Override

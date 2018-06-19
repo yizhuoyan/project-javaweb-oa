@@ -78,7 +78,6 @@ public class DeptAttendanceDaoImpl extends TemplateDaoImpl<AttendanceEntity> imp
 
 	}
 
-	@Override
 	protected AttendanceEntity resultset2entity(ResultSet rs) throws Exception {
 		AttendanceEntity u = new AttendanceEntity();
 		EmployeeEntity e = new EmployeeEntity();
@@ -137,5 +136,6 @@ public class DeptAttendanceDaoImpl extends TemplateDaoImpl<AttendanceEntity> imp
 	public void insert(AttendanceEntity t) throws Exception {
 
 	}
+
 
 }

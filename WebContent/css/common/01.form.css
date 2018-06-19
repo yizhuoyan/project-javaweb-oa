@@ -1,0 +1,92 @@
+/**********form************/
+form {
+	margin: 0;
+	padding-left:15px;
+	padding-right:15px;
+}
+form.inline{
+	padding:0;
+}
+
+form p {
+	display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin:0;
+}
+
+form.vertical p, p.vertical {
+	
+	display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+form p>*{
+	margin-top: 5px;
+}
+form p>span{
+	display: flex;
+	flex-flow: row nowrap;
+	 justify-content: flex-start;
+    align-items: center;
+    flex: auto;
+    box-sizing: border-box;
+}
+form p .grow {
+	flex:auto;
+}
+
+
+
+form.vertical p .grow, p.vertical .grow {
+	flex: none;
+	align-self: stretch;
+}
+
+form p label {
+	text-align: right;
+	min-width: 4em;
+	padding-right: 1em;
+}
+form p label.not-form-label{
+	text-align: left !important;
+	min-width: auto !important;
+	padding-right: 0 !important;
+}
+
+form.vertical p label, p.vertical label {
+	margin-bottom: 1em;
+	text-align: left;
+	padding-right: 0;
+}
+
+form.label5em p label {
+	min-width: 5em;
+}
+
+form.label6em p label {
+	min-width: 6em;
+}
+
+form.label7em p label {
+	min-width: 7em;
+}
+
+form.label8em p label {
+	min-width: 8em;
+}
+form.label9em p label {
+    min-width: 9em;
+}
+form.label10em p label {
+    min-width: 10em;
+}
+
+form p em {
+	color: #7f7f7f;
+	padding-left: 1em;
+	font-style: normal;
+}
+

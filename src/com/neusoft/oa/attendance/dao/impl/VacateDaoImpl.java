@@ -11,6 +11,7 @@ import com.neusoft.oa.attendance.dao.VacateDao;
 
 import com.neusoft.oa.attendance.entity.VacateEntity;
 import com.neusoft.oa.core.dao.DBUtil;
+import com.neusoft.oa.core.dao.SQLGenerator;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
 
@@ -27,7 +28,7 @@ public class VacateDaoImpl extends TemplateDaoImpl<VacateEntity> implements Vaca
 
 	@Override
 	public void insert(VacateEntity t) throws Exception {
-		String sql=DBUtil.generateInsertSql(this.tableName, "id,emp_id,when_day,starttime,start_m,endtime,end_m,type,reason,result");
+		String sql=SQLGenerator.generateInsertSql(this.tableName, "id,emp_id,when_day,starttime,start_m,endtime,end_m,type,reason,result");
 		Connection connection=DBUtil.getConnection();
 		PreparedStatement ps = connection.prepareStatement(sql);
 		int i=1;
@@ -44,7 +45,6 @@ public class VacateDaoImpl extends TemplateDaoImpl<VacateEntity> implements Vaca
 		ps.executeUpdate();
 	}
 
-	@Override
 	protected VacateEntity resultset2entity(ResultSet rs) throws Exception {
 		VacateEntity u=new VacateEntity();
 		EmployeeEntity e=new EmployeeEntity();
@@ -134,5 +134,6 @@ public class VacateDaoImpl extends TemplateDaoImpl<VacateEntity> implements Vaca
 				}
 				return total;
 	}
+
 
 }

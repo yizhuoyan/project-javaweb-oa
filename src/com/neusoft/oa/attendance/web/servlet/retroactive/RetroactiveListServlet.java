@@ -12,7 +12,7 @@ import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dto.PaginationQueryResult;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.util.ThisSystemUtil;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 /**
  * @author 田梦源
  *

@@ -15,7 +15,7 @@ import com.neusoft.oa.attendance.ao.AdminSetDateAo;
 import com.neusoft.oa.attendance.function.admin.AdminSetDateFunction;
 import com.neusoft.oa.core.dto.AjaxResponse;
 import com.neusoft.oa.core.service.FunctionFactory;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 import com.neusoft.oa.attendance.function.admin.AdminSetDateFunction;
 
 @WebServlet("/attendance/admin/setdate/mod.do")

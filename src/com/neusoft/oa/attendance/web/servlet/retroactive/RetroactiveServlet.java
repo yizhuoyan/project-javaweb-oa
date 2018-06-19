@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.neusoft.oa.attendance.function.employess.RetroactiveFunction;
 import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dao.DaoFactory;
-
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 
 
 /**

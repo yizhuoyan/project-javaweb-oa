@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.neusoft.oa.attendance.function.employess.ClockInFunction;
 import com.neusoft.oa.attendance.function.employess.impl.ClockInFunctionImpl;
 import com.neusoft.oa.core.dto.AjaxResponse;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 
 /**
  * @author 田梦源

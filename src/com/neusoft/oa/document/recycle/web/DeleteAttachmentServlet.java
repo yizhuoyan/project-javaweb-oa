@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dto.AjaxResponse;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 import com.neusoft.oa.document.recycle.function.RecycleBinFunction;
 
 import static com.neusoft.oa.core.util.AssertThrowUtil.*;

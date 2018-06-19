@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.mysql.fabric.xmlrpc.base.Data;
-import com.neusoft.oa.base.dao.SysUserDao;
-import com.neusoft.oa.base.entity.SysUserEntity;
 import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.DaoFactory;
@@ -27,6 +25,8 @@ import com.neusoft.oa.organization.dao.DepartmentDao;
 import com.neusoft.oa.organization.dao.EmployeeDao;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
+import com.neusoft.oa.system.dao.SysUserDao;
+import com.neusoft.oa.system.entity.SysUserEntity;
 
 public class DocumentFunctionImpl implements DocumentFunction {
 

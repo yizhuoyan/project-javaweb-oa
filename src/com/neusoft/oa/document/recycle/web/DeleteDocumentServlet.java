@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dao.DaoFactory;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 import com.neusoft.oa.document.recycle.function.RecycleBinFunction;
 /**
  * 彻底删除文档

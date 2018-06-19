@@ -8,7 +8,7 @@ import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dto.PaginationQueryResult;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.util.ThisSystemUtil;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 import com.neusoft.oa.document.recycle.dao.DocumentAttachmentDao;
 import com.neusoft.oa.document.recycle.entity.DocumentAttachmentEntity;
 import com.neusoft.oa.document.recycle.entity.DocumentEntity;

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.neusoft.oa.core.dto.UserContext;
 import com.neusoft.oa.core.service.FunctionFactory;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 import com.neusoft.oa.message.function.EmailFunction;
 @WebServlet("/inRecycleBinServlet.do")
 public class InsertRecycleBinServlet extends CommonServlet{

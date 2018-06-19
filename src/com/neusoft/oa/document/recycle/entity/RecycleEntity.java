@@ -2,7 +2,7 @@ package com.neusoft.oa.document.recycle.entity;
 
 import java.time.Instant;
 
-import com.neusoft.oa.base.entity.SysUserEntity;
+import com.neusoft.oa.system.entity.SysUserEntity;
 
 public class RecycleEntity {
 	private String docId;//文档编号

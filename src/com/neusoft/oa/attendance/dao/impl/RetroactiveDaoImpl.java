@@ -11,6 +11,7 @@ import com.neusoft.oa.attendance.dao.RetroactiveDao;
 import com.neusoft.oa.attendance.entity.AttendanceEntity;
 import com.neusoft.oa.attendance.entity.RetroactiveEntity;
 import com.neusoft.oa.core.dao.DBUtil;
+import com.neusoft.oa.core.dao.SQLGenerator;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
 
@@ -25,10 +26,9 @@ public class RetroactiveDaoImpl  extends TemplateDaoImpl<RetroactiveEntity> impl
 		super("atte_retroactive");
 		
 	}
-
 	@Override
 	public void insert(RetroactiveEntity t) throws Exception {
-		String sql=DBUtil.generateInsertSql(this.tableName, "id,emp_id,apply_time,sign_m");
+		String sql=SQLGenerator.generateInsertSql(this.tableName, "id,emp_id,apply_time,sign_m");
 		Connection connection=DBUtil.getConnection();
 		PreparedStatement ps = connection.prepareStatement(sql);
 		int i=1;
@@ -39,7 +39,6 @@ public class RetroactiveDaoImpl  extends TemplateDaoImpl<RetroactiveEntity> impl
 		ps.executeUpdate();
 	}
 
-	@Override
 	protected RetroactiveEntity resultset2entity(ResultSet rs) throws Exception {
 		RetroactiveEntity u=new RetroactiveEntity();
 		EmployeeEntity e=new EmployeeEntity();

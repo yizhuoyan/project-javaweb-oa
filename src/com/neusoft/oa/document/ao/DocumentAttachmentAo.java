@@ -1,9 +1,9 @@
 package com.neusoft.oa.document.ao;
 
-import com.neusoft.oa.base.entity.SysUserEntity;
 import com.neusoft.oa.document.entity.DocumentEntity;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
+import com.neusoft.oa.system.entity.SysUserEntity;
 
 public class DocumentAttachmentAo {
 	private String id;//附件编号

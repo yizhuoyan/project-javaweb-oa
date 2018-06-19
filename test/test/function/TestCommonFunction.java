@@ -8,8 +8,8 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.neusoft.oa.base.entity.SysModuleEntity;
-import com.neusoft.oa.base.function.CommonFunction;
+import com.neusoft.oa.common.function.CommonFunction;
+import com.neusoft.oa.system.entity.SysModuleEntity;
 
 /**
  * @author Administrator

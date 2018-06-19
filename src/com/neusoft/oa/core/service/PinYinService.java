@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import com.neusoft.oa.core.dao.DBUtil;
+import com.neusoft.oa.core.dao.SQLExecutor;
 
 public class PinYinService {
 	private static Map<Integer, String> CACHE_MAP = new WeakHashMap<>();
@@ -28,7 +29,7 @@ public class PinYinService {
 			String result = CACHE_MAP.get(key);
 			if (result == null) {
 				StringBuilder sql = new StringBuilder("select spelling from dic_pinyin where unicode=?");
-				result = DBUtil.selectOneRowOneColumn(sql, unicode);
+				result = SQLExecutor.selectOneRowOneColumn(sql, unicode);
 				CACHE_MAP.put(key, result);
 			}
 			return result;

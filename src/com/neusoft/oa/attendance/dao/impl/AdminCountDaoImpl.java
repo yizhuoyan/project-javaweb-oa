@@ -5,6 +5,7 @@
 package com.neusoft.oa.attendance.dao.impl;
 
 import java.io.Serializable;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
@@ -19,20 +20,21 @@ public class AdminCountDaoImpl extends TemplateDaoImpl<AdminCountEntity> impleme
 
 	protected AdminCountDaoImpl() {
 		super("atte_count");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void insert(AdminCountEntity t) throws Exception {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected AdminCountEntity resultset2entity(ResultSet rs) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
+
+
 
 
 }

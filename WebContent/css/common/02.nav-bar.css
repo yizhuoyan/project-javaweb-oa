@@ -1,0 +1,21 @@
+.nav-bar{
+     background-color: #F0F2F5;
+     border-bottom: 1px solid #eee;
+     padding: 5px 15px;
+     box-sizing:border-box;
+     font-size: 100%;
+}
+
+.nav-bar > a.fa-back {
+    text-decoration: none;
+}
+
+.nav-bar > a.fa-back:hover {
+    color: #c42818;
+}
+
+.nav-bar > a.fa-back:after {
+    content: "|";
+    padding: 0 5px;
+    color: #999999;
+}

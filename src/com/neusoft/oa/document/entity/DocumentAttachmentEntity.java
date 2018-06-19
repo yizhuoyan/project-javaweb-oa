@@ -2,9 +2,9 @@ package com.neusoft.oa.document.entity;
 
 import java.time.Instant;
 
-import com.neusoft.oa.base.entity.SysUserEntity;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
+import com.neusoft.oa.system.entity.SysUserEntity;
 
 public class DocumentAttachmentEntity {
 	private String id;//附件编号

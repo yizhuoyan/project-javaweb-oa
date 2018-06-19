@@ -7,65 +7,82 @@
 <head>
  <%@include  file="/WEB-INF/jspf/head.jsp"%>
 </head>
-
-<body>
-	<header class="content-header">
-		<h1>员工管理</h1>
-		<ol class="breadcrumb">
-			<li>
-			<a href="javascript:window.top.dashboard()"><i class="fa fa-dashboard"></i>首页</a>
-			</li>
-			<li><a>员工管理</a></li>
+<body class="layout-vbox">
+    <nav class="nav-bar">
+        <ol class="breadcrumb">
+            <li>
+                <a
+                    href="javascript:window.top.dashboard()"
+                    class="fa fa-dashboard">首页 </a>
+            </li>
+            <li>组织管理</li>
+			<li><b>员工管理</b></li>
 		</ol>
-		<hr>
-	</header>
-
-	<main class="container-fluid"> 
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-		
-			<a type="button" href="jsp/organization/empmanage/add.jsp"
-				class="btn btn-primary navbar-btn">新增
-			</a>
-			
-			<form id="qryForm" action="empmanage/list.do" method="post"
-				class="navbar-form navbar-right">
-				<input type="hidden" name="pageNo" value="1">
-				<input type="hidden" name="pageSize" value="10">
-				<div class="form-group">
-					<input type="text" name="key" value="${param.key}"
-						class="form-control" placeholder="Search">
-				</div>
-				<button type="submit" class="btn btn-default">Go</button>
-			</form>
-			
-		</div>
 	</nav>
-	<section class="box">
-		<div class="box-body">
-			<table class="table table-bordered">
+ <section class="action-bar layout-justify">
+        <aside>
+            <a
+                href="jsp/organization/empmanage/add.jsp"
+                class="btn">新增</a>
+        </aside>
+        <aside>
+            <form class="inline"
+                action="/organization/employee/list.do"
+                method="post"
+                class="navbar-form navbar-right">
+               <input type="hidden" name="pageNo" value="1">
+                <input type="hidden" name="pageSize" value="10"> 
+                <span class="input-group">
+                    <input
+                        type="text"
+                        name="key"
+                        value="${param.key}"
+                        class="form-control"
+                        placeholder="Search">
+                    <button
+                        type="submit"
+                        class="btn btn-default">Go</button>
+                </span>
+
+            </form>
+        </aside>
+    </section>
+	
+	<section class="layout-table layout-box-grow">
+         <header>
+            <table>
+                     <tr>
+                        <th>#</th>
+                        <th >操作</th>
+                        <th >工号(账号)</th>
+                        <th >名称</th>
+                        <th >性别/年龄</th>
+                        <th >工作电话/邮箱</th>
+                    </tr>
+                <colgroup>
+                    <col width="30" >
+                    <col width="50">
+                    <col width="200">
+                    <col width="150">
+                    <col width="80">
+                    <col width="*">
+                </colgroup>
+            </table>
+        </header>
+		<main>
+			<table>
 				<tbody>
-					<tr>
-						<th width="10">#</th>
-						<th width="100">操作</th>
-						<th width="150">工号(账号)</th>
-						<th width="150">名称</th>
-						<th width="100">性别/年龄</th>
-						<th width="150">工作电话/邮箱</th>
-						<th>备注</th>
-					</tr>
 					<!-- 把requestScope中的result对象放入到pageScope -->
 					<c:set var="result" value="${requestScope.result}" scope="page"></c:set>
 					<c:if test="${result.found}">
 						<c:forEach var="r" items="${result.rows}" varStatus="vs">
 							<tr>
 								<td>${vs.count}.</td>
-								<td><a href="jsp/organization/empmanage/check.jsp?${r.id}">查看/修改</a></td>
+								<td><a href="jsp/organization/empmanage/check.jsp?${r.id}">查看</a></td>
 								<td>${r.account}</td>
 								<td>${r.name}</td>
 								<td>${r.male?"男":"女"}/${r.age}</td>
 								<td>${r.workPhone}/${r.workEmail}</td>
-								<td>${r.remark}</td>
 							</tr>
 						</c:forEach>
 					</c:if>
@@ -76,7 +93,8 @@
 					</c:if>
 				</tbody>
 			</table>
-		</div>
+		</main>
+        <footer>
 		<!-- /.box-body -->
 		<c:if test="${result.found}">
 			<jsp:include page="/WEB-INF/jspf/pagination.jsp" >
@@ -84,9 +102,9 @@
 				<jsp:param name="pageClickHandler" value="gotoPage"/>
 			</jsp:include>
 		</c:if>
+        </footer>
 	</section>
 	
-	</main>
 	<script>
 		var gotoPage = function(no) {
 			var qryForm = document.getElementById("qryForm");

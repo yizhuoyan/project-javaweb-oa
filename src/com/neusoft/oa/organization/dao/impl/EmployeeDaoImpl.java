@@ -4,48 +4,41 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.neusoft.oa.base.dao.SysUserDao;
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.organization.dao.EmployeeDao;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
+import com.neusoft.oa.system.dao.SysUserDao;
 
 public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements EmployeeDao {
 
 	public EmployeeDaoImpl() {
-		super("oa_emp","uid,birthday,address,nationality," 
-				+ "politicalStatus,homePhone,"
-				+ "marriageState,hiredate,idcard,"
-				+ "nativePlace,workPhone,domicilePlace," 
-				+ "male,department_id,age,workemail");
+		super("oa_emp",
+				"uid,birthday,address,nationality," + "politicalStatus,homePhone," + "marriageState,hiredate,idcard,"
+						+ "nativePlace,workPhone,domicilePlace," + "male,department_id,age,workemail");
 	}
+
 	@Override
-	public int selectWorkEmailLikeCount(String mailName,String emailAdress) throws Exception {
-		StringBuilder sql=new StringBuilder();
-		sql.append("select count(1) from ")
-		.append(tableName)
-		.append(" where workemail like ?");
-		Number result=(Number)selectOneRowOneColumn(sql.toString(), mailName+"%"+emailAdress);
-		return result.intValue(); 
+	public int selectWorkEmailLikeCount(String mailName, String emailAdress) throws Exception {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select count(1) from ").append(tableName).append(" where workemail like ?");
+		Number result = (Number) selectOneRowOneColumn(sql.toString(), mailName + "%" + emailAdress);
+		return result.intValue();
 	}
 
 	@Override
 	public void insert(EmployeeEntity u) throws Exception {
-
-		// 1 获取数据库连接
-		Connection connection = DBUtil.getConnection();
 		SysUserDao userDao = DaoFactory.getDao(SysUserDao.class);
 		userDao.insert(u);
-		// 2 创建语句对象
-		try (PreparedStatement ps = connection.prepareStatement(generateInsertSql())) {
-			// 3 执行语句对象（设置参数）
+		try (PreparedStatement ps = prepareUpdateStatement(generateInsertSql())) {
 			int i = 1;
 			ps.setString(i++, u.getId());
 			ps.setDate(i++, localDate2sqlDate(u.getBirthday()));
@@ -78,7 +71,7 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 
 	@Override
 	public boolean exist(String ufield, Object value) throws Exception {
-		Connection connection = this.getConnection();
+		Connection connection = this.getCurrentConnection();
 		StringBuilder sql = new StringBuilder();
 		sql.append("select count(1)").append(" from sys_user u inner join oa_emp e on e.uid=u.id")
 				.append(" where u.flag!=").append(EmployeeEntity.FLAG_DELETED).append(" and ").append(ufield)
@@ -95,24 +88,16 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 
 	@Override
 	public EmployeeEntity select(String ufield, Object value) throws Exception {
-		Connection connection = DBUtil.getConnection();
 		StringBuilder sql = new StringBuilder();
 		sql.append("select *").append(" from sys_user u inner join oa_emp e on e.uid=u.id").append(" where u.flag!=")
 				.append(EmployeeEntity.FLAG_DELETED).append(" and ").append(ufield).append("=? limit 0,1");
-		PreparedStatement ps = connection.prepareStatement(sql.toString());
-		ps.setObject(1, value);
-		System.out.println(ps);
-		ResultSet rs = ps.executeQuery();
-		if (rs.next()) {
-			return resultset2entity(rs);
-		}
-		return null;
+		return selectOneRow(sql, value);
 	}
 
 	@Override
 	public List<EmployeeEntity> selectAllByColumn(String field, Object value, String... orderbys) throws Exception {
 
-		Connection connection = DBUtil.getConnection();
+		Connection connection = getCurrentConnection();
 		StringBuilder sql = new StringBuilder();
 		sql.append("select *").append(" from sys_user u inner join oa_emp e on e.uid=u.id").append(" where u.flag!=")
 				.append(EmployeeEntity.FLAG_DELETED).append(" and ").append(field);
@@ -128,21 +113,14 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 			}
 			sql.setCharAt(sql.length() - 1, ' ');
 		}
-		PreparedStatement ps = connection.prepareStatement(sql.toString());
 		if (value != null) {
-			ps.setObject(1, value);
+			return selectManyRow(sql, value);
 		}
-		ResultSet rs = ps.executeQuery();
-		List<EmployeeEntity> result = new LinkedList<>();
-		while (rs.next()) {
-			result.add(resultset2entity(rs));
-		}
-		return result;
+		return selectManyRow(sql);
 	}
 
 	@Override
 	public List<EmployeeEntity> selectAll(String... orderbys) throws Exception {
-		Connection connection = DBUtil.getConnection();
 		StringBuilder sql = new StringBuilder();
 		sql.append("select *").append(" from sys_user u inner join oa_emp e on e.uid=u.id").append(" where u.flag!=")
 				.append(EmployeeEntity.FLAG_DELETED);
@@ -153,36 +131,29 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 			}
 			sql.setCharAt(sql.length() - 1, ' ');
 		}
-		PreparedStatement ps = connection.prepareStatement(sql.toString());
-
-		ResultSet rs = ps.executeQuery();
-		List<EmployeeEntity> result = new LinkedList<>();
-		while (rs.next()) {
-			result.add(resultset2entity(rs));
-		}
-		return result;
+		return selectManyRow(sql);
 	}
 
 	@Override
 	public void update(Serializable id, Map<String, Object> columnsMap) throws Exception {
-		Map<String,Object> userTable=new HashMap<>();
-		Map<String,Object> empTable=new HashMap<>();
-		for(String column:columnsMap.keySet()) {
-			if(this.containsColumn(column)) {
+		Map<String, Object> userTable = new HashMap<>();
+		Map<String, Object> empTable = new HashMap<>();
+		for (String column : columnsMap.keySet()) {
+			if (this.containsColumn(column)) {
 				empTable.put(column, columnsMap.get(column));
-			}else {
+			} else {
 				userTable.put(column, columnsMap.get(column));
 			}
 		}
-		if(userTable.size()>0) {
-			SysUserDao udao=DaoFactory.getDao(SysUserDao.class);
+		if (userTable.size() > 0) {
+			SysUserDao udao = DaoFactory.getDao(SysUserDao.class);
 			udao.update(id, userTable);
 		}
-		
-		if(empTable.size()>0) {
+
+		if (empTable.size() > 0) {
 			super.update(id, empTable);
 		}
-		
+
 	}
 
 	@Override
@@ -191,7 +162,7 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 		if (this.containsColumn(column)) {
 			// 员工表
 			super.update(id, column, value);
-		}else {
+		} else {
 			// 1如果是用户表
 			SysUserDao udao = DaoFactory.getDao(SysUserDao.class);
 			udao.update(id, column, value);
@@ -201,34 +172,21 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 
 	@Override
 	public int selectsByKey(String key, int pageNo, int pageSize, List<EmployeeEntity> pageData) throws Exception {
-		// 1获取连接
-		Connection connection = DBUtil.getConnection();
 		// 组装wheresql
 		StringBuilder countSql = new StringBuilder("select count(*)");
-
-		if (key != null) {
+		List<Object> parameters = new ArrayList<>();
+		if (key == null) {
+			countSql.append(" from oa_emp e ");
+		} else {
 			countSql.append(" from ").append("oa_emp e join sys_user  u on e.uid=u.id ");
 			countSql.append(" where u.account like ? or u.name like ? or e.idcard like ? ");
-		} else {
-			countSql.append(" from oa_emp e ");
+			key = "%" + key + "%";
+			parameters.add(key);
+			parameters.add(key);
+			parameters.add(key);
 		}
 
-		// 2查询总记录语句对象
-		PreparedStatement ps = connection.prepareStatement(countSql.toString());
-		// 3传入参数
-		if (key != null) {
-			int i = 1;
-			key = "%" + key + "%";
-			ps.setString(i++, key);
-			ps.setString(i++, key);
-			ps.setString(i++, key);
-		}
-		// 4执行语句对象并获取结果
-		ResultSet rs = ps.executeQuery();
-		int total = 0;
-		if (rs.next()) {
-			total = rs.getInt(1);
-		}
+		int total = selectCount(countSql, parameters);
 		// 没有满足查询查询条件的数据，直接返回
 		if (total == 0) {
 			return total;
@@ -243,36 +201,19 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 		}
 		querySql.append(" order by account desc");
 		querySql.append(" limit ").append((pageNo - 1) * pageSize).append(",").append(pageSize);
-
-		ps = connection.prepareStatement(querySql.toString());
-		// 3传入参数
-		if (key != null) {
-			int i = 1;
-			key = "%" + key + "%";
-			ps.setString(i++, key);
-			ps.setString(i++, key);
-			ps.setString(i++, key);
-		}
-		// 4执行语句对象并获取结果
-		rs = ps.executeQuery();
-		// 5转换结果为实体
-		while (rs.next()) {
-			EmployeeEntity e = resultset2entity(rs);
-			pageData.add(e);
-		}
+		selectManyRow(pageData, querySql, parameters);
 		return total;
 	}
 
 	@Override
 	protected EmployeeEntity resultset2entity(ResultSet rs) throws Exception {
 		EmployeeEntity e = new EmployeeEntity();
-		e.setId(rs.getString("id"));
+		e.setPoliticalStatus(rs.getInt("politicalStatus"));
 		e.setIdcard(rs.getString("idcard"));
-		e.setMarriageState(rs.getInt("MarriageState"));
 		e.setAge(rs.getInt("age"));
 		e.setMale(rs.getBoolean("male"));
 		e.setAddress(rs.getString("address"));
-		e.setWorkEmail(rs.getString("workemail"));
+		e.setWorkEmail(rs.getString("workEmail"));
 		e.setHomePhone(rs.getString("homePhone"));
 		e.setHiredate(sqlDate2LocalDate(rs.getDate("hiredate")));
 		e.setWorkPhone(rs.getString("workPhone"));
@@ -282,12 +223,14 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 			department.setId(departmentId);
 			e.setDepartment(department);
 		}
-		e.setNationality(rs.getInt("nationality"));
 		e.setNativePlace(rs.getString("nativePlace"));
 		e.setDomicilePlace(rs.getString("domicilePlace"));
 		e.setBirthday(sqlDate2LocalDate(rs.getDate("birthday")));
-		e.setPoliticalStatus(rs.getInt("politicalStatus"));
+		e.setNationality(rs.getInt("nationality"));
+		e.setMarriageState(rs.getInt("marriageState"));
 		e.setName(rs.getString("name"));
+		e.setLastModPasswordTime(rs.getTimestamp("lastModPasswordTime"));
+		e.setId(rs.getString("id"));
 		e.setAccount(rs.getString("account"));
 		e.setLastLoginIP(rs.getString("lastLoginIP"));
 		e.setPassword(rs.getString("password"));
@@ -298,7 +241,6 @@ public class EmployeeDaoImpl extends TemplateDaoImpl<EmployeeEntity> implements 
 		e.setAvatar(rs.getString("avatar"));
 		e.setRemark(rs.getString("remark"));
 		e.setFlag(rs.getInt("flag"));
-		e.setLastModPasswordTime(rs.getTimestamp("lastModPasswordTime"));
 		return e;
 	}
 }

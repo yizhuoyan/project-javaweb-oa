@@ -7,25 +7,20 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 
 import java.sql.PreparedStatement;
-import com.neusoft.oa.base.entity.SysModuleEntity;
-import com.neusoft.oa.base.entity.SysUserEntity;
+
 import com.neusoft.oa.core.dao.DBUtil;
+import com.neusoft.oa.core.dao.SQLGenerator;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.message.dao.EmailDao;
 import com.neusoft.oa.message.entity.AddressBookEntity;
 import com.neusoft.oa.message.entity.EmailEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
+import com.neusoft.oa.system.entity.SysModuleEntity;
+import com.neusoft.oa.system.entity.SysUserEntity;
 
 public class EmailDaoImpl extends TemplateDaoImpl<EmailEntity> implements EmailDao {
 	protected EmailDaoImpl() {
 		super("oa_email");
-	}
-
-	public Timestamp utilDate2timestamp(java.util.Date d) {
-		if (d != null) {
-			return new Timestamp(d.getTime());
-		}
-		return null;
 	}
 
 	@Override
@@ -33,7 +28,7 @@ public class EmailDaoImpl extends TemplateDaoImpl<EmailEntity> implements EmailD
 		// 1获取连接
 		Connection connection = DBUtil.getConnection();
 		// 2创建sql语句对象
-		String sql = DBUtil.generateInsertSql(this.tableName,
+		String sql = SQLGenerator.generateInsertSql(this.tableName,
 				"id,title,content,recipient,sender,sendTime,inDraftBin,"
 						+ "isCheckedByRecipient,isDeleteBySender,isDeleteByRecipient,"
 						+ "attachment,inRecycleBin,completelyDeleteBySender," + "completelyDeleteByRecipient");
@@ -76,11 +71,9 @@ public class EmailDaoImpl extends TemplateDaoImpl<EmailEntity> implements EmailD
 
 	@Override
 	public void insert(EmailEntity t) throws Exception {
-		// TODO Auto-generated method stub
-
+		
 	}
 
-	@Override
 	protected EmailEntity resultset2entity(ResultSet rs) throws Exception {
 		EmailEntity e = new EmailEntity();
 		e.setId(rs.getString("id"));
@@ -549,4 +542,5 @@ public class EmailDaoImpl extends TemplateDaoImpl<EmailEntity> implements EmailD
 		}
 		return null;	
 	}
+
 }

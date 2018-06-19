@@ -9,18 +9,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.neusoft.oa.base.entity.SysUserEntity;
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.document.recycle.dao.DocumentAttachmentDao;
 import com.neusoft.oa.document.recycle.entity.DocumentAttachmentEntity;
 import com.neusoft.oa.document.recycle.entity.DocumentEntity;
+import com.neusoft.oa.system.entity.SysUserEntity;
 
 public class DocumentAttachmentDaoImpl extends TemplateDaoImpl<DocumentAttachmentEntity>  implements DocumentAttachmentDao{
 
 	protected DocumentAttachmentDaoImpl() {
 		super("oa_attachment");
-		// TODO Auto-generated constructor stub
 	}
 
 	
@@ -113,7 +112,6 @@ public class DocumentAttachmentDaoImpl extends TemplateDaoImpl<DocumentAttachmen
 			return total;
 		}
 
-	@Override
 	protected DocumentAttachmentEntity resultset2entity(ResultSet rs) throws Exception {
 		DocumentAttachmentEntity e= new DocumentAttachmentEntity();
 		e.setId(rs.getString("id"));
@@ -146,6 +144,8 @@ public class DocumentAttachmentDaoImpl extends TemplateDaoImpl<DocumentAttachmen
 	public void insert(DocumentAttachmentEntity t) throws Exception {
 		
 	}
-	
+
+
+
 
 }

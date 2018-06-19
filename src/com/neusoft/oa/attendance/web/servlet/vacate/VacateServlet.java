@@ -11,7 +11,7 @@ import com.neusoft.oa.attendance.ao.VacateAo;
 import com.neusoft.oa.attendance.function.employess.VacateFunction;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dto.AjaxResponse;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 
 
 /**

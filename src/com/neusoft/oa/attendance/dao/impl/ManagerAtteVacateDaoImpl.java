@@ -90,7 +90,6 @@ public class ManagerAtteVacateDaoImpl extends TemplateDaoImpl<AtteVacateEntity> 
 				return total;
 			}
 	
-	@Override
 	protected AtteVacateEntity resultset2entity(ResultSet rs) throws Exception {
 		AtteVacateEntity u = new AtteVacateEntity();
 		
@@ -142,6 +141,10 @@ public class ManagerAtteVacateDaoImpl extends TemplateDaoImpl<AtteVacateEntity> 
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
+
 
 }
 

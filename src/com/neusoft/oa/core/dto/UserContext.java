@@ -1,8 +1,10 @@
 package com.neusoft.oa.core.dto;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Optional;
 
-import com.neusoft.oa.base.entity.SysRoleEntity;
+import com.neusoft.oa.system.entity.SysRoleEntity;
 
 /**
  * 用户上下文
@@ -18,7 +20,6 @@ public class UserContext {
 	private Date lastLoginTime;
 	private String lastLoginIp;
 	private Date lastModPasswordTime;
-	
 	private String jsessionId;
 	/**密保邮箱*/
 	private String securityEmail;
@@ -107,5 +108,18 @@ public class UserContext {
 		return "manager".equals(this.role.getCode());
 
 	}
-	
+	public Map<String,Object> toVo() {
+		return VOMap.of(4)
+				.put("id",this.id)
+				.put("name",this.name)
+				.put("account",this.account)
+				.put("lastLoginTime",this.lastLoginTime)
+				.put("lastModPasswordTime",this.lastModPasswordTime)
+				.put("securityEmail",this.securityEmail)
+				.put("avatar",this.avatar)
+				.put("role",Optional.ofNullable(this.role).map(r->r.getCode()).orElse(null))
+				.put("jsessionId",this.jsessionId)
+				.put("lastModPasswordTime",this.lastModPasswordTime)
+				.put("lastLoginIp",this.lastLoginIp);
+	}
 }

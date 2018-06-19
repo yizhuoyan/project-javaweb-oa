@@ -8,15 +8,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.neusoft.oa.base.entity.SysModuleEntity;
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.DaoFactory;
+import com.neusoft.oa.core.dao.SQLGenerator;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.document.log.dao.DocumentDao;
 import com.neusoft.oa.document.log.entity.DocumentEntity;
 import com.neusoft.oa.organization.dao.DepartmentDao;
 import com.neusoft.oa.organization.dao.EmployeeDao;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
+import com.neusoft.oa.system.entity.SysModuleEntity;
 
 public class DocumentDaoImpl extends TemplateDaoImpl<DocumentEntity> implements DocumentDao {
 
@@ -30,7 +31,7 @@ public class DocumentDaoImpl extends TemplateDaoImpl<DocumentEntity> implements 
 		// 1获取连接
 		Connection connection = DBUtil.getConnection();
 		// 2创建sql语句对象
-		String sql = DBUtil.generateInsertSql(this.tableName,
+		String sql = SQLGenerator.generateInsertSql(this.tableName,
 				"id,property,path,name,createUser_id,createTime,remark,flag,dept_id");
 		PreparedStatement ps = connection.prepareStatement(sql);
 		// 3传入参数并执行语句对象
@@ -50,10 +51,7 @@ public class DocumentDaoImpl extends TemplateDaoImpl<DocumentEntity> implements 
 
 	}
 
-	@Override
 	protected DocumentEntity resultset2entity(ResultSet rs) throws Exception {
-		// TODO Auto-generated method stub
-		// id,property,path,name,createUser_id,createTime,remark,flag,dept_id
 		DocumentEntity d = new DocumentEntity();
 		d.setCreateTime(timestamp2Instant(rs.getTimestamp("createTime")));
 		String creatUserId = rs.getString("createUser_id");
@@ -172,6 +170,11 @@ public class DocumentDaoImpl extends TemplateDaoImpl<DocumentEntity> implements 
 			pageData.add(e);
 		}
 		return total;
+	}
+
+	protected void entity2row(DocumentEntity e, PreparedStatement ps) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

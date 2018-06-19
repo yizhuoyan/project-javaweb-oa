@@ -2,9 +2,9 @@ package com.neusoft.oa.document.ao;
 
 import java.time.Instant;
 
-import com.neusoft.oa.base.entity.SysUserEntity;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
+import com.neusoft.oa.system.entity.SysUserEntity;
 
 public class DocumentAo {
 	private String id;//文档编号

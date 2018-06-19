@@ -1,0 +1,31 @@
+
+table.data {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+table.data td, table.data th {
+    border: 1px solid #DDDDDD;
+    padding: 5px 0;
+   
+}
+
+table.data > thead>tr {
+    background-color: #F0AD4E;
+    font-weight: bold;
+    height: 2em;
+}
+
+table.data>tr,table.data>tbody>tr {
+    background-color: #ffffff;
+}
+
+
+table.data>tr:nth-child(even),table.data>tbody>tr:nth-child(even) {
+    background-color: #F9F9F9;
+}
+
+table.data>tr:HOVER,table.data>tbody>tr:HOVER {
+    background-color: #EFEFEF;
+}

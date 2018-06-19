@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.neusoft.oa.core.dto.PaginationQueryResult;
 import com.neusoft.oa.core.service.FunctionFactory;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 import com.neusoft.oa.document.log.entity.DocumentLogEntity;
 import com.neusoft.oa.document.log.function.DocumentLogAO;
 import com.neusoft.oa.document.log.function.DocumentLogFunction;

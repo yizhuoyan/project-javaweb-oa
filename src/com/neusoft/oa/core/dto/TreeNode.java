@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import com.neusoft.oa.base.entity.SysModuleEntity;
+import com.neusoft.oa.system.entity.SysModuleEntity;
 
 /**
  * @author Administrator
@@ -63,22 +63,22 @@ public class TreeNode extends HashMap<String, Object> implements Serializable{
 	}
 	
 	public static final  List<TreeNode> of(List<SysModuleEntity> modules,Function<SysModuleEntity, TreeNode> transfer){
-		List<TreeNode> result=new ArrayList<>(modules.size()/2);
+		List<TreeNode> roots=new ArrayList<>(modules.size()/2);
 		Map<String, TreeNode> map=new HashMap<>(modules.size());
 		for (SysModuleEntity m : modules) {
 			TreeNode item=transfer.apply(m);
 			map.put(m.getId(),item);
-			if(m.getParentId()==null) {
-				result.add(item);
+			if(m.getParentModule()==null) {
+				roots.add(item);
 			}
 		}
 		for (SysModuleEntity m : modules) {
-			if(m.getParentId()!=null) {
-				TreeNode parent=map.get(m.getParentId());
+			if(m.getParentModule()!=null) {
+				TreeNode parent=map.get(m.getParentModule().getId());
 				parent.addChild(map.get(m.getId()));
 			}
 		}
-		return result;
+		return roots;
 	}
 	
 }

@@ -116,7 +116,6 @@ public class ManagerAtteRetroactiveDaoImpl extends TemplateDaoImpl<AtteRetroacti
 		
 	}
 
-	@Override
 	protected AtteRetroactiveEntity resultset2entity(ResultSet rs) throws Exception {
 		AtteRetroactiveEntity u = new AtteRetroactiveEntity();
 		u.setRetTime(new Date(rs.getTimestamp("ret_time").getTime()));
@@ -126,5 +125,6 @@ public class ManagerAtteRetroactiveDaoImpl extends TemplateDaoImpl<AtteRetroacti
 		u.setRemark(rs.getString("remark"));
 		return u;		
 	}
+
 
 }

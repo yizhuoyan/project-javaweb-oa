@@ -11,7 +11,7 @@ import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dto.AjaxResponse;
 import com.neusoft.oa.core.dto.PaginationQueryResult;
 import com.neusoft.oa.core.service.FunctionFactory;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 import com.neusoft.oa.document.recycle.entity.DocumentAttachmentEntity;
 import com.neusoft.oa.document.recycle.function.RecycleBinFunction;
 /**

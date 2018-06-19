@@ -18,6 +18,7 @@ import java.util.Map;
 import com.neusoft.oa.attendance.dao.AdminSetDateDao;
 import com.neusoft.oa.attendance.entity.AdminSetDateEntity;
 import com.neusoft.oa.core.dao.DBUtil;
+import com.neusoft.oa.core.dao.SQLGenerator;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
 
@@ -25,14 +26,13 @@ public class AdminSetDateDaoImpl extends TemplateDaoImpl<AdminSetDateEntity> imp
 
 	protected AdminSetDateDaoImpl() {
 		super("atte_day");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void insert(AdminSetDateEntity t) throws Exception {
 		// TODO Auto-generated method stub
 		Connection connection = DBUtil.getConnection();
-		String sql = DBUtil.generateInsertSql(this.tableName,
+		String sql = SQLGenerator.generateInsertSql(this.tableName,
 				"id,when_day,work_day,on_duty,off_duty,sign_instart,sign_inend,sign_outstart,sign_outend,remark");
 		PreparedStatement ps = connection.prepareStatement(sql);
 		int i = 1;
@@ -49,7 +49,6 @@ public class AdminSetDateDaoImpl extends TemplateDaoImpl<AdminSetDateEntity> imp
 		ps.executeUpdate();
 	}
 
-	@Override
 	protected AdminSetDateEntity resultset2entity(ResultSet rs) throws Exception {
 		// TODO Auto-generated method stub
 		AdminSetDateEntity sde = new AdminSetDateEntity();
@@ -151,5 +150,7 @@ public class AdminSetDateDaoImpl extends TemplateDaoImpl<AdminSetDateEntity> imp
 		return total;
 
 	}
+
+	
 
 }

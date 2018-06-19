@@ -12,7 +12,7 @@ import com.neusoft.oa.attendance.entity.AdminSetDateEntity;
 import com.neusoft.oa.attendance.function.admin.AdminSetDateFunction;
 import com.neusoft.oa.attendance.function.admin.impl.AdminSetDateFunctionImpl;
 import com.neusoft.oa.core.dto.PaginationQueryResult;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 @WebServlet("/attendance/admin/setdate/check.do")
 public class CheckServlet extends CommonServlet {
 	@Override

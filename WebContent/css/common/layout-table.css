@@ -1,0 +1,55 @@
+.layout-table {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 0 15px;
+    
+}
+
+.layout-table > header {
+    flex: 0 0 auto;
+}
+
+.layout-table > main {
+    flex: 0 1 auto;
+    overflow: auto;
+    text-align: center;
+}
+
+.layout-table > footer {
+    flex: 0 0 auto;
+    padding: 5px 15px;
+}
+
+.layout-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.layout-table td, .layout-table th {
+    border: 1px solid #DDDDDD;
+    padding: 5px 0;
+    
+}
+
+.layout-table > header tr {
+    background-color: #F0AD4E;
+    font-weight: bold;
+    height: 2em;
+}
+
+.layout-table > main tr {
+    background-color: #ffffff;
+}
+
+.layout-table > main tr:nth-child(even) {
+    background-color: #F9F9F9;
+}
+
+.layout-table > main tr:HOVER {
+    background-color: #EFEFEF;
+}
+
+
+
+
+

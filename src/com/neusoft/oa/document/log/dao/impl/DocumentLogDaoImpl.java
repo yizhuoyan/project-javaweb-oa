@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.neusoft.oa.base.entity.SysUserEntity;
 import com.neusoft.oa.core.dao.DBUtil;
+import com.neusoft.oa.core.dao.SQLGenerator;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.document.log.dao.DocumentLogDao;
 import com.neusoft.oa.document.log.entity.DocumentAttachmentEntity;
@@ -18,6 +18,7 @@ import com.neusoft.oa.document.log.entity.DocumentLogEntity;
 import com.neusoft.oa.document.log.function.DocumentLogAO;
 
 import com.neusoft.oa.organization.entity.EmployeeEntity;
+import com.neusoft.oa.system.entity.SysUserEntity;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 public class DocumentLogDaoImpl extends TemplateDaoImpl<DocumentLogEntity> implements DocumentLogDao {
@@ -30,7 +31,6 @@ public class DocumentLogDaoImpl extends TemplateDaoImpl<DocumentLogEntity> imple
 
 	protected DocumentLogDaoImpl() {
 		super("log_document");
-		// TODO Auto-generated constructor stub
 	}
 
 	// 操作 1放入回收站2创建3下载4还原5彻底删除
@@ -38,7 +38,7 @@ public class DocumentLogDaoImpl extends TemplateDaoImpl<DocumentLogEntity> imple
 	public void insert(DocumentLogEntity t) throws Exception {
 
 		Connection con = DBUtil.getConnection();
-		String sql = DBUtil.generateInsertSql(tableName, "id,target,operation,operationTime,operator_id,content");
+		String sql = SQLGenerator.generateInsertSql(tableName, "id,target,operation,operationTime,operator_id,content");
 		// 根据操作类型生成操作具体内容
 		try (PreparedStatement ps = con.prepareStatement(sql.toString());) {
 
@@ -140,22 +140,18 @@ public class DocumentLogDaoImpl extends TemplateDaoImpl<DocumentLogEntity> imple
 			}
 
 		}
-		System.out.println(querySql.toString());
 		// 4执行语句对象并获取结果
 		rs = ps.executeQuery();
 
 		// 5转换结果为实体
 		while (rs.next()) {
 			DocumentLogEntity e = resultset2entity(rs);
-			System.out.println(e.getOperation());
 			pageData.add(e);
 		}
 		return total;
 	}
 
-	@Override
 	protected DocumentLogEntity resultset2entity(ResultSet rs) throws Exception {
-		// TODO Auto-generated method stub
 
 		String operateorId = rs.getString("operator_id");
 		EmployeeEntity ee = new EmployeeEntity();
@@ -185,5 +181,6 @@ public class DocumentLogDaoImpl extends TemplateDaoImpl<DocumentLogEntity> imple
 		return new java.sql.Date(date.getTime());
 
 	}
+
 
 }

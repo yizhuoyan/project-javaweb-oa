@@ -8,7 +8,7 @@ import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dto.PaginationQueryResult;
 import com.neusoft.oa.core.dto.UserContext;
 import com.neusoft.oa.core.service.FunctionFactory;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 import com.neusoft.oa.message.entity.EmailEntity;
 import com.neusoft.oa.message.function.EmailFunction;
 import com.neusoft.oa.message.function.impl.EmailFunctionImpl;

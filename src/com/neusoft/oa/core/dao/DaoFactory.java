@@ -10,9 +10,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.neusoft.oa.base.dao.impl.SysModuleDaoImpl;
-import com.neusoft.oa.base.dao.impl.SysRoleDaoImpl;
-import com.neusoft.oa.base.dao.impl.SysUserDaoImpl;
+import com.neusoft.oa.system.dao.impl.SysModuleDaoImpl;
+import com.neusoft.oa.system.dao.impl.SysRoleDaoImpl;
+import com.neusoft.oa.system.dao.impl.SysUserDaoImpl;
 
 /**
  * @author Administrator

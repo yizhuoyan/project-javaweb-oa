@@ -29,9 +29,6 @@ public class DBUtil {
 		init();
 	}
 	
-	
-	
-	 
 	private static void init() {
 		// 加载数据库驱动
 		try {
@@ -47,16 +44,23 @@ public class DBUtil {
 	 * 
 	 * @return
 	 */
-	public static Connection getConnection() throws SQLException {
+	public static Connection getConnection(boolean readonly) throws SQLException {
 		// 1先从当前线程中获取数据库连接
 		Connection connection = THREADLOCAL.get();
 		// 2如果没有或者已关闭，则新建
 		if (connection == null || connection.isClosed()) {
-			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			connection=getNewConnection();
 			// 3再放入当前线程中
 			THREADLOCAL.set(connection);
 		}
+		connection.setReadOnly(readonly);
 		return connection;
+	}
+	public static Connection getConnection() throws SQLException {
+		return getConnection(false);
+	}
+	public static Connection getNewConnection() throws SQLException{
+		return DriverManager.getConnection(URL, USERNAME, PASSWORD);
 	}
 	
 
@@ -83,125 +87,7 @@ public class DBUtil {
 		}
 		return new String(cs);
 	}
-	public static String generateInsertSql(String table,List<String> columns) {
-		StringBuilder sql = new StringBuilder();
-		sql.append("insert into ").append(table).append('(');
-		
-		for (String column:columns) {
-			sql.append(column).append(',');
-		}
-		sql.setCharAt(sql.length() - 1, ')');
-		sql.append("values(");
-		for (int i = columns.size(); i-->0;) {
-			sql.append("?,");
-		}
-		sql.setCharAt(sql.length() - 1, ')');
-		return sql.toString();
-	}
-	public static String generateInsertSql(String table, String columns) {
-		return generateInsertSql(table, Arrays.asList(columns.split(",")));
-	}
 	
-	public static List<Map<String,Object>> selectManyRow2map(Object sql,Object... parameters)throws SQLException{
-		List<Map<String, Object>> result=new LinkedList<>();
-		Connection connection=DBUtil.getConnection();
-		try(PreparedStatement ps=connection.prepareStatement(sql.toString())){
-			for(int i=0;i<parameters.length;i++) {
-				ps.setObject(i+1, parameters[i]);
-			}
-			ResultSet rs = ps.executeQuery();
-			
-			ResultSetMetaData metaData = rs.getMetaData();
-			int columnCount=metaData.getColumnCount();
-			
-			while(rs.next()) {
-				Map<String, Object> row=new HashMap<>();
-				for(int i=0;i<columnCount;i++) {
-					String key=metaData.getColumnLabel(i);
-					row.put(key, rs.getObject(i));
-				}
-				result.add(row);
-			}
-		}
-		return result;
-	}
-	public static <T>List<T> selectManyRowOneColumn(Object sql,Object... parameters)throws SQLException{
-		List<Object> result=new LinkedList<>();
-		Connection connection=DBUtil.getConnection();
-		try(PreparedStatement ps=connection.prepareStatement(sql.toString())){
-			for(int i=0;i<parameters.length;i++) {
-				ps.setObject(i+1, parameters[i]);
-			}
-			ResultSet rs = ps.executeQuery();
-			
-			ResultSetMetaData metaData = rs.getMetaData();
-			
-			while(rs.next()) {
-				result.add(rs.getObject(1));
-			}
-		}
-		return (List<T>) result;
-	}
 	
-	public static Map<String,Object> selectOneRow2map(Object sql,Object... parameters)throws SQLException{
-		Connection connection=DBUtil.getConnection();
-		try(PreparedStatement ps=connection.prepareStatement(sql.toString())){
-			for(int i=0;i<parameters.length;i++) {
-				ps.setObject(i+1, parameters[i]);
-			}
-			ResultSet rs = ps.executeQuery();
-			ResultSetMetaData metaData = rs.getMetaData();
-			int columnCount=metaData.getColumnCount();
-			if(rs.next()) {
-				Map<String, Object> row=new HashMap<>();
-				for(int i=0;i<columnCount;i++) {
-					String key=metaData.getColumnLabel(i);
-					row.put(key, rs.getObject(i));
-				}
-				return row;
-			}
-		}
-		return null;
-	}
-
-	public static Object[] selectOneRow2Array(Object sql,Object... parameters)throws SQLException{
-		Connection connection=DBUtil.getConnection();
-		try(PreparedStatement ps=connection.prepareStatement(sql.toString())){
-			for(int i=0;i<parameters.length;i++) {
-				ps.setObject(i+1, parameters[i]);
-			}
-			ResultSet rs = ps.executeQuery();
-			ResultSetMetaData metaData = rs.getMetaData();
-			int columnCount=metaData.getColumnCount();
-			if(rs.next()) {
-				Object[] result=new Object[columnCount];
-				for(int i=0;i<columnCount;i++) {
-					result[i]=rs.getObject(i);
-				}
-				return result;
-			}
-		}
-		return null;
-	}
-	/**
-	 * count语句返回Long型
-	 * 
-	 * @param sql
-	 * @param parameters
-	 * @return
-	 * @throws SQLException
-	 */
-	public static <T>T selectOneRowOneColumn(Object sql,Object... parameters)throws SQLException{
-		Connection connection=DBUtil.getConnection();
-		try(PreparedStatement ps=connection.prepareStatement(sql.toString())){
-			for(int i=0;i<parameters.length;i++) {
-				ps.setObject(i+1, parameters[i]);
-			}
-			ResultSet rs = ps.executeQuery();
-			if(rs.next()) {
-				return (T)rs.getObject(1);
-			}
-		}
-		return null;
-	}
+	
 }

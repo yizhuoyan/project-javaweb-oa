@@ -22,7 +22,7 @@ public class DatabaseTable {
 			sql.append("select COLUMN_NAME ,COLUMN_KEY ").append(" from").append(" information_schema.COLUMNS")
 					.append(" where TABLE_SCHEMA=?").append(" and table_name=?").append(" order by ORDINAL_POSITION");
 
-			List<Map<String, Object>> result = DBUtil.selectManyRow2map(sql, schema, table.toUpperCase());
+			List<Map<String, Object>> result = SQLExecutor.selectManyRow2map(sql, schema, table.toUpperCase());
 			for(Map<String,Object> map:result) {
 				if("PRI".equalsIgnoreCase((String)map.get("COLUMN_KEY"))) {
 					

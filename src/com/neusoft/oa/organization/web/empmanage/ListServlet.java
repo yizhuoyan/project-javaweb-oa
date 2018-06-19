@@ -8,11 +8,11 @@ import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dto.PaginationQueryResult;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.util.ThisSystemUtil;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
 import com.neusoft.oa.organization.function.OrganizationFunction;
 
-@WebServlet("/empmanage/list.do")
+@WebServlet("/organization/employee/list.do")
 public class ListServlet extends CommonServlet {
 
 	@Override

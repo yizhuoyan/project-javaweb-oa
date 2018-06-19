@@ -16,7 +16,6 @@ public class ManagerAtteCountDaoImpl extends TemplateDaoImpl<AtteCountEntity> im
 
 	protected ManagerAtteCountDaoImpl() {
 		super("atte_count");
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -119,7 +118,6 @@ public class ManagerAtteCountDaoImpl extends TemplateDaoImpl<AtteCountEntity> im
 
 
 
-	@Override
 	protected AtteCountEntity resultset2entity(ResultSet rs) throws Exception {
 		AtteCountEntity u = new AtteCountEntity();
 		EmployeeEntity e=new EmployeeEntity();
@@ -187,7 +185,10 @@ public class ManagerAtteCountDaoImpl extends TemplateDaoImpl<AtteCountEntity> im
 					}				
 				return null;	
 	}
-	
+
+
+
+
 
 
 

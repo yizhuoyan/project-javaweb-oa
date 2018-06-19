@@ -1,0 +1,23 @@
+.layout-row {
+    display: flex;
+    flex-direction: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+.layout-row-wrap {
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.layout-row > * {
+    flex: none;
+}
+
+.layout-row > .layout-box-grow {
+    flex: auto;
+}
+
+

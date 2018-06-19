@@ -15,7 +15,7 @@ import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.service.FunctionFactory;
 import com.neusoft.oa.core.util.ArgumentObjectUtil;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 import com.neusoft.oa.document.ao.DocumentAttachmentAo;
 import com.neusoft.oa.document.dao.DocumentDao;
 import com.neusoft.oa.document.entity.DocumentAttachmentEntity;

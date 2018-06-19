@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.neusoft.oa.attendance.function.employess.RetroactiveFunction;
 import com.neusoft.oa.core.dao.DaoFactory;
 import com.neusoft.oa.core.dto.AjaxResponse;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 @WebServlet("/attendance/employess/retroactive/apply.ajax")
 public class RetroactiveApplyServlet extends CommonServlet{
 	@Override

@@ -1,0 +1,14 @@
+a {
+    text-decoration: underline;
+    cursor: pointer;
+
+}
+a:hover {
+    text-decoration: none;
+}
+a:link{
+
+}
+a + a {
+    margin-left: 1em;
+}

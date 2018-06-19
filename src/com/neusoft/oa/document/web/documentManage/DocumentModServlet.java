@@ -4,12 +4,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.neusoft.oa.base.function.AdministratorFunction;
-import com.neusoft.oa.base.web.servlet.administrator.sysuser.ao.SysUserAo;
 import com.neusoft.oa.core.OAException;
 import com.neusoft.oa.core.dto.AjaxResponse;
 import com.neusoft.oa.core.service.FunctionFactory;
-import com.neusoft.oa.core.web.CommonServlet;
+import com.neusoft.oa.core.web.servlet.CommonServlet;
 import com.neusoft.oa.document.ao.DocumentAo;
 import com.neusoft.oa.document.function.DocumentFunction;
 @WebServlet("/documentManage/mod.ajax")

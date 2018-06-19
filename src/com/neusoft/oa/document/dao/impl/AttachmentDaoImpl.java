@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.DaoFactory;
+import com.neusoft.oa.core.dao.SQLGenerator;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.document.dao.AttachmentDao;
 import com.neusoft.oa.document.dao.DocumentDao;
@@ -22,7 +23,6 @@ public class AttachmentDaoImpl extends TemplateDaoImpl<DocumentAttachmentEntity>
 
 	protected AttachmentDaoImpl() {
 		super("oa_attachment");
-		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public List<DocumentAttachmentEntity> selectAllByColumn(String field, Object value,String... orderbys) throws Exception {
@@ -59,7 +59,7 @@ public class AttachmentDaoImpl extends TemplateDaoImpl<DocumentAttachmentEntity>
 		// 1获取连接
 		Connection connection = DBUtil.getConnection();
 		// 2创建sql语句对象
-		String sql = DBUtil.generateInsertSql(this.tableName,
+		String sql = SQLGenerator.generateInsertSql(this.tableName,
 				"id,document_id,path,name,property,createUser_id,createTime,remark,flag,dept_id,type,size");
 
 		PreparedStatement ps = connection.prepareStatement(sql);
@@ -83,7 +83,6 @@ public class AttachmentDaoImpl extends TemplateDaoImpl<DocumentAttachmentEntity>
 
 	}
 
-	@Override
 	protected DocumentAttachmentEntity resultset2entity(ResultSet rs) throws Exception {
 		DocumentAttachmentEntity d=new DocumentAttachmentEntity();
 		d.setCreateTime(timestamp2Instant(rs.getTimestamp("createTime")));

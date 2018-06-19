@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.neusoft.oa.core.dao.DBUtil;
+import com.neusoft.oa.core.dao.SQLGenerator;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.document.log.dao.AttachmentDao;
 import com.neusoft.oa.document.log.entity.DocumentAttachmentEntity;
@@ -25,7 +26,7 @@ public class AttachmentDaoImpl extends TemplateDaoImpl<DocumentAttachmentEntity>
 		// 1获取连接
 		Connection connection = DBUtil.getConnection();
 		// 2创建sql语句对象
-		String sql = DBUtil.generateInsertSql(this.tableName,
+		String sql = SQLGenerator.generateInsertSql(this.tableName,
 				"id,document_id,path,name,property,createUser_id,createTime,remark,flag,dept_id");
 
 		PreparedStatement ps = connection.prepareStatement(sql);
@@ -47,10 +48,10 @@ public class AttachmentDaoImpl extends TemplateDaoImpl<DocumentAttachmentEntity>
 
 	}
 
-	@Override
 	protected DocumentAttachmentEntity resultset2entity(ResultSet rs) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

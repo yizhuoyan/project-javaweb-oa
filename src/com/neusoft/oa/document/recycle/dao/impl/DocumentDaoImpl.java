@@ -7,23 +7,21 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
-import com.neusoft.oa.base.entity.SysUserEntity;
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.document.recycle.dao.DocumentDao;
 import com.neusoft.oa.document.recycle.entity.DocumentAttachmentEntity;
 import com.neusoft.oa.document.recycle.entity.DocumentEntity;
+import com.neusoft.oa.system.entity.SysUserEntity;
 
 public class DocumentDaoImpl extends TemplateDaoImpl<DocumentEntity> implements DocumentDao {
 
 	protected DocumentDaoImpl() {
 		super("oa_document");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void insert(DocumentEntity t) throws Exception {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -90,7 +88,6 @@ public class DocumentDaoImpl extends TemplateDaoImpl<DocumentEntity> implements 
 
 	
 
-	@Override
 	protected DocumentEntity resultset2entity(ResultSet rs) throws Exception {
 		DocumentEntity e= new DocumentEntity();
 		e.setId(rs.getString("id"));
@@ -109,4 +106,5 @@ public class DocumentDaoImpl extends TemplateDaoImpl<DocumentEntity> implements 
 		
 		return e;
 	}
+
 }

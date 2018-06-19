@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
-import com.neusoft.oa.base.entity.SysUserEntity;
 import com.neusoft.oa.core.dao.DBUtil;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.document.recycle.dao.RecycleDao;
@@ -13,12 +12,12 @@ import com.neusoft.oa.document.recycle.entity.DocumentEntity;
 import com.neusoft.oa.document.recycle.entity.RecycleEntity;
 import com.neusoft.oa.organization.entity.DepartmentEntity;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
+import com.neusoft.oa.system.entity.SysUserEntity;
 
 public class RecycleDaoImpl extends TemplateDaoImpl<RecycleEntity> implements RecycleDao {
 
 	protected RecycleDaoImpl(String tableName) {
 		super(tableName);
-		// TODO Auto-generated constructor stub
 	}
 
 	public int selectsByKey(String key, int pageNo, int pageSize,  List<RecycleEntity> pageData)throws Exception{
@@ -90,7 +89,6 @@ public class RecycleDaoImpl extends TemplateDaoImpl<RecycleEntity> implements Re
 		
 	}
 
-	@Override
 	protected RecycleEntity resultset2entity(ResultSet rs) throws Exception {
 		RecycleEntity e= new RecycleEntity();
 		e.setDocId(rs.getString("id"));
@@ -124,5 +122,6 @@ public class RecycleDaoImpl extends TemplateDaoImpl<RecycleEntity> implements Re
 		
 		return e;
 	}
+
 
 }

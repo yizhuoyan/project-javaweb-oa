@@ -13,6 +13,7 @@ import java.util.List;
 import com.neusoft.oa.attendance.dao.AttendanceDao;
 import com.neusoft.oa.attendance.entity.AttendanceEntity;
 import com.neusoft.oa.core.dao.DBUtil;
+import com.neusoft.oa.core.dao.SQLGenerator;
 import com.neusoft.oa.core.dao.TemplateDaoImpl;
 import com.neusoft.oa.organization.entity.EmployeeEntity;
 
@@ -30,7 +31,7 @@ public class AttendanceDaoImpl extends TemplateDaoImpl<AttendanceEntity> impleme
 	
 	@Override
 	public void insert(AttendanceEntity t) throws Exception {
-		String sql=DBUtil.generateInsertSql(this.tableName, "id,emp_id,when_day,signin_time,remark,ampm,isvalid");	
+		String sql=SQLGenerator.generateInsertSql(this.tableName, "id,emp_id,when_day,signin_time,remark,ampm,isvalid");	
 		Connection connection=DBUtil.getConnection();
 		PreparedStatement ps = connection.prepareStatement(sql);
 		int i=1;
@@ -72,7 +73,6 @@ public class AttendanceDaoImpl extends TemplateDaoImpl<AttendanceEntity> impleme
 		return result;
 	}
 	
-	@Override
 	protected AttendanceEntity resultset2entity(ResultSet rs) throws Exception {
 		// TODO Auto-generated method stub
 		AttendanceEntity e=new AttendanceEntity();
@@ -122,5 +122,6 @@ public class AttendanceDaoImpl extends TemplateDaoImpl<AttendanceEntity> impleme
 			
 		ps.executeUpdate();
 	}
+
 
 }
