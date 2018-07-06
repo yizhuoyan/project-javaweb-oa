@@ -65,7 +65,8 @@ tr[locked] {
     </section>
     <section class="layout-table">
         <header>
-            <table>
+            <table class="data">
+               <thead> 
                 <tr>
                     <th>#</th>
                     <th>操作</th>
@@ -84,10 +85,11 @@ tr[locked] {
                     <col width="50">
                     <col width="*">
                 </colgroup>
+                </thead>
             </table>
         </header>
         <main>
-            <table>
+            <table class="data">
                 <tbody>
                     <!-- 把requestScope中的result对象放入到pageScope -->
                     <c:set

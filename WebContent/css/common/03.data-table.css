@@ -5,14 +5,17 @@ table.data {
     text-align: center;
 }
 
-table.data td, table.data th {
-    border: 1px solid #DDDDDD;
-    padding: 5px 0;
-   
+ table.data th {
+     border: 1px solid #81b4be;
+     padding: 5px 0;  
+}
+table.data td{
+	border: 1px solid #ccc;
+	padding: 5px 0;
 }
 
 table.data > thead>tr {
-    background-color: #F0AD4E;
+    background-color: #4bdaf3;
     font-weight: bold;
     height: 2em;
 }
@@ -23,7 +26,7 @@ table.data>tr,table.data>tbody>tr {
 
 
 table.data>tr:nth-child(even),table.data>tbody>tr:nth-child(even) {
-    background-color: #F9F9F9;
+    background-color: #fefefc;
 }
 
 table.data>tr:HOVER,table.data>tbody>tr:HOVER {

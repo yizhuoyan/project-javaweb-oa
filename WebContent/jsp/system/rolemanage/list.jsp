@@ -49,14 +49,8 @@
     </section>
     <section class="layout-table">
             <header>
-                <table>
-                     <colgroup>
-                        <col width="50" align="right">
-                        <col width="100">
-                        <col width="200">
-                        <col width="150">
-                        <col>
-                    </colgroup>
+                <table class="data">
+                    <thead>
                      <tr>
                         <th>#</th>
                         <th>操作</th>
@@ -64,12 +58,19 @@
                         <th>名称</th>
                         <th>备注</th>
                     </tr>
-                    
+                    <colgroup>
+                        <col width="50" align="right">
+                        <col width="100">
+                        <col width="200">
+                        <col width="150">
+                        <col>
+                    </colgroup>
+                    </thead>
                 </table>
             </header>
             <main>
-            <table>
-                <tbody>
+            <table class="data">
+                <tbody >
                     <c:if test="${requestScope.result.found}">
                         <c:forEach
                             var="r"

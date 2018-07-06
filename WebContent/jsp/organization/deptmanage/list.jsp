@@ -31,7 +31,7 @@
             href="jsp/organization/deptmanage/add.jsp"
             class="btn">新增</a>
     </section>
-
+    <section class="pad-h">
     <table
         class="data"
         id="deptTableTree">
@@ -64,6 +64,7 @@
             </tr>
         </tbody>
     </table>
+    </section>
     <script>
                     $(function() {
                         loadTree();

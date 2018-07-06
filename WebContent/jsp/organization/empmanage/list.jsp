@@ -50,7 +50,8 @@
 	
 	<section class="layout-table layout-box-grow">
          <header>
-            <table>
+            <table class="data">
+                <thead>
                      <tr>
                         <th>#</th>
                         <th >操作</th>
@@ -59,6 +60,7 @@
                         <th >性别/年龄</th>
                         <th >工作电话/邮箱</th>
                     </tr>
+                 </thead>   
                 <colgroup>
                     <col width="30" >
                     <col width="50">
@@ -70,7 +72,7 @@
             </table>
         </header>
 		<main>
-			<table>
+			<table class="data">
 				<tbody>
 					<!-- 把requestScope中的result对象放入到pageScope -->
 					<c:set var="result" value="${requestScope.result}" scope="page"></c:set>

@@ -56,6 +56,14 @@ public class DBUtil {
 		connection.setReadOnly(readonly);
 		return connection;
 	}
+	
+	public static Connection getCurrentConnection() {
+		return THREADLOCAL.get();
+	}
+	public static void setCurrentConnection(Connection newConnection) {
+		THREADLOCAL.set(newConnection);
+	}
+	
 	public static Connection getConnection() throws SQLException {
 		return getConnection(false);
 	}
